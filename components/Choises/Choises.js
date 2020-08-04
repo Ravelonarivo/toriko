@@ -1,15 +1,31 @@
 import Link from 'next/link';
+import utilStyles from '../../styles/utils.module.css';
 
 const Choises = () => {
+	const choises = ['restaurant', 'fast-food', 'traiteur', 'hotel', 'afficher tout'];
 	return (
-		<div>
-			<h1>Que cherchez-vous ?</h1>
-	      	<Link href="/content/results"><a>Restaurant</a></Link><br/>
-	      	<Link href="/content/results"><a>Fast-Food</a></Link><br/>
-	      	<Link href="/content/results"><a>Traiteur</a></Link><br/>
-	      	<Link href="/content/results"><a>Hotel</a></Link><br/>
-	      	<Link href="/content/results"><a>Afficher tout</a></Link><br/>
-		</div>
+		<>
+			<h1>Que cherchez-vous</h1>
+			<ul className={ utilStyles.list }>
+				{
+					choises.map((choise, index) => (
+						<li className={ utilStyles.listItem } key={ index}>
+							<Link href="/content/[results]" as={`/content/${choise}`}>
+								<a className="">
+								{ choise }
+								</a>
+							</Link>
+						</li>
+					))
+				}
+			</ul>
+
+			<style jsx>{`
+				a {
+					text-transform: uppercase;
+				}
+			`}</style>
+		</>
 	);
 };
 

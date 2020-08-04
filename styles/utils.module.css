@@ -1,1 +1,10 @@
 /* utility CSS classes for typography and others that will be useful across multiple components */
+.list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.listItem {
+	margin: 0 0 1.25rem;
+}
