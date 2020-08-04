@@ -5,11 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "mock-server": "json-server --watch db.json --port 3004"
   },
   "dependencies": {
     "next": "9.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "json-server": "^0.16.1"
   }
 }
