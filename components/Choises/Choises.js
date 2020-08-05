@@ -5,7 +5,7 @@ const Choises = () => {
 	const choises = ['restaurant', 'fast-food', 'traiteur', 'hotel', 'afficher tout'];
 	return (
 		<>
-			<h1>Que cherchez-vous</h1>
+			<h1>Que cherchez-vous ?</h1>
 			<ul className={ utilStyles.list }>
 				{
 					choises.map((choise, index) => (
