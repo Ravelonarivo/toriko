@@ -10,7 +10,7 @@ const Choises = () => {
 				{
 					choises.map((choise, index) => (
 						<li className={ utilStyles.listItem } key={ index}>
-							<Link href="/content/[results]" as={`/content/${choise}`}>
+							<Link href="/content/[result]" as={`/content/${choise}`}>
 								<a className="">
 								{ choise }
 								</a>
