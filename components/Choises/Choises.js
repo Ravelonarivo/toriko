@@ -10,7 +10,7 @@ const Choises = ({ types }) => {
 				{
 					types.map((type, index) => (
 						<li className={ utilStyles.listItem } key={ index }>
-							<Link href="/content/[result]" as={`/content/${type.name}`}>
+							<Link href="/content/[type]" as={`/content/${type.name}`}>
 								<a>
 								{ type.name }
 								</a>
@@ -19,7 +19,7 @@ const Choises = ({ types }) => {
 					))
 				}
 				<li className={ utilStyles.listItem }>
-					<Link href="/content/[result]" as="/content/afficher-tout">
+					<Link href="/content/[type]" as="/content/afficher-tout">
 						<a>
 							Afficher tout
 						</a>
