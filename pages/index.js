@@ -13,13 +13,10 @@ const Home = ({ types }) => {
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch('http://localhost:3004/type');
-  // Location types (restaurant, fast-foold, ...)
-  const types = await res.json();
-  console.log(types);
-  return {
-    props: { types }
-  };
+  return fetch('http://localhost:3004/type')
+    .then(response => response.json())
+    .then(types => ({ props: { types } }))
+    .catch(error => console.log(error));
 };
 
 export default Home;
