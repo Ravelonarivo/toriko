@@ -4,7 +4,9 @@
 		{ "id": 2, "type": "restaurant", "name": "La Pointe des Almadies", "lat": "14.745941", "long":"-17.528039" },
 		{ "id": 3, "type": "restaurant", "name": "Redstone", "lat": "14.743969", "long":"-17.521387" },
 		{ "id": 4, "type": "restaurant", "name": "The India Gate", "lat": "14.743383", "long":"-17.511964" },
-		{ "id": 5, "type": "restaurant", "name": "Délices d'Asie", "lat": "14.746076", "long":"-17.509958" }
+		{ "id": 5, "type": "restaurant", "name": "Délices d'Asie", "lat": "14.746076", "long":"-17.509958" },
+		{ "id": 6, "type": "fast-food", "name": "Yum-yum", "lat": "14.753399", "long":"-17.457091" },
+		{ "id": 7, "type": "fast-food", "name": "Wonder Food", "lat": "14.717296", "long":"-17.469137" }
 	],
 
 	"types": [
