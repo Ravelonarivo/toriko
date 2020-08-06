@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router'
-import fetch from 'node-fetch';
+import { useRouter } from 'next/router';
+import { getTypes } from '../../lib/type';
+import { getLocationsByType } from '../../lib/location';
 
 const Result = ({ locations }) => {
 	console.log(locations);
@@ -18,22 +19,23 @@ const Result = ({ locations }) => {
 };
 
 export const getStaticPaths = async () => {
-	const response = await fetch('http://localhost:3004/types');
-	const types = await response.json();
+	try {
+		const types = await getTypes();
+		const paths = types.map(type => ({
+			params: { type: type.name }
+		}));
 
-	const paths = types.map(type => ({
-		params: { type: type.name }
-	}));
-
-	return { 
-		paths, 
-		fallback: false 
-	};
+		return { 
+			paths, 
+			fallback: false 
+		};
+	} catch(error) {
+		console.log(error);
+	}
 }; 
 
 export const getStaticProps = ({ params }) => {
-	return fetch(`http://localhost:3004/locations?type=${ params.type }`)
-		.then(response => response.json())
+	return getLocationsByType(params.type)
 		.then(locations => ({ props: { locations }}))
 		.catch(error => console.log(error));
 };

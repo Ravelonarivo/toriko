@@ -1,4 +1,5 @@
 import Choises from '../components/Choises/Choises';
+import { getTypes } from '../lib/type';
 import Head from 'next/head';
 
 const Home = ({ types }) => {
@@ -13,8 +14,7 @@ const Home = ({ types }) => {
 };
 
 export const getStaticProps = async () => {
-  return fetch('http://localhost:3004/types')
-    .then(response => response.json())
+  return getTypes()
     .then(types => ({ props: { types } }))
     .catch(error => console.log(error));
 };

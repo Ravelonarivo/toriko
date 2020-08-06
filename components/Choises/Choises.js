@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import utilStyles from '../../styles/utils.module.css';
-import fetch from 'node-fetch';
 
 const Choises = ({ types }) => {
 	return (
