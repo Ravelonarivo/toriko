@@ -18,7 +18,7 @@ const Result = ({ locations }) => {
 };
 
 export const getStaticPaths = async () => {
-	const response = await fetch('http://localhost:3004/type');
+	const response = await fetch('http://localhost:3004/types');
 	const types = await response.json();
 
 	const paths = types.map(type => ({
@@ -32,7 +32,7 @@ export const getStaticPaths = async () => {
 }; 
 
 export const getStaticProps = ({ params }) => {
-	return fetch(`http://localhost:3004/location?type=${ params.type }`)
+	return fetch(`http://localhost:3004/locations?type=${ params.type }`)
 		.then(response => response.json())
 		.then(locations => ({ props: { locations }}))
 		.catch(error => console.log(error));
