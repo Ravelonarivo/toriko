@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { getTypes } from '../../lib/type';
 import { getLocationsByType } from '../../lib/location';
+import utilStyles from '../../styles/utils.module.css';
 
 const Result = ({ locations }) => {
 	console.log(locations);
@@ -11,7 +12,7 @@ const Result = ({ locations }) => {
 	return (
 		<div>
 			<Head>
-				<title>Type</title>
+				<title>{ type }</title>
 			</Head>
 			<h1>{ type }</h1>
 		</div>
