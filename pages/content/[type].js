@@ -3,9 +3,15 @@ import { useRouter } from 'next/router';
 import { getTypes } from '../../lib/type';
 import { getLocationsByType } from '../../lib/location';
 import utilStyles from '../../styles/utils.module.css';
+//import Chart from '../../components/Chart/Chart';
+import dynamic from 'next/dynamic';
+
+const DynamicComponentWithNoSSR = dynamic(
+	() => import('../../components/Chart/Chart'),
+	{ ssr: false }
+);
 
 const Result = ({ locations }) => {
-	console.log(locations);
 	const router = useRouter();
 	const type = router.query.type;
 
@@ -13,8 +19,17 @@ const Result = ({ locations }) => {
 		<div>
 			<Head>
 				<title>{ type }</title>
+				<link 
+					rel="stylesheet" 
+					href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
+					integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" 
+					crossOrigin=""
+				/>
 			</Head>
-			<h1>{ type }</h1>
+			<DynamicComponentWithNoSSR 
+				locations={ locations }
+				type={ type }
+			/>
 		</div>
 	);
 };
