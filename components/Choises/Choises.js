@@ -18,7 +18,7 @@ const Choises = ({ types }) => {
 					))
 				}
 				<li className={ utilStyles.listItem }>
-					<Link href="/result/[type]" as="/content/afficher-tout">
+					<Link href="/result/[type]" as="/result/afficher-tout">
 						<a>
 							Afficher tout
 						</a>
