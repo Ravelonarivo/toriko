@@ -1,4 +1,6 @@
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Popup, TileLayer } from 'react-leaflet-universal';
+import { Marker } from 'react-leaflet';
+import Link from 'next/link';
 
 const Chart = ({ locations, type }) => {
 	const initLocation = {
@@ -17,7 +19,9 @@ const Chart = ({ locations, type }) => {
 			    {
 			    	locations.map((location, index) => (
 			    		<Marker position={ [location.lat , location.long] } key={ index }>
-			      			<Popup>{ location.name }</Popup>
+			      			<Popup>
+			      				<Link href="/location/[locationId]" as={`/location/${location.id}`}><a>{ location.name }</a></Link>
+			      			</Popup>
 			    		</Marker>
 			    	))
 			    }
