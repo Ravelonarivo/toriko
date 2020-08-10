@@ -37,12 +37,13 @@ const Result = ({ locations }) => {
 export const getStaticPaths = async () => {
 	try {
 		const types = await getTypes();
-		const paths = types.map(type => ({
+		let paths = types.map(type => ({
 			params: { type: type.name }
 		}));
 
+		paths.push({ params: { type: 'afficher-tout' }});
 		return { 
-			paths, 
+			paths,
 			fallback: false 
 		};
 	} catch(error) {
