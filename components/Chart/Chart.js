@@ -1,13 +1,16 @@
 import { Map, Popup, TileLayer } from 'react-leaflet-universal';
 import { Marker } from 'react-leaflet';
 import Link from 'next/link';
+import { geolocated } from "react-geolocated";
 
-const Chart = ({ locations, type }) => {
+const Chart = (props) => {
 	const initLocation = {
 		center: [14.71 , -17.46],
 		zoom: 12.5 
 	}
 
+	const { locations, type, coords, isGeolocationEnabled, positionError} = props
+	
 	return ( 
 		<div>
 			<h1>{ type }</h1>
@@ -25,9 +28,15 @@ const Chart = ({ locations, type }) => {
 			    		</Marker>
 			    	))
 			    }
+			    { isGeolocationEnabled ? coords ? <Marker position={ [coords.latitude , coords.longitude] }/> : '' : '' }
   			</Map>
 		</div>
 	);
 };
 
-export default Chart;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+})(Chart);
