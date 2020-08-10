@@ -2,6 +2,12 @@ import { Map, Popup, TileLayer } from 'react-leaflet-universal';
 import { Marker } from 'react-leaflet';
 import Link from 'next/link';
 import { geolocated } from "react-geolocated";
+import { icon } from 'leaflet';
+
+import { 
+	LOCATIONS_ICON,
+	ICON_PROPERTIES
+} from '../../lib/constants';
 
 const Chart = (props) => {
 	const initLocation = {
@@ -10,7 +16,10 @@ const Chart = (props) => {
 	}
 
 	const { locations, type, coords, isGeolocationEnabled, positionError} = props
-	if (type !== 'afficher-tout') console.log(getIcon(type)); 
+
+	let markerIcon = '';
+	if (type !== 'afficher-tout') markerIcon = getMarkerIcon(type);
+
 	return ( 
 		<div>
 			<h1>{ type }</h1>
@@ -21,9 +30,9 @@ const Chart = (props) => {
 			    />
 			    {
 			    	locations.map((location, index) => {
-			    		if (type === 'afficher-tout') console.log(getIcon(location.type));
+			    		if (type === 'afficher-tout') markerIcon = getMarkerIcon(location.type);
 			    		return (
-				    		<Marker position={ [location.lat , location.long] } key={ index }>
+				    		<Marker icon={ markerIcon } position={ [location.lat , location.long] } key={ index }>
 				      			<Popup>
 				      				<Link href="/location/[locationId]" as={`/location/${location.id}`}><a>{ location.name }</a></Link>
 				      			</Popup>
@@ -31,22 +40,27 @@ const Chart = (props) => {
 			    		) 
 			    	})
 			    }
-			    { coords ? <Marker position={ [coords.latitude , coords.longitude] }/> : '' }
+			    { coords ? <Marker icon={ getGeolocIcon() }position={ [coords.latitude , coords.longitude] }/> : '' }
   			</Map>
 		</div>
 	);
 };
 
-const getIcon = type => {
-	let iconUrl = '';
+const getMarkerIcon = type => {
 	switch(type) {
-		case 'restaurant' : iconUrl='restaurant'; break;
-		case 'fast-food' : iconUrl='fast-food'; break;
-		case 'traiteur' : iconUrl='traiteur'; break;
-		case 'hotel' : iconUrl='hotel'; break;
+		case 'restaurant' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.restoIcon; break;
+		case 'fast-food' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.fastfoodIcon; break;
+		case 'traiteur' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.traiteurIcon; break;
+		case 'hotel' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.hotelIcon; break;
 	}
-	return iconUrl;
+
+	return icon(ICON_PROPERTIES);
 };
+
+const getGeolocIcon = () => {
+	ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.geolocIcon;
+	return icon(ICON_PROPERTIES);
+}
 
 export default geolocated({
     positionOptions: {
