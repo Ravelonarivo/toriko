@@ -14,7 +14,7 @@ const Chart = (props) => {
 	return ( 
 		<div>
 			<h1>{ type }</h1>
-			<Map center={ initLocation.center } zoom={ initLocation.zoom } style={{ height: '86vh', width: '100%' }}>
+			<Map center={ coords ? [coords.latitude, coords.longitude] : initLocation.center } zoom={ initLocation.zoom } style={{ height: '86vh', width: '100%' }}>
 			    <TileLayer
 			      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			      attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
@@ -28,7 +28,7 @@ const Chart = (props) => {
 			    		</Marker>
 			    	))
 			    }
-			    { isGeolocationEnabled ? coords ? <Marker position={ [coords.latitude , coords.longitude] }/> : '' : '' }
+			    { coords ? <Marker position={ [coords.latitude , coords.longitude] }/> : '' }
   			</Map>
 		</div>
 	);
