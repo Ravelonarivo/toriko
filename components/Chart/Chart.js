@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { geolocated } from "react-geolocated";
 import { icon } from 'leaflet';
 import { Component } from 'react';
-import { getTypes } from '../../lib/type';
 
 import { MAP } from '../../lib/constants';
 
