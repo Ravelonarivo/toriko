@@ -6,17 +6,14 @@ import { icon } from 'leaflet';
 import { Component } from 'react';
 import { getTypes } from '../../lib/type';
 
-import { 
-	LOCATIONS_ICON,
-	ICON_PROPERTIES
-} from '../../lib/constants';
+import { MAP } from '../../lib/constants';
 
 class Chart extends Component {
 	constructor() {
 		super();
 		this.state = {
-			mapCenter: [14.71 , -17.46],
-			mapZoom: 12.5 ,
+			mapCenter: MAP.CENTER,
+			mapZoom: MAP.ZOOM,
 			geolocIcon: '',
 			markerIcons: { }
 		};
@@ -24,18 +21,18 @@ class Chart extends Component {
 
 	getMarkerIcon = type => {
 		switch(type) {
-			case 'restaurant' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.restoIcon; break;
-			case 'fast-food' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.fastfoodIcon; break;
-			case 'traiteur' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.traiteurIcon; break;
-			case 'hotel' : ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.hotelIcon; break;
+			case 'restaurant' : MAP.ICON_PROPERTIES.iconUrl = MAP.LOCATIONS_ICON.restoIcon; break;
+			case 'fast-food' : MAP.ICON_PROPERTIES.iconUrl = MAP.LOCATIONS_ICON.fastfoodIcon; break;
+			case 'traiteur' : MAP.ICON_PROPERTIES.iconUrl = MAP.LOCATIONS_ICON.traiteurIcon; break;
+			case 'hotel' : MAP.ICON_PROPERTIES.iconUrl = MAP.LOCATIONS_ICON.hotelIcon; break;
 		}
 
-		return icon(ICON_PROPERTIES);
+		return icon(MAP.ICON_PROPERTIES);
 	} 
 
 	getGeolocIcon = () => {
-		ICON_PROPERTIES.iconUrl = LOCATIONS_ICON.geolocIcon;
-		return icon(ICON_PROPERTIES);
+		MAP.ICON_PROPERTIES.iconUrl = MAP.LOCATIONS_ICON.geolocIcon;
+		return icon(MAP.ICON_PROPERTIES);
 	}
 
 	getLocationsType = () => {
