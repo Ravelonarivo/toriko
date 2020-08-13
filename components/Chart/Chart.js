@@ -12,9 +12,9 @@ class Chart extends Component {
 	constructor() {
 		super();
 		this.state = {
-			userLocation: MAP.CENTER,
-			mapCenter: MAP.CENTER,
-			mapZoom: MAP.ZOOM,
+			userLocation: MAP.INIT_CENTER,
+			mapCenter: MAP.INIT_CENTER,
+			mapZoom: MAP.INIT_ZOOM,
 			geolocIcon: '',
 			markerIcons: { },
 		};
@@ -71,8 +71,7 @@ class Chart extends Component {
 
 	getMapCurrentCenter = event => {
 		const mapCenter = event.target.getCenter();
-		this.setState({ mapCenter });
-			
+		this.setState({ mapCenter });	
 	}
 
 	getMapCurrentZoom = event => {
@@ -82,7 +81,7 @@ class Chart extends Component {
 
 	getCurrentLocation = () => {
 		this.setState({ mapCenter: this.state.userLocation }) 
-		this.setState({ mapZoom: MAP.ZOOM })
+		this.setState({ mapZoom: MAP.INIT_ZOOM })
 	}
 
 	render () {
