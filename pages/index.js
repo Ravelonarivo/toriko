@@ -14,7 +14,7 @@ const Home = ({ types }) => {
 };
 
 export const getStaticProps = async () => {
-  return getTypes()
+  return getLocationTypes()
     .then(types => ({ props: { types } }))
     .catch(error => console.log(error));
 };
