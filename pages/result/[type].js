@@ -13,12 +13,12 @@ const DynamicComponentWithNoSSR = dynamic(
 
 const Result = ({ locations }) => {
 	const router = useRouter();
-	const locationType = router.query.type;
+	const locationsType = router.query.type;
 
 	return (
 		<div>
 			<Head>
-				<title>{ locationType }</title>
+				<title>{ locationsType }</title>
 				<link 
 					rel="stylesheet" 
 					href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
@@ -28,7 +28,7 @@ const Result = ({ locations }) => {
 			</Head>
 			<DynamicComponentWithNoSSR 
 				locations={ locations }
-				type={ locationType }
+				locationsType={ locationsType }
 			/>
 		</div>
 	);

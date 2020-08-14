@@ -36,17 +36,17 @@ class Chart extends Component {
 		return icon(MAP.ICON_PROPERTIES);
 	}
 
-	getLocationsType = () => {
-		let locationsType = [];
+	getLocationTypes = () => {
+		let locationTypes = [];
 		this.props.locations.forEach(item => {
-			if(!locationsType.includes(item.type)) locationsType.push(item.type); 
+			if(!locationTypes.includes(item.type)) locationTypes.push(item.type); 
 		});
-		return locationsType;
+		return locationTypes;
 	}
 
 	getMarkerIcons = () => {
 		let markerIcons = {}
-		this.getLocationsType().forEach(item => {
+		this.getLocationTypes().forEach(item => {
 			markerIcons = { ...markerIcons, ...{ [item]: this.getMarkerIcon(item) } }
 		});
 
@@ -54,10 +54,10 @@ class Chart extends Component {
 	}
 
 	componentDidMount() {
-		if (this.props.type === 'afficher-tout') {
+		if (this.props.locationsType === 'afficher-tout') {
 			this.setState({ markerIcons: this.getMarkerIcons() });
 		} else {
-			this.setState({ markerIcons: { [this.props.type]: this.getMarkerIcon(this.props.type) }});
+			this.setState({ markerIcons: { [this.props.locationsType]: this.getMarkerIcon(this.props.locationsType) }});
 		} 
 		this.setState({ geolocIcon: this.getGeolocIcon() });
 	}
@@ -85,13 +85,13 @@ class Chart extends Component {
 	}
 
 	render () {
-		const { locations, type, coords, isGeolocationEnabled, positionError } = this.props;
+		const { locations, locationsType, coords, isGeolocationEnabled, positionError } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
 		const { getMapCurrentCenter, getMapCurrentZoom, getCurrentLocation } = this;
 		
 		return ( 
 			<div>
-				<h1>{ type }</h1>
+				<h1>{ locationsType }</h1>
 				<Map  
 					onMoveEnd={ coords ? getMapCurrentCenter.bind(this) : null } 
 					onZoomEnd={ coords ? getMapCurrentZoom.bind(this) : null } 
