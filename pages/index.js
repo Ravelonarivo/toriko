@@ -1,5 +1,5 @@
 import Choises from '../components/Choises/Choises';
-import { getTypes } from '../lib/type';
+import { getLocationTypes } from '../lib/type';
 import Head from 'next/head';
 
 const Home = ({ types }) => {
