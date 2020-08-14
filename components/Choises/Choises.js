@@ -11,7 +11,7 @@ const Choises = ({ locationTypes }) => {
 						<li className={ utilStyles.listItem } key={ index }>
 							<Link href="/result/[type]" as={`/result/${type.name}`}>
 								<a>
-								{ type.name }
+									{ type.name }
 								</a>
 							</Link>
 						</li>

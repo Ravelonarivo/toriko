@@ -6,6 +6,7 @@ import utilStyles from '../../styles/utils.module.css';
 //import Chart from '../../components/Chart/Chart';
 import dynamic from 'next/dynamic';
 
+// Cancel the SSR because leaflet doesn't support it 
 const DynamicComponentWithNoSSR = dynamic(
 	() => import('../../components/Chart/Chart'),
 	{ ssr: false }
@@ -20,7 +21,8 @@ const Result = ({ locations }) => {
 			<Head>
 				<title>{ locationsType }</title>
 				<link 
-					rel="stylesheet" 
+					rel="stylesheet"
+					// require by leaflet 
 					href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
 					integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" 
 					crossOrigin=""
@@ -41,6 +43,7 @@ export const getStaticPaths = async () => {
 			params: { type: type.name }
 		}));
 
+		// push afficher-tout because this param isn't dynamic 
 		paths.push({ params: { type: 'afficher-tout' }});
 		return { 
 			paths,

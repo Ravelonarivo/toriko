@@ -55,30 +55,52 @@ class Chart extends Component {
 
 	componentDidMount() {
 		if (this.props.locationsType === 'afficher-tout') {
+			// Get all markers icon
 			this.setState({ markerIcons: this.getMarkerIcons() });
 		} else {
+			// Get the corresponding icon e.g hotel icon 
 			this.setState({ markerIcons: { [this.props.locationsType]: this.getMarkerIcon(this.props.locationsType) }});
 		} 
 		this.setState({ geolocIcon: this.getGeolocIcon() });
 	}
 
 	componentDidUpdate(prevProps) {
+		/**
+		  * Recenter the map on the user location 
+		  * If geolocation is enable coords turn from null to client geolocation
+		  */
 		if(prevProps.coords !== this.props.coords) {
 			this.setState({ mapCenter: [this.props.coords.latitude, this.props.coords.longitude] });
 			this.setState({ userLocation: [this.props.coords.latitude, this.props.coords.longitude] })
 		}
 	}
 
-	getMapCurrentCenter = event => {
+	/**
+	* mapCenter and mapZoom state must be updated with the current center and  the current zoom while the user drag or zoom 
+	* the map. These states are updated with userLocation and initZoom when the user clicks on "afficher votre localisation"
+	*/
+
+	/**
+	* Run when the user drags the map
+	* Link to Map component onMoveEnd event  
+	*/ 
+	updateCurrentCenter = event => {
 		const mapCenter = event.target.getCenter();
 		this.setState({ mapCenter });
 	}
 
-	getMapCurrentZoom = event => {
+	/**
+	* Run when the user zooms the map  
+	* Link to Map component onZoomEnd  event
+	*/
+	updateCurrentZoom = event => {
 		const mapZoom = event.target.getZoom();
 		this.setState({ mapZoom });
 	}
 
+	/**
+	* Run when the user clicks on "afficher votre localisation"
+	*/
 	getCurrentLocation = () => {
 		this.setState({ mapCenter: this.state.userLocation }) 
 		this.setState({ mapZoom: MAP.INIT_ZOOM })
@@ -87,14 +109,14 @@ class Chart extends Component {
 	render () {
 		const { locations, locationsType, coords, isGeolocationEnabled, positionError } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
-		const { getMapCurrentCenter, getMapCurrentZoom, getCurrentLocation } = this;
+		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation } = this;
 		
 		return ( 
 			<div>
 				<h1>{ locationsType }</h1>
 				<Map  
-					onMoveEnd={ coords ? getMapCurrentCenter.bind(this) : null } 
-					onZoomEnd={ coords ? getMapCurrentZoom.bind(this) : null } 
+					onMoveEnd={ coords ? updateCurrentCenter.bind(this) : null } 
+					onZoomEnd={ coords ? updateCurrentZoom.bind(this) : null } 
 					center={ mapCenter } zoom={ mapZoom } 
 					style={{ height: '86vh', width: '100%' }}
 				>
@@ -102,7 +124,8 @@ class Chart extends Component {
 				      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 				      attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 				    />
-				    {
+				    {   
+				    	// Popup autoPan = false to avoid the loop when a marker move out of the viewport
 				    	locations.map((location, index) => {
 				    		return (
 					    		<Marker 
@@ -152,6 +175,7 @@ class Chart extends Component {
 	}
 };
 
+// Use by react-geolocated package
 export default geolocated({
     positionOptions: {
         enableHighAccuracy: false,
