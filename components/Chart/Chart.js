@@ -71,12 +71,13 @@ class Chart extends Component {
 
 	getMapCurrentCenter = event => {
 		const mapCenter = event.target.getCenter();
-		this.setState({ mapCenter });	
+		this.setState({ mapCenter });
 	}
 
 	getMapCurrentZoom = event => {
 		const mapZoom = event.target.getZoom();
-		this.setState({ mapZoom });
+		this.setState({ mapZoom });	
+		console.log(mapZoom);
 	}
 
 	getCurrentLocation = () => {
@@ -110,7 +111,7 @@ class Chart extends Component {
 					    			position={ [location.lat , location.long] } 
 					    			key={ index }
 					    		>
-					      			<Popup>
+					      			<Popup autoPan={false}>
 					      				<Link href="/location/[locationId]" as={`/location/${location.id}`}>
 					      					<a>{ location.name }</a>
 					      				</Link>
