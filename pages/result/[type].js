@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { getTypes } from '../../lib/type';
+import { getLocationTypes } from '../../lib/type';
 import { getLocationsByType } from '../../lib/location';
 import utilStyles from '../../styles/utils.module.css';
 //import Chart from '../../components/Chart/Chart';
@@ -36,8 +36,8 @@ const Result = ({ locations }) => {
 
 export const getStaticPaths = async () => {
 	try {
-		const types = await getTypes();
-		let paths = types.map(type => ({
+		const locationTypes = await getLocationTypes();
+		let paths = locationTypes.map(type => ({
 			params: { type: type.name }
 		}));
 
