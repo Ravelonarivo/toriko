@@ -76,8 +76,7 @@ class Chart extends Component {
 
 	getMapCurrentZoom = event => {
 		const mapZoom = event.target.getZoom();
-		this.setState({ mapZoom });	
-		console.log(mapZoom);
+		this.setState({ mapZoom });
 	}
 
 	getCurrentLocation = () => {
