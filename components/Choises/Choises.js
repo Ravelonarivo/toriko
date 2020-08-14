@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import utilStyles from '../../styles/utils.module.css';
 
-const Choises = ({ types }) => {
+const Choises = ({ locationTypes }) => {
 	return (
 		<div>
 			<h1>Que cherchez-vous ?</h1>
 			<ul className={ utilStyles.list }>
 				{
-					types.map((type, index) => (
+					locationTypes.map((type, index) => (
 						<li className={ utilStyles.listItem } key={ index }>
 							<Link href="/result/[type]" as={`/result/${type.name}`}>
 								<a>

@@ -8,7 +8,7 @@ const Home = ({ types }) => {
       <Head>
         <title>Home</title>
       </Head>
-      <Choises types={ types }/>     
+      <Choises locationTypes={ types }/>     
     </div>
   );
 };
