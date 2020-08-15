@@ -113,10 +113,9 @@ class Chart extends Component {
 		
 		return ( 
 			<div>
-				<h1>{ locationsType }</h1>
 				<Map  
-					onMoveEnd={ coords ? updateCurrentCenter.bind(this) : null } 
-					onZoomEnd={ coords ? updateCurrentZoom.bind(this) : null } 
+					onMoveEnd={ coords ? updateCurrentCenter : null } 
+					onZoomEnd={ coords ? updateCurrentZoom : null } 
 					center={ mapCenter } zoom={ mapZoom } 
 					style={{ height: '86vh', width: '100%' }}
 				>
