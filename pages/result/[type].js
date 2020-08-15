@@ -21,6 +21,7 @@ const Result = ({ locationsProp }) => {
 
 	const [locations, setLocations] = useState(locationsProp);
 	const [searchField, setSearchField] = useState('');
+	const [searchedLocation, setSearchedLocation] = useState([]);
 	
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
@@ -31,6 +32,12 @@ const Result = ({ locationsProp }) => {
 	const filteredLocations = locations.filter(location => {
 		return location.name.toLowerCase().includes(searchField.toLowerCase());
 	});
+	
+	// Get the location searched by the user
+	const getSearchedLocation = event => {
+		const searchedLocation = filteredLocations.filter(location =>  location.name === event.target.value)
+		setSearchedLocation(searchedLocation);
+	};
 
 	return (
 		<div>
@@ -47,12 +54,13 @@ const Result = ({ locationsProp }) => {
 
 			<Search 
 				searchChange={ searchChange } 
-				filteredLocations={ filteredLocations }
 				searchField={ searchField }
+				filteredLocations={ filteredLocations }
+				getSearchedLocation={ getSearchedLocation }
 			/>
 			<h1>{ locationsType }</h1>
 			<DynamicComponentWithNoSSR 
-				locations={ filteredLocations }
+				locations={ searchedLocation.length ? searchedLocation : locations }
 				locationsType={ locationsType }
 			/>
 		</div>
@@ -66,7 +74,7 @@ export const getStaticPaths = async () => {
 			params: { type: type.name }
 		}));
 
-		// push afficher-tout because this param isn't dynamic 
+		// push "afficher-tout" because this param isn't dynamic 
 		paths.push({ params: { type: 'afficher-tout' }});
 		return { 
 			paths,
