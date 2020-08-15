@@ -22,10 +22,12 @@ const Result = ({ locationsProp }) => {
 	const [locations, setLocations] = useState(locationsProp);
 	const [searchField, setSearchField] = useState('');
 	
+	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
 		setSearchField(event.target.value);
 	};
 
+	// Get the list of locations that match to the user search 
 	const filteredLocations = locations.filter(location => {
 		return location.name.toLowerCase().includes(searchField.toLowerCase());
 	});
