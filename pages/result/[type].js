@@ -3,18 +3,32 @@ import { useRouter } from 'next/router';
 import { getLocationTypes } from '../../lib/type';
 import { getLocationsByType } from '../../lib/location';
 import utilStyles from '../../styles/utils.module.css';
+
+import Search from '../../components/Search/Search';
 //import Chart from '../../components/Chart/Chart';
 import dynamic from 'next/dynamic';
-
 // Cancel the SSR because leaflet doesn't support it 
 const DynamicComponentWithNoSSR = dynamic(
 	() => import('../../components/Chart/Chart'),
 	{ ssr: false }
 );
 
-const Result = ({ locations }) => {
+import { useState } from 'react';
+
+const Result = ({ locationsProp }) => {
 	const router = useRouter();
 	const locationsType = router.query.type;
+
+	const [locations, setLocations] = useState(locationsProp);
+	const [searchField, setSearchField] = useState('');
+	
+	const searchChange = event => {
+		setSearchField(event.target.value);
+	};
+
+	const filteredLocations = locations.filter(location => {
+		return location.name.toLowerCase().includes(searchField.toLowerCase());
+	});
 
 	return (
 		<div>
@@ -28,8 +42,15 @@ const Result = ({ locations }) => {
 					crossOrigin=""
 				/>
 			</Head>
+
+			<Search 
+				searchChange={ searchChange } 
+				filteredLocations={ filteredLocations }
+				searchField={ searchField }
+			/>
+			<h1>{ locationsType }</h1>
 			<DynamicComponentWithNoSSR 
-				locations={ locations }
+				locations={ filteredLocations }
 				locationsType={ locationsType }
 			/>
 		</div>
@@ -56,7 +77,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = ({ params }) => {
 	return getLocationsByType(params.type)
-		.then(locations => ({ props: { locations }}))
+		.then(locations => ({ props: { locationsProp: locations }}))
 		.catch(error => console.log(error));
 };
 
