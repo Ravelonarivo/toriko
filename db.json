@@ -5,11 +5,14 @@
 		{ "id": 3, "type": "restaurant", "name": "Redstone", "lat": "14.743612", "long":"-17.521332" },
 		{ "id": 4, "type": "restaurant", "name": "The India Gate", "lat": "14.743383", "long":"-17.511964" },
 		{ "id": 5, "type": "restaurant", "name": "Délices d'Asie", "lat": "14.746076", "long":"-17.509958" },
-		{ "id": 6, "type": "fast-food", "name": "Yum-yum", "lat": "14.753399", "long":"-17.457091" },
+		{ "id": 6, "type": "fast-food", "name": "Yum-yum Nord Foire", "lat": "14.753399", "long":"-17.457091" },
 		{ "id": 7, "type": "fast-food", "name": "Wonder Food", "lat": "14.717296", "long":"-17.469137" },
 		{ "id": 8, "type": "traiteur", "name": "Kiki traiteur", "lat": "14.735863", "long":"-17.436505" },
 		{ "id": 9, "type": "traiteur", "name": "Ruth traiteur", "lat": "14.759532", "long":"-17.448665" },
-		{ "id": 10, "type": "hotel", "name": "Radisson Blu", "lat": "14.694585", "long":"-17.473089" }
+		{ "id": 10, "type": "hotel", "name": "Radisson Blu", "lat": "14.694585", "long":"-17.473089" },
+		{ "id": 11, "type": "fast-food", "name": "Yum-yum Ouakam", "lat": "14.718336", "long":"-17.486764" },
+		{ "id": 12, "type": "fast-food", "name": "Yum-yum Maristes", "lat": "14.731063", "long":"-17.435501" },
+		{ "id": 13, "type": "fast-food", "name": "Yum-yum Plateau", "lat": "14.664406", "long":"-17.436865" }
 	],
 
 	"types": [
