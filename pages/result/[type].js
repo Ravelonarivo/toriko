@@ -22,6 +22,7 @@ const Result = ({ locationsProp }) => {
 	const [locations, setLocations] = useState(locationsProp);
 	const [searchField, setSearchField] = useState('');
 	const [searchedLocation, setSearchedLocation] = useState([]);
+	const [search, setSearch] = useState(false);
 	
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
@@ -42,7 +43,12 @@ const Result = ({ locationsProp }) => {
 		*/
 		const searchedLocation = filteredLocations.filter(location =>  location.name === event.target.value)
 		setSearchedLocation(searchedLocation);
+		if (searchedLocation.length) setSearch(true);
 	};
+
+	const setSearchStateToFalse = () => {
+		setSearch(false);
+	}
 
 	return (
 		<div>
@@ -67,6 +73,8 @@ const Result = ({ locationsProp }) => {
 			<DynamicComponentWithNoSSR 
 				locations={ searchedLocation.length ? searchedLocation : locations }
 				locationsType={ locationsType }
+				search={ search }
+				setSearchStateToFalse={ setSearchStateToFalse }
 			/>
 		</div>
 	);
