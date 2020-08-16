@@ -35,6 +35,11 @@ const Result = ({ locationsProp }) => {
 	
 	// Get the location searched by the user
 	const getSearchedLocation = event => {
+		/**                                                                   
+		* searchedLocation should be an array with only one location.         
+		* For the backoffice remember to add an uniq name per location    
+		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
+		*/
 		const searchedLocation = filteredLocations.filter(location =>  location.name === event.target.value)
 		setSearchedLocation(searchedLocation);
 	};
