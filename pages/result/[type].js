@@ -100,7 +100,11 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = ({ params }) => {
 	return getLocationsByType(params.type)
-		.then(locations => ({ props: { locationsProp: locations }}))
+		.then(locations => ({ 
+			props: { locationsProp: locations },
+			// Re-generate the post at most one per second if a request comes in
+			revalidate: 1 
+		}))
 		.catch(error => console.log(error));
 };
 
