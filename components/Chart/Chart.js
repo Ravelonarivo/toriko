@@ -36,18 +36,10 @@ class Chart extends Component {
 		return icon(MAP.ICON_PROPERTIES);
 	}
 
-	getLocationTypes = () => {
-		let locationTypes = [];
-		this.props.locations.forEach(item => {
-			if(!locationTypes.includes(item.type)) locationTypes.push(item.type); 
-		});
-		return locationTypes;
-	}
-
 	getMarkerIcons = () => {
 		let markerIcons = {}
-		this.getLocationTypes().forEach(item => {
-			markerIcons = { ...markerIcons, ...{ [item]: this.getMarkerIcon(item) } }
+		this.props.types.forEach(item => {
+			markerIcons = { ...markerIcons, ...{ [item.name]: this.getMarkerIcon(item.name) } }
 		});
 
 		return markerIcons;

@@ -15,7 +15,7 @@ const DynamicComponentWithNoSSR = dynamic(
 
 import { useState } from 'react';
 
-const Result = ({ locationsProp }) => {
+const Result = ({ locationsProp, typesProp }) => {
 	const router = useRouter();
 	const locationsType = router.query.type;
 
@@ -75,6 +75,7 @@ const Result = ({ locationsProp }) => {
 				locationsType={ locationsType }
 				search={ search }
 				setSearchStateToFalse={ setSearchStateToFalse }
+				types={ typesProp }
 			/>
 		</div>
 	);
@@ -98,14 +99,21 @@ export const getStaticPaths = async () => {
 	}
 }; 
 
-export const getStaticProps = ({ params }) => {
-	return getLocationsByType(params.type)
-		.then(locations => ({ 
-			props: { locationsProp: locations },
-			// Re-generate the post at most one per second if a request comes in
-			revalidate: 1 
-		}))
-		.catch(error => console.log(error));
+export const getStaticProps = async ({ params }) => {
+	try {
+		const locations = await getLocationsByType(params.type);
+		const types = await getLocationTypes();
+
+		return {
+			props: {
+				locationsProp: locations,
+				typesProp: types
+			},
+			revalidate: 1
+		}
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 export default Result;
