@@ -32,23 +32,22 @@ const Result = ({ locationsProp, typesProp }) => {
 	};
 
 	// Get the list of locations that match to the user search 
-	const getFilteredLocations = () => {
+	/*const getFilteredLocations = () => {
 		const { data } = useSWR(`/api/location/${ searchField  }/${ locationsType }`, fetcher);
 		return data;
-	};
+		// CHANGE IT TO SELECT * FROM LOCATION WHERE LOCATION_TYPE ...
+	};*/
 	
 	// Get the location searched by the user
-	const getSearchedLocation = (event, filteredLocations) => {
+	const getSearchedLocation = event => {
 		/**                                                                   
 		* searchedLocation should be an array with only one location.         
 		* For the backoffice remember to add an uniq name per location    
 		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
 		*/
-		if (filteredLocations) {
-			const searchedLocation = filteredLocations.filter(location =>  location.name === event.target.value);
-			setSearchedLocation(searchedLocation);
-			if (searchedLocation.length) setSearch(true);
-		}
+		const searchedLocation = locations.filter(location =>  location.name === event.target.value);
+		setSearchedLocation(searchedLocation);
+		if (searchedLocation.length) setSearch(true);
 	};
 
 	const setSearchStateToFalse = () => {
@@ -71,7 +70,8 @@ const Result = ({ locationsProp, typesProp }) => {
 			<Search 
 				searchChange={ searchChange } 
 				searchField={ searchField }
-				getFilteredLocations={ getFilteredLocations }
+				locations={ locations }
+				//getFilteredLocations={ getFilteredLocations }
 				getSearchedLocation={ getSearchedLocation }
 			/>
 			<h1>{ locationsType }</h1>
