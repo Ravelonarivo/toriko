@@ -14,6 +14,8 @@ const DynamicComponentWithNoSSR = dynamic(
 );
 
 import { useState } from 'react';
+import useSWR from 'swr';
+import fetcher from '../../lib/fetcher';
 
 const Result = ({ locationsProp, typesProp }) => {
 	const router = useRouter();
@@ -23,27 +25,30 @@ const Result = ({ locationsProp, typesProp }) => {
 	const [searchField, setSearchField] = useState('');
 	const [searchedLocation, setSearchedLocation] = useState([]);
 	const [search, setSearch] = useState(false);
-	
+
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
-		setSearchField(event.target.value);
+		setSearchField(event.target.value.toLowerCase());
 	};
 
 	// Get the list of locations that match to the user search 
-	const filteredLocations = locations.filter(location => {
-		return location.name.toLowerCase().includes(searchField.toLowerCase());
-	});
+	const getFilteredLocations = () => {
+		const { data } = useSWR(`/api/location/${ searchField  }/${ locationsType }`, fetcher);
+		return data;
+	};
 	
 	// Get the location searched by the user
-	const getSearchedLocation = event => {
+	const getSearchedLocation = (event, filteredLocations) => {
 		/**                                                                   
 		* searchedLocation should be an array with only one location.         
 		* For the backoffice remember to add an uniq name per location    
 		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
 		*/
-		const searchedLocation = filteredLocations.filter(location =>  location.name.toLowerCase() === event.target.value.toLowerCase())
-		setSearchedLocation(searchedLocation);
-		if (searchedLocation.length) setSearch(true);
+		if (filteredLocations) {
+			const searchedLocation = filteredLocations.filter(location =>  location.name === event.target.value);
+			setSearchedLocation(searchedLocation);
+			if (searchedLocation.length) setSearch(true);
+		}
 	};
 
 	const setSearchStateToFalse = () => {
@@ -66,7 +71,7 @@ const Result = ({ locationsProp, typesProp }) => {
 			<Search 
 				searchChange={ searchChange } 
 				searchField={ searchField }
-				filteredLocations={ filteredLocations }
+				getFilteredLocations={ getFilteredLocations }
 				getSearchedLocation={ getSearchedLocation }
 			/>
 			<h1>{ locationsType }</h1>

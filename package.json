@@ -20,7 +20,8 @@
     "react-geolocated": "^3.0.1",
     "react-leaflet": "^2.7.0",
     "react-leaflet-control": "^2.1.2",
-    "react-leaflet-universal": "^2.2.1"
+    "react-leaflet-universal": "^2.2.1",
+    "swr": "^0.3.0"
   },
   "devDependencies": {
     "json-server": "^0.16.1"
