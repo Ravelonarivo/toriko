@@ -38,7 +38,7 @@ class Chart extends Component {
 
 	getMarkerIcons = () => {
 		let markerIcons = {}
-		this.props.types.forEach(item => {
+		this.props.locationTypes.forEach(item => {
 			markerIcons = { ...markerIcons, ...{ [item.name]: this.getMarkerIcon(item.name) } }
 		});
 
@@ -46,12 +46,12 @@ class Chart extends Component {
 	}
 
 	componentDidMount() {
-		if (this.props.locationsType === 'afficher-tout') {
+		if (this.props.locationType === 'afficher-tout') {
 			// Get all markers icon
 			this.setState({ markerIcons: this.getMarkerIcons() });
 		} else {
 			// Get the corresponding icon e.g hotel icon 
-			this.setState({ markerIcons: { [this.props.locationsType]: this.getMarkerIcon(this.props.locationsType) }});
+			this.setState({ markerIcons: { [this.props.locationType]: this.getMarkerIcon(this.props.locationType) }});
 		} 
 		this.setState({ geolocIcon: this.getGeolocIcon() });
 	}
@@ -109,7 +109,7 @@ class Chart extends Component {
 	}
 
 	render () {
-		const { locations, locationsType, coords, isGeolocationEnabled, positionError } = this.props;
+		const { locations, locationType, coords, isGeolocationEnabled, positionError } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
 		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation } = this;
 

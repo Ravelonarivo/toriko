@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { getLocationTypes } from '../../lib/type';
+import { getLocationTypes } from '../../lib/locationType';
 import { getLocationsByType } from '../../lib/location';
 import utilStyles from '../../styles/utils.module.css';
 
@@ -17,9 +17,9 @@ import { useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '../../lib/fetcher';
 
-const Result = ({ locationsProp, typesProp }) => {
+const Result = ({ locationsProp, locationTypesProp }) => {
 	const router = useRouter();
-	const locationsType = router.query.type;
+	const locationType = router.query.locationType;
 
 	const [searchField, setSearchField] = useState('');
 	const [locations, setLocations] = useState(locationsProp);
@@ -35,10 +35,10 @@ const Result = ({ locationsProp, typesProp }) => {
 	};
 
 	// Get the list of products that match to the user search 
-	const getProductsByLocationsType = () => {
-		const [locsType] = typesProp.filter(locationType => locationType.name === locationsType);
-		const { data } = locsType
-			? useSWR(`/api/product/${ locsType.id }`, fetcher)
+	const getProductsByLocationType = () => {
+		const [locType] = locationTypesProp.filter(locationType => locationType.name === locationType);
+		const { data } = locType
+			? useSWR(`/api/product/${ locType.id }`, fetcher)
 			: useSWR(`/api/product`, fetcher);
 		data ? setTimeout(() => setProducts(data), 1000) : '';
 		return data;
@@ -80,7 +80,7 @@ const Result = ({ locationsProp, typesProp }) => {
 	return (
 		<div>
 			<Head>
-				<title>{ locationsType }</title>
+				<title>{ locationType }</title>
 				<link 
 					// require by leaflet 
 					rel="stylesheet"
@@ -94,18 +94,18 @@ const Result = ({ locationsProp, typesProp }) => {
 				searchChange={ searchChange } 
 				searchField={ searchField }
 				locations={ locations }
-				getProductsByLocationsType={ getProductsByLocationsType }
+				getProductsByLocationType={ getProductsByLocationType }
 				getLocationsByProductName={ getLocationsByProductName }
 				searchProduct={ searchProduct }
 				getSearchedItem={ getSearchedItem }
 			/>
-			<h1>{ locationsType }</h1>
+			<h1>{ locationType }</h1>
 			<DynamicComponentWithNoSSR 
 				locations={ searchedLocation.length ? searchedLocation : locations }
-				locationsType={ locationsType }
+				locationType={ locationType }
 				searchLocation={ searchLocation }
 				setSearchLocationToFalse={ setSearchLocationToFalse }
-				types={ typesProp }
+				locationTypes={ locationTypesProp }
 			/>
 		</div>
 	);
@@ -115,11 +115,11 @@ export const getStaticPaths = async () => {
 	try {
 		const locationTypes = await getLocationTypes();
 		let paths = locationTypes.map(type => ({
-			params: { type: type.name }
+			params: { locationType: type.name }
 		}));
 
 		// push "afficher-tout" because this param isn't dynamic 
-		paths.push({ params: { type: 'afficher-tout' }});
+		paths.push({ params: { locationType: 'afficher-tout' }});
 		return { 
 			paths,
 			fallback: false 
@@ -131,13 +131,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
 	try {
-		const locations = await getLocationsByType(params.type);
+		const locations = await getLocationsByType(params.locationType);
 		const types = await getLocationTypes();
 
 		return {
 			props: {
 				locationsProp: locations,
-				typesProp: types
+				locationTypesProp: types
 			},
 			revalidate: 1
 		}

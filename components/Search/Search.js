@@ -1,5 +1,5 @@
-const Search = ({ searchChange, searchField, locations, getProductsByLocationsType, getLocationsByProductName, searchProduct, getSearchedItem }) => {
-	const products = searchField && searchProduct === false ? getProductsByLocationsType() : '';
+const Search = ({ searchChange, searchField, locations, getProductsByLocationType, getLocationsByProductName, searchProduct, getSearchedItem }) => {
+	const products = searchField && searchProduct === false ? getProductsByLocationType() : '';
 	searchProduct === true ? getLocationsByProductName() : '';
 
 	return (

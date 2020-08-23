@@ -3,10 +3,10 @@ import db from '../../../lib/db';
 export default ({ query: { param }}, res) => {
 	return new Promise((resolve, reject) => {
 		if (param) {
-			const [locationsTypeId] = param;
+			const [locationTypeId] = param;
 			db('product')
 				.join('location', 'product.location_id', '=', 'location.id')
-				.where('location.type_id', locationsTypeId)
+				.where('location.type_id', locationTypeId)
 				.distinct('product.name')
 				/*
 					.distinct('product_type.name')
