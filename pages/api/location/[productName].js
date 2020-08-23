@@ -5,7 +5,7 @@ export default ({ query: { productName } }, res) => {
 		db('location')
 			.join('product', 'location.id', '=', 'product.location_id')
 			.where('product.name', productName)
-			.select('location.name', 'location.latitude as lat', 'location.longitude as long', 'location_type.name as type')
+			.select('location.id', 'location.name', 'location.latitude as lat', 'location.longitude as long', 'location_type.name as type')
 			.join('location_type', 'location.type_id', '=', 'location_type.id')
 		.then(locations => {
 			if (locations.length > 0) {
