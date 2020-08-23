@@ -21,38 +21,61 @@ const Result = ({ locationsProp, typesProp }) => {
 	const router = useRouter();
 	const locationsType = router.query.type;
 
-	const [locations, setLocations] = useState(locationsProp);
 	const [searchField, setSearchField] = useState('');
+	const [locations, setLocations] = useState(locationsProp);
+	const [products, setProducts] = useState([]);
 	const [searchedLocation, setSearchedLocation] = useState([]);
-	const [search, setSearch] = useState(false);
+	const [searchedProduct, setSearchedProduct] = useState([]);
+	const [searchLocation, setSearchLocation] = useState(false);
+	const [searchProduct, setSearchProduct] = useState(false);
 
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
 		setSearchField(event.target.value.toLowerCase());
 	};
 
-	// Get the list of locations that match to the user search 
-	/*const getFilteredLocations = () => {
-		const { data } = useSWR(`/api/location/${ searchField  }/${ locationsType }`, fetcher);
+	// Get the list of products that match to the user search 
+	const getProductsByLocationsType = () => {
+		const [locsType] = typesProp.filter(locationType => locationType.name === locationsType);
+		const { data } = locsType
+			? useSWR(`/api/product/${ locsType.id }`, fetcher)
+			: useSWR(`/api/product`, fetcher);
+		data ? setTimeout(() => setProducts(data), 1000) : '';
 		return data;
-		// CHANGE IT TO SELECT * FROM LOCATION WHERE LOCATION_TYPE ...
-	};*/
+	};
 	
-	// Get the location searched by the user
-	const getSearchedLocation = event => {
-		/**                                                                   
-		* searchedLocation should be an array with only one location.         
-		* For the backoffice remember to add an uniq name per location    
-		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
-		*/
+	// Get the item (location, product, productType) searched by the user
+	const getSearchedItem = event => {
 		const searchedLocation = locations.filter(location =>  location.name === event.target.value);
+		/**                                                                   
+			* searchedLocation should be an array with only one location.         
+			* For the backoffice remember to add an uniq name per location    
+			* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
+			*/
 		setSearchedLocation(searchedLocation);
-		if (searchedLocation.length) setSearch(true);
+		if (searchedLocation.length) {
+			setSearchLocation(true);
+		} else {
+			if (products.length) {
+				const searchedProduct = products.filter(product => product.name === event.target.value);
+				if (searchedProduct.length) {
+					setSearchedProduct(searchedProduct);
+					setSearchProduct(true);
+				}
+			}
+		}
 	};
 
-	const setSearchStateToFalse = () => {
-		setSearch(false);
+	const setSearchLocationToFalse = () => {
+		setSearchLocation(false);
 	}
+
+	const getLocationsByProductName = () => {
+		const [product] = searchedProduct;
+		const { data } = useSWR(`/api/location/${ product.name }`, fetcher);
+		data ? setTimeout(() => setSearchedLocation(data), 500) : '';
+		setTimeout(() => setSearchProduct(false), 1000);
+	};
 
 	return (
 		<div>
@@ -71,15 +94,17 @@ const Result = ({ locationsProp, typesProp }) => {
 				searchChange={ searchChange } 
 				searchField={ searchField }
 				locations={ locations }
-				//getFilteredLocations={ getFilteredLocations }
-				getSearchedLocation={ getSearchedLocation }
+				getProductsByLocationsType={ getProductsByLocationsType }
+				getLocationsByProductName={ getLocationsByProductName }
+				searchProduct={ searchProduct }
+				getSearchedItem={ getSearchedItem }
 			/>
 			<h1>{ locationsType }</h1>
 			<DynamicComponentWithNoSSR 
 				locations={ searchedLocation.length ? searchedLocation : locations }
 				locationsType={ locationsType }
-				search={ search }
-				setSearchStateToFalse={ setSearchStateToFalse }
+				searchLocation={ searchLocation }
+				setSearchLocationToFalse={ setSearchLocationToFalse }
 				types={ typesProp }
 			/>
 		</div>

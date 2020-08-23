@@ -66,14 +66,14 @@ class Chart extends Component {
 			this.setState({ userLocation: [this.props.coords.latitude, this.props.coords.longitude] })
 		}
 	
-		if (prevProps.search !== this.props.search) {
+		if (prevProps.searchLocation !== this.props.searchLocation) {
 			this.setState({ mapCenter: [this.props.locations[0].lat, this.props.locations[0].long] });
 			/**
 			* To avoid infinite loop prevProps.search must be different to this.props.search 
 			* that's why search state must be set to false after the mapCenter updated with the 
 			* lat and long of the searched location 
 			*/
-			this.props.setSearchStateToFalse();
+			this.props.setSearchLocationToFalse();
 		}
 	}
 

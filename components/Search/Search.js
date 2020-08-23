@@ -1,12 +1,13 @@
-const Search = ({ searchChange, searchField, locations, getSearchedLocation }) => {
-	//const filteredLocations = searchField ? getFilteredLocations() : '';
+const Search = ({ searchChange, searchField, locations, getProductsByLocationsType, getLocationsByProductName, searchProduct, getSearchedItem }) => {
+	const products = searchField && searchProduct === false ? getProductsByLocationsType() : '';
+	searchProduct === true ? getLocationsByProductName() : '';
 
 	return (
 		<div>
 			<input 
 				list="filteredLocations"
 				onChange={ searchChange }
-				onInput={ getSearchedLocation } 
+				onInput={ getSearchedItem } 
 				type="text" 
 				placeholder="Tapez le nom de l'établissement ou du plat que vous cherchez"
 			/>
@@ -17,6 +18,13 @@ const Search = ({ searchChange, searchField, locations, getSearchedLocation }) =
 								<option value={ location.name } key={ index } />
 							))
 						: ''
+				}
+				{
+					searchField && products
+						?	products.map((product, index) => (
+								<option value={ product.name } key={ index } />
+							))
+						: ''	 
 				}
 			</datalist>
 		</div>
