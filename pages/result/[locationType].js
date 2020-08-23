@@ -34,24 +34,34 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		setSearchField(event.target.value.toLowerCase());
 	};
 
-	// Get the list of products that match to the user search 
+	/**
+	* Get the list of products that match to the user search
+	* - If locationType = 'afficher tout' (locType = undefined) so get all products
+	* - setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
+	*   a different component (`Search`). To locate the bad setState() call inside `Search`
+	*/ 
 	const getProductsByLocationType = () => {
 		const [locType] = locationTypesProp.filter(locationType => locationType.name === locationType);
 		const { data } = locType
 			? useSWR(`/api/product/${ locType.id }`, fetcher)
-			: useSWR(`/api/product`, fetcher);
-		data ? setTimeout(() => setProducts(data), 1000) : '';
+			: useSWR(`/api/product`, fetcher); 
+		data ? setTimeout(() => setProducts(data), 1000) : ''; 
 		return data;
 	};
 	
 	// Get the item (location, product, productType) searched by the user
 	const getSearchedItem = event => {
+		/**
+		* If searchedLocation = [] all locations are displayed 
+		* locations={ searchedLocation.length ? searchedLocation : locations } inside the
+		* DynamicComponentWithNoSSR component below 
+		*/
 		const searchedLocation = locations.filter(location =>  location.name === event.target.value);
 		/**                                                                   
-			* searchedLocation should be an array with only one location.         
-			* For the backoffice remember to add an uniq name per location    
-			* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
-			*/
+		* searchedLocation should be an array with only one location.         
+		* For the backoffice remember to add an uniq name per location    
+		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
+		*/
 		setSearchedLocation(searchedLocation);
 		if (searchedLocation.length) {
 			setSearchLocation(true);
@@ -70,6 +80,10 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		setSearchLocation(false);
 	}
 
+	/**
+	* setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
+	* a different component (`Search`). To locate the bad setState() call inside `Search`
+	*/ 
 	const getLocationsByProductName = () => {
 		const [product] = searchedProduct;
 		const { data } = useSWR(`/api/location/${ product.name }`, fetcher);
