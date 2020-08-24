@@ -58,7 +58,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		const { data } = locationType
 			? useSWR(`/api/product/${ locationType.id }`, fetcher)
 			: useSWR(`/api/product`, fetcher); 
-		data ? setTimeout(() => setProducts(data), 500) : ''; 
+		data ? setTimeout(() => setProducts(data), 5) : ''; 
 		return data;
 	};
 
@@ -68,7 +68,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		const { data } = locationType
 			? useSWR(`/api/productType/${ locationType.id }`, fetcher)
 			: useSWR(`/api/productType`, fetcher);
-		data ? setTimeout(() => setProductTypes(data), 500) : '';
+		data ? setTimeout(() => setProductTypes(data), 5) : '';
 		return data;
 	};
 	
@@ -118,7 +118,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 			setTimeout(() => {
 				setSearchedLocation(data);
 				setSearchProduct(false);
-			},500)
+			}, 5)
 		}
 	};
 
@@ -129,7 +129,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 			setTimeout(() => {
 				setSearchedLocation(data);
 				setSearchProductType(false);
-			}, 500)
+			}, 5)
 		}
 	}
 
