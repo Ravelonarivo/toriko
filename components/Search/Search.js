@@ -1,8 +1,8 @@
 const Search = ({ searchChange, searchField, locations, getLocationsByProductName, getLocationsByProductTypeName, getProductsByLocationTypeId, getProductTypesByLocationTypeId, searchProduct, searchProductType, getSearchedItem }) => {
 	const products = searchField && searchProduct === false ? getProductsByLocationTypeId() : '';
-	searchProduct === true ? getLocationsByProductName() : '';
+	searchProduct ? getLocationsByProductName() : '';
 	const productTypes = searchField && searchProductType === false ? getProductTypesByLocationTypeId() : ''; 
-	searchProductType === true ? getLocationsByProductTypeName() : '';
+	searchProductType ? getLocationsByProductTypeName() : '';
 
 	return (
 		<div>

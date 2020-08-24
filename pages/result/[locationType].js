@@ -59,6 +59,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		return data;
 	};
 
+	// Get the list of productType that match to the user search
 	const getProductTypesByLocationTypeId = () => {
 		const [locationType] = getLocationType();
 		const { data } = locationType
