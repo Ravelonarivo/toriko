@@ -7,18 +7,18 @@ const Choises = ({ locationTypes }) => {
 			<h1>Que cherchez-vous ?</h1>
 			<ul className={ utilStyles.list }>
 				{
-					locationTypes.map((type, index) => (
+					locationTypes.map((locationType, index) => (
 						<li className={ utilStyles.listItem } key={ index }>
-							<Link href="/result/[locationType]" as={`/result/${type.name}`}>
+							<Link href="/result/[locationTypeName]" as={`/result/${locationType.name}`}>
 								<a>
-									{ type.name }
+									{ locationType.name }
 								</a>
 							</Link>
 						</li>
 					))
 				}
 				<li className={ utilStyles.listItem }>
-					<Link href="/result/[locationType]" as="/result/afficher-tout">
+					<Link href="/result/[locationTypeName]" as="/result/afficher-tout">
 						<a>
 							Afficher tout
 						</a>

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { getLocationTypes } from '../../lib/locationType';
-import { getLocationsByType } from '../../lib/location';
+import { getLocationsByTypeName } from '../../lib/location';
 import utilStyles from '../../styles/utils.module.css';
 
 import Search from '../../components/Search/Search';
@@ -19,7 +19,7 @@ import fetcher from '../../lib/fetcher';
 
 const Result = ({ locationsProp, locationTypesProp }) => {
 	const router = useRouter();
-	const locationType = router.query.locationType;
+	const locationTypeName = router.query.locationTypeName;
 
 	const [searchField, setSearchField] = useState('');
 
@@ -41,7 +41,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	};
 
 	const getLocationType = () => {
-		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationType);
+		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationTypeName);
 	}
 
 	/**
@@ -125,7 +125,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	return (
 		<div>
 			<Head>
-				<title>{ locationType }</title>
+				<title>{ locationTypeName }</title>
 				<link 
 					// require by leaflet 
 					rel="stylesheet"
@@ -147,10 +147,10 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 				searchProductType={ searchProductType }
 				getSearchedItem={ getSearchedItem }
 			/>
-			<h1>{ locationType }</h1>
+			<h1>{ locationTypeName }</h1>
 			<DynamicComponentWithNoSSR 
 				locations={ searchedLocation.length ? searchedLocation : locations }
-				locationType={ locationType }
+				locationTypeName={ locationTypeName }
 				searchLocation={ searchLocation }
 				setSearchLocationToFalse={ setSearchLocationToFalse }
 				locationTypes={ locationTypesProp }
@@ -162,12 +162,12 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 export const getStaticPaths = async () => {
 	try {
 		const locationTypes = await getLocationTypes();
-		let paths = locationTypes.map(type => ({
-			params: { locationType: type.name }
+		let paths = locationTypes.map(locationType => ({
+			params: { locationTypeName: locationType.name }
 		}));
 
 		// push "afficher-tout" because this param isn't dynamic 
-		paths.push({ params: { locationType: 'afficher-tout' }});
+		paths.push({ params: { locationTypeName: 'afficher-tout' }});
 		return { 
 			paths,
 			fallback: false 
@@ -179,13 +179,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
 	try {
-		const locations = await getLocationsByType(params.locationType);
-		const types = await getLocationTypes();
+		const locations = await getLocationsByTypeName(params.locationTypeName);
+		const locationTypes = await getLocationTypes();
 
 		return {
 			props: {
 				locationsProp: locations,
-				locationTypesProp: types
+				locationTypesProp: locationTypes
 			},
 			revalidate: 1
 		}
