@@ -44,18 +44,21 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationTypeName);
 	}
 
+
 	/**
-	* Get the list of products that match to the user search
-	* - If locationType = 'afficher tout' (locationType = undefined) so get all products
+	* - If locationType = 'afficher tout' locationType = undefined, so get all products
+	* - The first value return by SWR is undefined, so need to check the variable data before use it
 	* - setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
 	*   a different component (`Search`). To locate the bad setState() call inside `Search`
 	*/ 
+
+	//Get the list of products that match to the user search
 	const getProductsByLocationTypeId = () => {
 		const [locationType] = getLocationType();
 		const { data } = locationType
 			? useSWR(`/api/product/${ locationType.id }`, fetcher)
 			: useSWR(`/api/product`, fetcher); 
-		data ? setTimeout(() => setProducts(data), 1000) : ''; 
+		data ? setTimeout(() => setProducts(data), 500) : ''; 
 		return data;
 	};
 
@@ -65,7 +68,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		const { data } = locationType
 			? useSWR(`/api/productType/${ locationType.id }`, fetcher)
 			: useSWR(`/api/productType`, fetcher);
-		data ? setTimeout(() => setProductTypes(data), 1000) : '';
+		data ? setTimeout(() => setProductTypes(data), 500) : '';
 		return data;
 	};
 	
@@ -111,15 +114,23 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	const getLocationsByProductName = () => {
 		const [product] = searchedProduct;
 		const { data } = useSWR(`/api/location_product/${ product.name }`, fetcher);
-		data ? setTimeout(() => setSearchedLocation(data), 500) : '';
-		setTimeout(() => setSearchProduct(false), 1000);
+		if (data) {
+			setTimeout(() => {
+				setSearchedLocation(data);
+				setSearchProduct(false);
+			},500)
+		}
 	};
 
 	const getLocationsByProductTypeName = () => {
 		const [productType] = searchedProductType;
 		const { data } = useSWR(`/api/location_productType/${ productType.name }`, fetcher);
-		data ? setTimeout(() => setSearchedLocation(data), 500) : '';
-		setTimeout(() => setSearchProductType(false), 1000);
+		if (data) {
+			setTimeout(() => {
+				setSearchedLocation(data);
+				setSearchProductType(false);
+			}, 500)
+		}
 	}
 
 	return (
