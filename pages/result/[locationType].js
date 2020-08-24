@@ -22,30 +22,49 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	const locationType = router.query.locationType;
 
 	const [searchField, setSearchField] = useState('');
+
 	const [locations, setLocations] = useState(locationsProp);
 	const [products, setProducts] = useState([]);
+	const [productTypes, setProductTypes] = useState([]);
+
 	const [searchedLocation, setSearchedLocation] = useState([]);
 	const [searchedProduct, setSearchedProduct] = useState([]);
+	const [searchedProductType, setSearchedProductType] = useState([]);
+
 	const [searchLocation, setSearchLocation] = useState(false);
 	const [searchProduct, setSearchProduct] = useState(false);
+	const [searchProductType, setSearchProductType] = useState(false); 
 
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
 		setSearchField(event.target.value.toLowerCase());
 	};
 
+	const getLocationType = () => {
+		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationType);
+	}
+
 	/**
 	* Get the list of products that match to the user search
-	* - If locationType = 'afficher tout' (locType = undefined) so get all products
+	* - If locationType = 'afficher tout' (locationType = undefined) so get all products
 	* - setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
 	*   a different component (`Search`). To locate the bad setState() call inside `Search`
 	*/ 
-	const getProductsByLocationType = () => {
-		const [locType] = locationTypesProp.filter(locationType => locationType.name === locationType);
-		const { data } = locType
-			? useSWR(`/api/product/${ locType.id }`, fetcher)
+	const getProductsByLocationTypeId = () => {
+		const [locationType] = getLocationType();
+		const { data } = locationType
+			? useSWR(`/api/product/${ locationType.id }`, fetcher)
 			: useSWR(`/api/product`, fetcher); 
 		data ? setTimeout(() => setProducts(data), 1000) : ''; 
+		return data;
+	};
+
+	const getProductTypesByLocationTypeId = () => {
+		const [locationType] = getLocationType();
+		const { data } = locationType
+			? useSWR(`/api/productType/${ locationType.id }`, fetcher)
+			: useSWR(`/api/productType`, fetcher);
+		data ? setTimeout(() => setProductTypes(data), 1000) : '';
 		return data;
 	};
 	
@@ -66,12 +85,16 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		if (searchedLocation.length) {
 			setSearchLocation(true);
 		} else {
-			if (products.length) {
-				const searchedProduct = products.filter(product => product.name === event.target.value);
-				if (searchedProduct.length) {
-					setSearchedProduct(searchedProduct);
-					setSearchProduct(true);
-				}
+			const searchedProduct = products.filter(product => product.name === event.target.value);
+			if (searchedProduct.length) {
+				setSearchedProduct(searchedProduct);
+				setSearchProduct(true);
+			}
+			
+			const searchedProductType = productTypes.filter(productType => productType.name === event.target.value);
+			if (searchedProductType.length) {
+				setSearchedProductType(searchedProductType);
+				setSearchProductType(true);
 			}
 		}
 	};
@@ -86,10 +109,17 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	*/ 
 	const getLocationsByProductName = () => {
 		const [product] = searchedProduct;
-		const { data } = useSWR(`/api/location/${ product.name }`, fetcher);
+		const { data } = useSWR(`/api/location_product/${ product.name }`, fetcher);
 		data ? setTimeout(() => setSearchedLocation(data), 500) : '';
 		setTimeout(() => setSearchProduct(false), 1000);
 	};
+
+	const getLocationsByProductTypeName = () => {
+		const [productType] = searchedProductType;
+		const { data } = useSWR(`/api/location_productType/${ productType.name }`, fetcher);
+		data ? setTimeout(() => setSearchedLocation(data), 500) : '';
+		setTimeout(() => setSearchProductType(false), 1000);
+	}
 
 	return (
 		<div>
@@ -108,9 +138,12 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 				searchChange={ searchChange } 
 				searchField={ searchField }
 				locations={ locations }
-				getProductsByLocationType={ getProductsByLocationType }
 				getLocationsByProductName={ getLocationsByProductName }
+				getLocationsByProductTypeName={ getLocationsByProductTypeName }
+				getProductsByLocationTypeId={ getProductsByLocationTypeId }
+				getProductTypesByLocationTypeId={ getProductTypesByLocationTypeId }
 				searchProduct={ searchProduct }
+				searchProductType={ searchProductType }
 				getSearchedItem={ getSearchedItem }
 			/>
 			<h1>{ locationType }</h1>

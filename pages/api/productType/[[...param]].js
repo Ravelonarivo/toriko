@@ -6,11 +6,12 @@ export default ({ query: { param }}, res) => {
 			const [locationTypeId] = param;
 			db('product')
 				.join('location', 'product.location_id', '=', 'location.id')
+				.join('product_type', 'product.type_id', '=', 'product_type.id')
 				.where('location.type_id', locationTypeId)
-				.distinct('product.name')
-			.then(products => {
-				if (products.length > 0) {
-					res.status(200).json(products);
+				.distinct('product_type.name')
+			.then(productTypes => {
+				if (productTypes.length > 0) {
+					res.status(200).json(productTypes);
 					resolve();
 				}
 			})
@@ -21,10 +22,11 @@ export default ({ query: { param }}, res) => {
 		} else {
 			db('product')
 				.join('location', 'product.location_id', '=', 'location.id')
-				.distinct('product.name')
-			.then(products => {
-				if (products.length > 0) {
-					res.status(200).json(products);
+				.join('product_type', 'product.type_id', '=', 'product_type.id')
+				.distinct('product_type.name')
+			.then(productTypes => {
+				if (productTypes.length > 0) {
+					res.status(200).json(productTypes);
 					resolve();
 				}
 			})

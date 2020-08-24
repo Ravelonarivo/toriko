@@ -1,6 +1,8 @@
-const Search = ({ searchChange, searchField, locations, getProductsByLocationType, getLocationsByProductName, searchProduct, getSearchedItem }) => {
-	const products = searchField && searchProduct === false ? getProductsByLocationType() : '';
+const Search = ({ searchChange, searchField, locations, getLocationsByProductName, getLocationsByProductTypeName, getProductsByLocationTypeId, getProductTypesByLocationTypeId, searchProduct, searchProductType, getSearchedItem }) => {
+	const products = searchField && searchProduct === false ? getProductsByLocationTypeId() : '';
 	searchProduct === true ? getLocationsByProductName() : '';
+	const productTypes = searchField && searchProductType === false ? getProductTypesByLocationTypeId() : ''; 
+	searchProductType === true ? getLocationsByProductTypeName() : '';
 
 	return (
 		<div>
@@ -25,6 +27,13 @@ const Search = ({ searchChange, searchField, locations, getProductsByLocationTyp
 								<option value={ product.name } key={ index } />
 							))
 						: ''	 
+				}
+				{
+					searchField && productTypes
+						?	productTypes.map((productType, index) => (
+								<option value={ productType.name } key={ index } />
+							))
+						: ''
 				}
 			</datalist>
 		</div>
