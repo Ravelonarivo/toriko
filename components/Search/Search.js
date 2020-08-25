@@ -1,4 +1,4 @@
-const Search = ({ searchChange, searchField, locations, getLocationsByProductName, getLocationsByProductTypeName, getProductsByLocationTypeId, getProductTypesByLocationTypeId, searchProduct, searchProductType, getSearchedItem }) => {
+const Search = ({ locations, searchChange, searchField, searchProduct, getProductsByLocationTypeId, getLocationsByProductName, searchProductType, getProductTypesByLocationTypeId, getLocationsByProductTypeName }) => {
 	const products = searchField && searchProduct === false ? getProductsByLocationTypeId() : '';
 	searchProduct ? getLocationsByProductName() : '';
 	const productTypes = searchField && searchProductType === false ? getProductTypesByLocationTypeId() : ''; 
@@ -9,7 +9,6 @@ const Search = ({ searchChange, searchField, locations, getLocationsByProductNam
 			<input 
 				list="filteredLocations"
 				onChange={ searchChange }
-				onInput={ getSearchedItem } 
 				type="text" 
 				placeholder="Tapez le nom de l'établissement ou du plat que vous cherchez"
 			/>

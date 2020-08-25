@@ -13,7 +13,7 @@ const DynamicComponentWithNoSSR = dynamic(
 	{ ssr: false }
 );
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import fetcher from '../../lib/fetcher';
 
@@ -44,7 +44,6 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationTypeName);
 	}
 
-
 	/**
 	* - If locationType = 'afficher tout' locationType = undefined, so get all products
 	* - The first value return by SWR is undefined, so need to check the variable data before use it
@@ -73,13 +72,13 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	};
 	
 	// Get the item (location, product, productType) searched by the user
-	const getSearchedItem = event => {
+	const getSearchedItem = () => {
 		/**
 		* If searchedLocation = [] all locations are displayed 
 		* locations={ searchedLocation.length ? searchedLocation : locations } inside the
 		* DynamicComponentWithNoSSR component below 
 		*/
-		const searchedLocation = locations.filter(location =>  location.name === event.target.value);
+		const searchedLocation = locations.filter(location =>  location.name === searchField);
 		/**                                                                   
 		* searchedLocation should be an array with only one location.         
 		* For the backoffice remember to add an uniq name per location    
@@ -89,13 +88,13 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		if (searchedLocation.length) {
 			setSearchLocation(true);
 		} else {
-			const searchedProduct = products.filter(product => product.name === event.target.value);
+			const searchedProduct = products.filter(product => product.name === searchField);
 			if (searchedProduct.length) {
 				setSearchedProduct(searchedProduct);
 				setSearchProduct(true);
 			}
 			
-			const searchedProductType = productTypes.filter(productType => productType.name === event.target.value);
+			const searchedProductType = productTypes.filter(productType => productType.name === searchField);
 			if (searchedProductType.length) {
 				setSearchedProductType(searchedProductType);
 				setSearchProductType(true);
@@ -133,6 +132,10 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		}
 	}
 
+	useEffect(() => {
+		getSearchedItem();
+	}, [searchField])
+
 	return (
 		<div>
 			<Head>
@@ -147,24 +150,23 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 			</Head>
 
 			<Search 
+				locations={ locations }
 				searchChange={ searchChange } 
 				searchField={ searchField }
-				locations={ locations }
-				getLocationsByProductName={ getLocationsByProductName }
-				getLocationsByProductTypeName={ getLocationsByProductTypeName }
-				getProductsByLocationTypeId={ getProductsByLocationTypeId }
-				getProductTypesByLocationTypeId={ getProductTypesByLocationTypeId }
 				searchProduct={ searchProduct }
+				getProductsByLocationTypeId={ getProductsByLocationTypeId }
+				getLocationsByProductName={ getLocationsByProductName }
 				searchProductType={ searchProductType }
-				getSearchedItem={ getSearchedItem }
+				getProductTypesByLocationTypeId={ getProductTypesByLocationTypeId }
+				getLocationsByProductTypeName={ getLocationsByProductTypeName }
 			/>
 			<h1>{ locationTypeName }</h1>
 			<DynamicComponentWithNoSSR 
-				locations={ searchedLocation.length ? searchedLocation : locations }
+				locationTypes={ locationTypesProp }
 				locationTypeName={ locationTypeName }
+				locations={ searchedLocation.length ? searchedLocation : locations }
 				searchLocation={ searchLocation }
 				setSearchLocationToFalse={ setSearchLocationToFalse }
-				locationTypes={ locationTypesProp }
 			/>
 		</div>
 	);
