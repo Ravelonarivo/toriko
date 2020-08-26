@@ -1,5 +1,5 @@
 import { Map, Popup, TileLayer } from 'react-leaflet-universal';
-import { Marker } from 'react-leaflet';
+import { Marker, LayersControl, LayerGroup } from 'react-leaflet';
 import Link from 'next/link';
 import { geolocated } from "react-geolocated";
 import { icon } from 'leaflet';
@@ -113,6 +113,21 @@ class Chart extends Component {
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
 		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation } = this;
 
+		const locs = [
+			{ id: 1, type: 'restaurant', name: 'Xifna', lat: '14.742149', long:'-17.517571', speciality: 'senegalaise' },
+			{ id: 2, type: 'restaurant', name: 'La Pointe des Almadies', lat: '14.745461', long:'-17.528050', speciality: 'senegalaise' },
+			{ id: 3, type: 'restaurant', name: 'Redstone', lat: '14.743612', long:'-17.521332', speciality: 'americaine' },
+			{ id: 4, type: 'restaurant', name: 'The India Gate', lat: '14.743383', long:'-17.511964', speciality: 'indienne' },
+			{ id: 5, type: 'restaurant', name: 'Délices d\'Asie', lat: '14.746076', long:'-17.509958', speciality: 'chinoise' }
+		];
+
+		const specialities = [
+			{ id: 1, name: 'senegalaise' },
+			{ id: 2, name: 'americaine' },
+			{ id: 3, name: 'indienne' },
+			{ id: 4, name: 'chinoise' }
+		];
+
 		return ( 
 			<div>
 				<Map  
@@ -121,38 +136,71 @@ class Chart extends Component {
 					center={ mapCenter } zoom={ mapZoom } 
 					style={{ height: '86vh', width: '100%' }}
 				>
-				    <TileLayer
-				      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-				      attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-				    />
-				    {   
-				    	// Popup autoPan = false to avoid the loop when a marker move out of the viewport
-				    	locations.map((location, index) => {
-				    		return (
+					<LayersControl position="topright">
+					    <TileLayer
+					    	url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					      	attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+					    />
+					    {
+					    	specialities.map((speciality, index) => (
+					    			<LayersControl.Overlay name= { speciality.name } key={ index } checked="true">
+					    				<LayerGroup>
+					    					{
+					    						locs.map((location, index) => 
+					    							location.speciality === speciality.name
+					    								? 	<Marker 
+							    								icon={ markerIcons[location.type] } 
+							    								position={ [location.lat , location.long] }
+							    								key={ index } 
+							    							>
+							      								<Popup autoPan={false}>
+							      									<Link href="/location/[locationId]" as={`/location/${location.id}`}>
+							      										<a>{ location.name }</a>
+							      									</Link>
+							      								</Popup>
+							    							</Marker>
+							    						: ''
+					    						)
+					    					}
+					    				</LayerGroup>
+					    			</LayersControl.Overlay>
+					    		)
+					    	)
+					    }
+					</LayersControl> 
+					{/*<TileLayer
+					    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					    attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+					/>*/}
+					{
+						// Popup autoPan = false to avoid the loop when a marker move out of the viewport
+					   /* locations.map((location, index) => {
+					    	return (
 					    		<Marker 
-					    			icon={ markerIcons[location.type] } 
-					    			position={ [location.lat , location.long] } 
-					    			key={ index }
-					    		>
-					      			<Popup autoPan={false}>
-					      				<Link href="/location/[locationId]" as={`/location/${location.id}`}>
-					      					<a>{ location.name }</a>
-					      				</Link>
-					      			</Popup>
-					    		</Marker>
-				    		) 
-				    	})
-				    }
+							    	icon={ markerIcons[location.type] } 
+							    	position={ [location.lat , location.long] } 
+							    	key={ index }
+							    >
+							     	<Popup autoPan={false}>
+							      		<Link href="/location/[locationId]" as={`/location/${location.id}`}>
+							      			<a>{ location.name }</a>
+							      		</Link>
+							      	</Popup>
+							    </Marker>
+							    	
+					    	) 
+					    })*/
+					}   
 				    { 
 				    	coords 
-				    		? 	<div>
+				    		?	<div>
 				    				<Marker icon={ geolocIcon } position={ userLocation }/>
 				    				<Control position="topleft"> 									
 	  									<img className="showlocation" src="/chart/showlocation.png" onClick={ getCurrentLocation } title="Afficher votre localisation"/>	  									
 	  								</Control>
 	  							</div>
 				    		: '' 
-				    	}
+				    }
 	  			</Map>
 	  			<style jsx>
 	  				{`
