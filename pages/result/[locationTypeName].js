@@ -26,6 +26,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	const [locations, setLocations] = useState(locationsProp);
 	const [products, setProducts] = useState([]);
 	const [productTypes, setProductTypes] = useState([]);
+	const [specialities, setSpecialities] = useState([]);
 
 	const [searchedLocation, setSearchedLocation] = useState([]);
 	const [searchedProduct, setSearchedProduct] = useState([]);
@@ -69,6 +70,15 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 			: useSWR(`/api/productType`, fetcher);
 		data ? setTimeout(() => setProductTypes(data), 5) : '';
 		return data;
+	};
+
+	// Get the list of speciality
+	const getSpecialitiesByLocationTypId = () => {
+		const [locationType] = getLocationType();
+		const { data } = locationType
+			? useSWR(`/api/speciality/${ locationType.id }`, fetcher)
+			: useSWR(`/api/speciality`, fetcher);
+		data ? setTimeout(() => setSpecialities(data), 5) : '';
 	};
 	
 	// Get the item (location, product, productType) searched by the user
@@ -136,6 +146,8 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		getSearchedItem();
 	}, [searchField])
 
+	getSpecialitiesByLocationTypId();
+
 	return (
 		<div>
 			<Head>
@@ -167,6 +179,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 				locations={ searchedLocation.length ? searchedLocation : locations }
 				searchLocation={ searchLocation }
 				setSearchLocationToFalse={ setSearchLocationToFalse }
+				specialities={ specialities }
 			/>
 		</div>
 	);

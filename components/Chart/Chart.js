@@ -109,24 +109,9 @@ class Chart extends Component {
 	}
 
 	render () {
-		const { locations, locationTypeName, coords, isGeolocationEnabled, positionError } = this.props;
+		const { locations, locationTypeName, coords, isGeolocationEnabled, positionError, specialities } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
 		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation } = this;
-
-		const locs = [
-			{ id: 1, type: 'restaurant', name: 'Xifna', lat: '14.742149', long:'-17.517571', speciality: 'senegalaise' },
-			{ id: 2, type: 'restaurant', name: 'La Pointe des Almadies', lat: '14.745461', long:'-17.528050', speciality: 'senegalaise' },
-			{ id: 3, type: 'restaurant', name: 'Redstone', lat: '14.743612', long:'-17.521332', speciality: 'americaine' },
-			{ id: 4, type: 'restaurant', name: 'The India Gate', lat: '14.743383', long:'-17.511964', speciality: 'indienne' },
-			{ id: 5, type: 'restaurant', name: 'Délices d\'Asie', lat: '14.746076', long:'-17.509958', speciality: 'chinoise' }
-		];
-
-		const specialities = [
-			{ id: 1, name: 'senegalaise' },
-			{ id: 2, name: 'americaine' },
-			{ id: 3, name: 'indienne' },
-			{ id: 4, name: 'chinoise' }
-		];
 
 		return ( 
 			<div>
@@ -146,8 +131,8 @@ class Chart extends Component {
 					    			<LayersControl.Overlay name= { speciality.name } key={ index } checked="true">
 					    				<LayerGroup>
 					    					{
-					    						locs.map((location, index) => 
-					    							location.speciality === speciality.name
+					    						locations.map((location, index) => 
+					    							location.speciality_id === speciality.id
 					    								? 	<Marker 
 							    								icon={ markerIcons[location.type] } 
 							    								position={ [location.lat , location.long] }
