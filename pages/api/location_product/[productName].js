@@ -14,7 +14,7 @@ export default ({ query: { productName } }, res) => {
 			}
 		})
 		.catch(error => {
-			res.status(400).json('error getting filteredLocations');
+			res.status(400).json('error getting locations');
 			resolve();
 		});	
 	});
