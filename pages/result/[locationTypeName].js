@@ -28,14 +28,14 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	const [productTypes, setProductTypes] = useState([]);
 	const [specialities, setSpecialities] = useState([]);
 
-	const [searchedLocation, setSearchedLocation] = useState([]);
+	const [searchedLocations, setSearchedLocations] = useState([]);
 	const [searchedProduct, setSearchedProduct] = useState([]);
 	const [searchedProductType, setSearchedProductType] = useState([]);
 
 	const [searchLocation, setSearchLocation] = useState(false);
 	const [searchProduct, setSearchProduct] = useState(false);
 	const [searchProductType, setSearchProductType] = useState(false); 
-
+	
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
 		setSearchField(event.target.value.toLowerCase());
@@ -43,6 +43,12 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 
 	const getLocationType = () => {
 		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationTypeName);
+	}
+
+	const getLocationIds = () => {
+		return searchedLocations.length
+			? searchedLocations.map(searchedLocation => searchedLocation.id)
+			: locations.map(location => location.id);
 	}
 
 	/**
@@ -73,29 +79,27 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	};
 
 	// Get the list of speciality
-	const getSpecialitiesByLocationTypId = () => {
-		const [locationType] = getLocationType();
-		const { data } = locationType
-			? useSWR(`/api/speciality/${ locationType.id }`, fetcher)
-			: useSWR(`/api/speciality`, fetcher);
+	const getSpecialitiesByLocationIds = () => {
+		const locationIds = JSON.stringify(getLocationIds());
+		const { data } = useSWR(`/api/speciality/${ locationIds }`, fetcher); 
 		data ? setTimeout(() => setSpecialities(data), 5) : '';
 	};
 	
 	// Get the item (location, product, productType) searched by the user
 	const getSearchedItem = () => {
 		/**
-		* If searchedLocation = [] all locations are displayed 
-		* locations={ searchedLocation.length ? searchedLocation : locations } inside the
+		* If searchedLocations = [] all locations are displayed 
+		* locations={ searchedLocations.length ? searchedLocations : locations } inside the
 		* DynamicComponentWithNoSSR component below 
 		*/
-		const searchedLocation = locations.filter(location =>  location.name === searchField);
+		const searchedLocations = locations.filter(location =>  location.name === searchField);
 		/**                                                                   
-		* searchedLocation should be an array with only one location.         
+		* searchedLocations should be an array with only one location.         
 		* For the backoffice remember to add an uniq name per location    
 		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
 		*/
-		setSearchedLocation(searchedLocation);
-		if (searchedLocation.length) {
+		setSearchedLocations(searchedLocations);
+		if (searchedLocations.length) {
 			setSearchLocation(true);
 		} else {
 			const searchedProduct = products.filter(product => product.name === searchField);
@@ -125,7 +129,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		const { data } = useSWR(`/api/location_product/${ product.name }`, fetcher);
 		if (data) {
 			setTimeout(() => {
-				setSearchedLocation(data);
+				setSearchedLocations(data);
 				setSearchProduct(false);
 			}, 5)
 		}
@@ -136,7 +140,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		const { data } = useSWR(`/api/location_productType/${ productType.name }`, fetcher);
 		if (data) {
 			setTimeout(() => {
-				setSearchedLocation(data);
+				setSearchedLocations(data);
 				setSearchProductType(false);
 			}, 5)
 		}
@@ -146,7 +150,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		getSearchedItem();
 	}, [searchField])
 
-	getSpecialitiesByLocationTypId();
+	getSpecialitiesByLocationIds();
 
 	return (
 		<div>
@@ -176,7 +180,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 			<DynamicComponentWithNoSSR 
 				locationTypes={ locationTypesProp }
 				locationTypeName={ locationTypeName }
-				locations={ searchedLocation.length ? searchedLocation : locations }
+				locations={ searchedLocations.length ? searchedLocations : locations }
 				searchLocation={ searchLocation }
 				setSearchLocationToFalse={ setSearchLocationToFalse }
 				specialities={ specialities }

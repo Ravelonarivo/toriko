@@ -112,7 +112,7 @@ class Chart extends Component {
 		const { locations, locationTypeName, coords, isGeolocationEnabled, positionError, specialities } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
 		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation } = this;
-
+		
 		return ( 
 			<div>
 				<Map  
@@ -122,35 +122,34 @@ class Chart extends Component {
 					style={{ height: '86vh', width: '100%' }}
 				>
 					<LayersControl position="topright">
-					    <TileLayer
+					    <TileLayer                    
 					    	url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					      	attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 					    />
-					    {
+					    { 
 					    	specialities.map((speciality, index) => (
-					    			<LayersControl.Overlay name= { speciality.name } key={ index } checked="true">
-					    				<LayerGroup>
-					    					{
-					    						locations.map((location, index) => 
-					    							location.speciality_id === speciality.id
-					    								? 	<Marker 
-							    								icon={ markerIcons[location.type] } 
-							    								position={ [location.lat , location.long] }
-							    								key={ index } 
-							    							>
-							      								<Popup autoPan={false}>
-							      									<Link href="/location/[locationId]" as={`/location/${location.id}`}>
-							      										<a>{ location.name }</a>
-							      									</Link>
-							      								</Popup>
-							    							</Marker>
-							    						: ''
-					    						)
-					    					}
-					    				</LayerGroup>
-					    			</LayersControl.Overlay>
-					    		)
-					    	)
+					    		<LayersControl.Overlay name= { speciality.name } key={ index } checked="true">
+					    			<LayerGroup>
+					    				{
+					    					locations.map((location, index) => 
+					    						location.speciality_id === speciality.id
+					    							? 	<Marker 
+							    							icon={ markerIcons[location.type] } 
+							    							position={ [location.lat , location.long] }
+							    							key={ index } 
+							    						>
+							      							<Popup autoPan={false}>
+							      								<Link href="/location/[locationId]" as={`/location/${location.id}`}>
+							      									<a>{ location.name }</a>
+							      								</Link>
+							      							</Popup>
+							    						</Marker>
+							    					: ''
+					    					)
+					    				}
+					    			</LayerGroup>
+					    		</LayersControl.Overlay>
+					    	))
 					    }
 					</LayersControl> 
 					{/*<TileLayer
