@@ -127,8 +127,8 @@ class Chart extends Component {
 					      	attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 					    />
 					    { 
-					    	specialities.map((speciality, index) => (
-					    		<LayersControl.Overlay name= { speciality.name } key={ index } checked="true">
+					    	specialities.map((speciality) => (
+					    		<LayersControl.Overlay name= { speciality.name } key={ speciality.name } checked="true">
 					    			<LayerGroup>
 					    				{
 					    					locations.map((location, index) => 
