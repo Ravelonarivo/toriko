@@ -35,7 +35,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	const [searchLocation, setSearchLocation] = useState(false);
 	const [searchProduct, setSearchProduct] = useState(false);
 	const [searchProductType, setSearchProductType] = useState(false); 
-	
+
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
 		setSearchField(event.target.value.toLowerCase());
@@ -78,7 +78,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		return data;
 	};
 
-	// Get the list of speciality
+	// Get the list of locations speciality 
 	const getSpecialitiesByLocationIds = () => {
 		const locationIds = JSON.stringify(getLocationIds());
 		const { data } = useSWR(`/api/speciality/${ locationIds }`, fetcher); 
