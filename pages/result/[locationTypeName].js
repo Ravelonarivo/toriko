@@ -27,14 +27,18 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 	const [products, setProducts] = useState([]);
 	const [productTypes, setProductTypes] = useState([]);
 	const [specialities, setSpecialities] = useState([]);
+	const [districts, setDistricts] = useState([]);
 
 	const [searchedLocations, setSearchedLocations] = useState([]);
 	const [searchedProduct, setSearchedProduct] = useState([]);
 	const [searchedProductType, setSearchedProductType] = useState([]);
+	const [searchedDistrict, setSearchedDistrict] = useState([]);
 
 	const [searchLocation, setSearchLocation] = useState(false);
 	const [searchProduct, setSearchProduct] = useState(false);
 	const [searchProductType, setSearchProductType] = useState(false); 
+	const [searchDistrict, setSearchDistrict] = useState(false);
+
 
 	// Change the value of searchField state when the user tapes words on the Search component
 	const searchChange = event => {
@@ -68,7 +72,7 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		return data;
 	};
 
-	// Get the list of productType that match to the user search
+	// Get the list of productTypes that match to the user search
 	const getProductTypesByLocationTypeId = () => {
 		const [locationType] = getLocationType();
 		const { data } = locationType
@@ -77,6 +81,16 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		data ? setTimeout(() => setProductTypes(data), 5) : '';
 		return data;
 	};
+
+	// Get the list of districts that match to the user search 
+	const getDistrictsByLocationTypeId = () => {
+		const [locationType] = getLocationType();
+		const { data } = locationType
+			? useSWR(`/api/district/${ locationType.id }`, fetcher)
+			: useSWR(`/api/district`, fetcher);
+		data ? setTimeout(() => setDistricts(data), 5) : '';
+		return data;
+	}
 
 	// Get the list of locations speciality 
 	const getSpecialitiesByLocationIds = () => {
@@ -114,6 +128,12 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 				setSearchedProductType(searchedProductType);
 				setSearchProductType(true);
 			}
+
+			const searchedDistrict = districts.filter(district => district.name === searchField);
+			if (searchedDistrict.length) {
+				setSearchedDistrict(searchedDistrict)
+				setSearchDistrict(true);
+			}
 		}
 	};
 
@@ -147,6 +167,20 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		}
 	}
 
+	const getLocationsByDistrictIdAndLocationTypeId = () => {
+		const [district] = searchedDistrict;
+		const [locationType] = getLocationType();
+		const { data } = locationType 
+			? useSWR(`/api/location_district_locationType/${ district.id }/${locationType.id}`, fetcher)
+			: useSWR(`/api/location_district_locationType/${ district.id }`, fetcher);
+		if (data) {
+			setTimeout(() => {
+				setSearchedLocations(data);
+				setSearchDistrict(false);
+			}, 5)
+		}
+	}
+
 	useEffect(() => {
 		getSearchedItem();
 	}, [searchField])
@@ -170,12 +204,18 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 				locations={ locations }
 				searchChange={ searchChange } 
 				searchField={ searchField }
+
 				searchProduct={ searchProduct }
 				getProductsByLocationTypeId={ getProductsByLocationTypeId }
 				getLocationsByProductName={ getLocationsByProductName }
+				
 				searchProductType={ searchProductType }
 				getProductTypesByLocationTypeId={ getProductTypesByLocationTypeId }
 				getLocationsByProductTypeName={ getLocationsByProductTypeName }
+				
+				searchDistrict={ searchDistrict }
+				getDistrictsByLocationTypeId={ getDistrictsByLocationTypeId }
+				getLocationsByDistrictIdAndLocationTypeId={ getLocationsByDistrictIdAndLocationTypeId }
 			/>
 			<h1>{ locationTypeName }</h1>
 			<DynamicComponentWithNoSSR 

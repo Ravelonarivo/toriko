@@ -1,8 +1,10 @@
-const Search = ({ locations, searchChange, searchField, searchProduct, getProductsByLocationTypeId, getLocationsByProductName, searchProductType, getProductTypesByLocationTypeId, getLocationsByProductTypeName }) => {
+const Search = ({ locations, searchChange, searchField, searchProduct, getProductsByLocationTypeId, getLocationsByProductName, searchProductType, getProductTypesByLocationTypeId, getLocationsByProductTypeName, searchDistrict, getDistrictsByLocationTypeId, getLocationsByDistrictIdAndLocationTypeId }) => {
 	const products = searchField && searchProduct === false ? getProductsByLocationTypeId() : '';
 	searchProduct ? getLocationsByProductName() : '';
 	const productTypes = searchField && searchProductType === false ? getProductTypesByLocationTypeId() : ''; 
 	searchProductType ? getLocationsByProductTypeName() : '';
+	const districts = searchField && searchDistrict === false ? getDistrictsByLocationTypeId() : '';
+	searchDistrict ? getLocationsByDistrictIdAndLocationTypeId() : '';
 
 	return (
 		<div>
@@ -31,6 +33,13 @@ const Search = ({ locations, searchChange, searchField, searchProduct, getProduc
 					searchField && productTypes
 						?	productTypes.map((productType, index) => (
 								<option value={ productType.name } key={ index } />
+							))
+						: ''
+				}
+				{
+					searchField && districts
+						?	districts.map((district, index) => (
+								<option value={ district.name } key={ index } />
 							))
 						: ''
 				}

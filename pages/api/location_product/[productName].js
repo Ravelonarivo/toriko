@@ -6,7 +6,7 @@ export default ({ query: { productName } }, res) => {
 			.join('product', 'location.id', '=', 'product.location_id')
 			.join('location_type', 'location.type_id', '=', 'location_type.id')
 			.where('product.name', productName)
-			.select('location.id', 'location.name', 'location.latitude as lat', 'location.longitude as long', 'location_type.name as type', 'location.speciality_id')
+			.select('location.id', 'location.name', 'location.latitude as lat', 'location.longitude as long', 'location_type.name as type', 'location.speciality_id', 'location.district_id')
 		.then(locations => {
 			if (locations.length > 0) {
 					res.status(200).json(locations);
