@@ -224,7 +224,7 @@ class Chart extends Component {
 // Use by react-geolocated package
 export default geolocated({
     positionOptions: {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
     },
     userDecisionTimeout: 5000,
 })(Chart);
