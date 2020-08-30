@@ -79,8 +79,14 @@ class Chart extends Component {
 
 		// Recenter the map on the searched district
 		if (prevProps.searchDistrict !== this.props.searchDistrict) {
-			this.setState({ mapCenter: [this.props.searchedDistrict[0].lat, this.props.searchedDistrict[0].long] })
-			this.props.setSearchDistrictToFalse();
+			/**
+			* To avoid the bug: unmatched locations still display when the map is recentered on the searched district geolocation	
+			* wait 100ms to let getLocationsByDistrictIdAndLocationTypeId get the locations before recenter the map
+			*/
+			setTimeout(() => {
+				this.setState({ mapCenter: [this.props.searchedDistrict[0].lat, this.props.searchedDistrict[0].long] })
+				this.props.setSearchDistrictToFalse();
+			}, 100)
 		}
 	}
 
