@@ -141,6 +141,10 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		setSearchLocation(false);
 	}
 
+	const setSearchDistrictToFalse = () => {
+		setSearchDistrict(false);
+	}
+
 	/**
 	* setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
 	* a different component (`Search`). To locate the bad setState() call inside `Search`
@@ -222,8 +226,14 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 				locationTypes={ locationTypesProp }
 				locationTypeName={ locationTypeName }
 				locations={ searchedLocations.length ? searchedLocations : locations }
+
 				searchLocation={ searchLocation }
 				setSearchLocationToFalse={ setSearchLocationToFalse }
+				
+				searchDistrict={ searchDistrict }
+				searchedDistrict={ searchedDistrict }
+				setSearchDistrictToFalse={ setSearchDistrictToFalse }
+				
 				specialities={ specialities }
 			/>
 		</div>

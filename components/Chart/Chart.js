@@ -66,6 +66,7 @@ class Chart extends Component {
 			this.setState({ userLocation: [this.props.coords.latitude, this.props.coords.longitude] })
 		}
 	
+		// Recenter the map on the searched location
 		if (prevProps.searchLocation !== this.props.searchLocation) {
 			this.setState({ mapCenter: [this.props.locations[0].lat, this.props.locations[0].long] });
 			/**
@@ -74,6 +75,12 @@ class Chart extends Component {
 			* lat and long of the searched location 
 			*/
 			this.props.setSearchLocationToFalse();
+		}
+
+		// Recenter the map on the searched district
+		if (prevProps.searchDistrict !== this.props.searchDistrict) {
+			this.setState({ mapCenter: [this.props.searchedDistrict[0].lat, this.props.searchedDistrict[0].long] })
+			this.props.setSearchDistrictToFalse();
 		}
 	}
 

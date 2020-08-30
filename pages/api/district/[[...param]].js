@@ -7,7 +7,7 @@ export default ({ query: { param }}, res) => {
 			db('district')
 				.join('location', 'district.id', '=', 'location.district_id')
 				.where('location.type_id', locationTypeId)
-				.distinct('district.id', 'district.name')
+				.distinct('district.id', 'district.name', 'district.latitude as lat', 'district.longitude as long')
 			.then(districts => {
 				if (districts.length > 0) {
 					res.status(200).json(districts);
@@ -21,7 +21,7 @@ export default ({ query: { param }}, res) => {
 		} else {
 			db('district')
 				.join('location', 'district.id', '=', 'location.district_id')
-				.distinct('district.id', 'district.name')
+				.distinct('district.id', 'district.name', 'district.latitude as lat', 'district.longitude as long')
 			.then(districts => {
 				if (districts.length > 0) {
 					res.status(200).json(districts);
