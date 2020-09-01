@@ -86,7 +86,7 @@ class Chart extends Component {
 			setTimeout(() => {
 				this.setState({ mapCenter: [this.props.searchedDistrict[0].lat, this.props.searchedDistrict[0].long] })
 				this.props.setSearchDistrictToFalse();
-			}, 100)
+			}, 1000)
 		}
 	}
 

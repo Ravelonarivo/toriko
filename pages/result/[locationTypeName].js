@@ -180,7 +180,6 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 		if (data) {
 			setTimeout(() => {
 				setSearchedLocations(data);
-				setSearchDistrict(false);
 			}, 5)
 		}
 	}
