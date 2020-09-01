@@ -1,20 +1,19 @@
+import LocationType from './locationType';
 import Link from 'next/link';
 import utilStyles from '../../styles/utils.module.css';
 
-const Choises = ({ locationTypes }) => {
+
+const LocationTypes = ({ locationTypes }) => {
 	return (
 		<div>
 			<h1>Que cherchez-vous ?</h1>
 			<ul className={ utilStyles.list }>
 				{
 					locationTypes.map((locationType, index) => (
-						<li className={ utilStyles.listItem } key={ index }>
-							<Link href="/result/[locationTypeName]" as={`/result/${locationType.name}`}>
-								<a>
-									{ locationType.name }
-								</a>
-							</Link>
-						</li>
+						<LocationType 
+							locationType={ locationType }
+							key={ index }
+						/>
 					))
 				}
 				<li className={ utilStyles.listItem }>
@@ -35,4 +34,4 @@ const Choises = ({ locationTypes }) => {
 	);
 };
 
-export default Choises;
+export default LocationTypes;
