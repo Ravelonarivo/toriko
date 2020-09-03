@@ -5,6 +5,7 @@ import { geolocated } from "react-geolocated";
 import { icon } from 'leaflet';
 import { Component } from 'react';
 import Control from 'react-leaflet-control';
+import { getDistance, convertDistance } from 'geolib';
 
 import { MAP } from '../../lib/constants';
 
@@ -125,10 +126,17 @@ class Chart extends Component {
 		this.setState({ mapZoom: MAP.INIT_ZOOM })
 	}
 
+	getDistanceBetweenLocationAndUserLocation = (location, userLocation) => {
+		const distance = getDistance({latitude: location.lat, longitude: location.long}, {latitude: userLocation[0], longitude: userLocation[1]});
+		return distance >= 1000 
+			? '('+convertDistance(distance, 'km').toFixed(1) + 'km)'
+			: '(' + distance + 'm)'
+	}
+
 	render () {
 		const { town, locations, locationTypeName, coords, isGeolocationEnabled, positionError, specialities } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
-		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation } = this;
+		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation, getDistanceBetweenLocationAndUserLocation } = this;
 	
 		return ( 
 			<div>
@@ -157,7 +165,14 @@ class Chart extends Component {
 							    						>
 							      							<Popup autoPan={false}>
 							      								<Link href="/location/[locationId]" as={`/location/${location.id}`}>
-							      									<a>{ location.name }</a>
+							      									<a>
+							      										{ location.name }&nbsp;
+							      										{ 
+							      											coords
+							      												? 	getDistanceBetweenLocationAndUserLocation(location, userLocation)
+							      												: 	'' 
+							      										}
+							      									</a>
 							      								</Link>
 							      							</Popup>
 							    						</Marker>
