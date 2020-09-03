@@ -12,8 +12,8 @@ class Chart extends Component {
 	constructor() {
 		super();
 		this.state = {
-			userLocation: MAP.INIT_CENTER,
-			mapCenter: MAP.INIT_CENTER,
+			userLocation: [],
+			mapCenter: [],
 			mapZoom: MAP.INIT_ZOOM,
 			geolocIcon: '',
 			markerIcons: { },
@@ -46,6 +46,10 @@ class Chart extends Component {
 	}
 
 	componentDidMount() {
+		const [town] = this.props.town;
+		this.setState({ mapCenter: [town.latitude, town.longitude] })
+		this.setState({ userLocation: [town.latitude, town.longitude] })
+
 		if (this.props.locationTypeName === 'afficher-tout') {
 			// Get all markers icon
 			this.setState({ markerIcons: this.getMarkerIcons() });
@@ -122,10 +126,10 @@ class Chart extends Component {
 	}
 
 	render () {
-		const { locations, locationTypeName, coords, isGeolocationEnabled, positionError, specialities } = this.props;
+		const { town, locations, locationTypeName, coords, isGeolocationEnabled, positionError, specialities } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
 		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation } = this;
-		
+	
 		return ( 
 			<div>
 				<Map  

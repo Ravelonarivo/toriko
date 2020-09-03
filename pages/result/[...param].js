@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { getLocationTypes } from '../../lib/locationType';
-import { getLocationsByTypeName } from '../../lib/location';
+import { getLocationTypes, getLocationsByTownNameAndTypeName } from '../../lib/location';
+import { getTowns, getTownByName } from '../../lib/town';
 import utilStyles from '../../styles/utils.module.css';
 
 import Search from '../../components/Search/Search';
@@ -17,9 +17,10 @@ import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import fetcher from '../../lib/fetcher';
 
-const Result = ({ locationsProp, locationTypesProp }) => {
-	const router = useRouter();
-	const locationTypeName = router.query.locationTypeName;
+
+const Result = ({ locationsProp, locationTypesProp, townProp }) => {
+	const router = useRouter(); 
+	const [townName, locationTypeName] = router.query.param;
 
 	const [searchField, setSearchField] = useState('');
 
@@ -220,8 +221,10 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 				getDistrictsByLocationTypeId={ getDistrictsByLocationTypeId }
 				getLocationsByDistrictIdAndLocationTypeId={ getLocationsByDistrictIdAndLocationTypeId }
 			/>
-			<h1>{ locationTypeName }</h1>
+			<h1>{ townName }/{ locationTypeName }</h1>
 			<DynamicComponentWithNoSSR 
+				town={ townProp }
+
 				locationTypes={ locationTypesProp }
 				locationTypeName={ locationTypeName }
 				locations={ searchedLocations.length ? searchedLocations : locations }
@@ -242,12 +245,20 @@ const Result = ({ locationsProp, locationTypesProp }) => {
 export const getStaticPaths = async () => {
 	try {
 		const locationTypes = await getLocationTypes();
-		let paths = locationTypes.map(locationType => ({
-			params: { locationTypeName: locationType.name }
-		}));
+		const towns = await getTowns();
 
-		// push "afficher-tout" because this param isn't dynamic 
-		paths.push({ params: { locationTypeName: 'afficher-tout' }});
+	    let paths = towns.map(town => {
+	    	let params = {};
+	    	locationTypes.forEach(locationType => {
+	    		params = { params: { param: [town.name, locationType.name] }, ...params }
+	    	})
+	    	return params;
+	    });
+
+		towns.forEach(town => {
+			paths.push({ params: { param: [town.name, 'afficher-tout'] }});
+		});
+
 		return { 
 			paths,
 			fallback: false 
@@ -258,14 +269,17 @@ export const getStaticPaths = async () => {
 }; 
 
 export const getStaticProps = async ({ params }) => {
+	const [townName, locationTypeName] = params.param;
 	try {
-		const locations = await getLocationsByTypeName(params.locationTypeName);
+		const locations = await getLocationsByTownNameAndTypeName(townName, locationTypeName);
 		const locationTypes = await getLocationTypes();
+		const town = await getTownByName(townName);
 
 		return {
 			props: {
 				locationsProp: locations,
-				locationTypesProp: locationTypes
+				locationTypesProp: locationTypes, 
+				townProp: town
 			},
 			revalidate: 1
 		}

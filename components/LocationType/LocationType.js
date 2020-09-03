@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import utilStyles from '../../styles/utils.module.css';
 
-const LocationType = ({ locationType }) => {
+const LocationType = ({ locationType, townName }) => {
 	return (
 		<div>
 			<li className={ utilStyles.listItem }>
-				<Link href="/result/[locationTypeName]" as={`/result/${locationType.name}`}>
+				<Link href="/result/[...param]" as={`/result/${ townName }/${locationType.name}`}>
 					<a>
 						{ locationType.name }
 					</a>
