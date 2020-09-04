@@ -247,18 +247,17 @@ export const getStaticPaths = async () => {
 		const locationTypes = await getLocationTypes();
 		const towns = await getTowns();
 
-	    let paths = towns.map(town => {
-	    	let params = {};
+	    let paths = [];
+	    towns.forEach(town => {
 	    	locationTypes.forEach(locationType => {
-	    		params = { params: { param: [town.name, locationType.name] }, ...params }
+	    		paths.push({ params: { param: [town.name, locationType.name] }})
 	    	})
-	    	return params;
 	    });
 
 		towns.forEach(town => {
 			paths.push({ params: { param: [town.name, 'afficher-tout'] }});
 		});
-
+		
 		return { 
 			paths,
 			fallback: false 
@@ -269,6 +268,7 @@ export const getStaticPaths = async () => {
 }; 
 
 export const getStaticProps = async ({ params }) => {
+
 	const [townName, locationTypeName] = params.param;
 	try {
 		const locations = await getLocationsByTownNameAndTypeName(townName, locationTypeName);
