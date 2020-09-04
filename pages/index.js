@@ -38,14 +38,14 @@ class Home extends Component {
     const { townName, townSelected } = this.state;
     const { selectTownName, resetTownName } = this;
 
-    const t = [
+    /*const t = [
       { name: 'dakar' },
       { name: 'thies' },
       { name: 'saly' },
       { name: 'goré' },
       { name: 'pikine' },
       { name: 'mbaou' }
-    ];
+    ];*/
 
     return (
       <div>
@@ -60,7 +60,7 @@ class Home extends Component {
                 resetTownName={ resetTownName }
               /> 
             : <TownList 
-                towns={ t } 
+                towns={ townsProp } 
                 selectTownName={ selectTownName } 
               />
         }    
