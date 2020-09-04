@@ -64,21 +64,21 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	*/ 
 
 	//Get the list of products that match to the user search
-	const getProductsByLocationTypeId = () => {
+	const getProductsByLocationTypeIdAndTownName = () => {
 		const [locationType] = getLocationType();
 		const { data } = locationType
-			? useSWR(`/api/product/${ locationType.id }`, fetcher)
-			: useSWR(`/api/product`, fetcher); 
+			? useSWR(`/api/product_locationType_town/${ locationType.id }/${ townName }`, fetcher)
+			: useSWR(`/api/product_locationType_town/${ townName }`, fetcher); 
 		data ? setTimeout(() => setProducts(data), 5) : ''; 
 		return data;
 	};
 
 	// Get the list of productTypes that match to the user search
-	const getProductTypesByLocationTypeId = () => {
+	const getProductTypesByLocationTypeIdAndTownName = () => {
 		const [locationType] = getLocationType();
 		const { data } = locationType
-			? useSWR(`/api/productType/${ locationType.id }`, fetcher)
-			: useSWR(`/api/productType`, fetcher);
+			? useSWR(`/api/productType_locationType_town/${ locationType.id }/${ townName }`, fetcher)
+			: useSWR(`/api/productType_locationType_town/${ townName }`, fetcher);
 		data ? setTimeout(() => setProductTypes(data), 5) : '';
 		return data;
 	};
@@ -210,11 +210,11 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				searchField={ searchField }
 
 				searchProduct={ searchProduct }
-				getProductsByLocationTypeId={ getProductsByLocationTypeId }
+				getProductsByLocationTypeIdAndTownName={ getProductsByLocationTypeIdAndTownName }
 				getLocationsByProductName={ getLocationsByProductName }
 				
 				searchProductType={ searchProductType }
-				getProductTypesByLocationTypeId={ getProductTypesByLocationTypeId }
+				getProductTypesByLocationTypeIdAndTownName={ getProductTypesByLocationTypeIdAndTownName }
 				getLocationsByProductTypeName={ getLocationsByProductTypeName }
 				
 				searchDistrict={ searchDistrict }
