@@ -84,11 +84,11 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	};
 
 	// Get the list of districts that match to the user search 
-	const getDistrictsByLocationTypeId = () => {
+	const getDistrictsByLocationTypeIdAndTownName = () => {
 		const [locationType] = getLocationType();
 		const { data } = locationType
-			? useSWR(`/api/district/${ locationType.id }`, fetcher)
-			: useSWR(`/api/district`, fetcher);
+			? useSWR(`/api/district_locationType_town/${ locationType.id }/${ townName }`, fetcher)
+			: useSWR(`/api/district_locationType_town/${ townName }`, fetcher);
 		data ? setTimeout(() => setDistricts(data), 5) : '';
 		return data;
 	}
@@ -218,7 +218,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				getLocationsByProductTypeName={ getLocationsByProductTypeName }
 				
 				searchDistrict={ searchDistrict }
-				getDistrictsByLocationTypeId={ getDistrictsByLocationTypeId }
+				getDistrictsByLocationTypeIdAndTownName={ getDistrictsByLocationTypeIdAndTownName }
 				getLocationsByDistrictIdAndLocationTypeId={ getLocationsByDistrictIdAndLocationTypeId }
 			/>
 			<h1>{ townName }/{ locationTypeName }</h1>
