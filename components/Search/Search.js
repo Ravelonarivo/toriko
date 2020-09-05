@@ -9,10 +9,11 @@ const Search = ({ locations, searchChange, searchField, searchProduct, getProduc
 	return (
 		<div>
 			<input 
+				style={{ width:'450px' }}
 				list="filteredLocations"
 				onChange={ searchChange }
 				type="text" 
-				placeholder="Tapez le nom de l'établissement ou du plat que vous cherchez"
+				placeholder="tapez par ex: caesar/beef burger/hamburger/plateau"
 			/>
 			<datalist id="filteredLocations">
 				{   
