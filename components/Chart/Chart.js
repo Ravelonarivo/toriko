@@ -62,18 +62,14 @@ class Chart extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		/**
-		  * Recenter the map on the user location 
-		  * If geolocation is enable coords turn from null to client geolocation
-		  */
 		if(prevProps.coords !== this.props.coords) {
-			this.setState({ mapCenter: [this.props.coords.latitude, this.props.coords.longitude] });
 			this.setState({ userLocation: [this.props.coords.latitude, this.props.coords.longitude] })
 		}
 	
 		// Recenter the map on the searched location
 		if (prevProps.searchLocation !== this.props.searchLocation) {
-			this.setState({ mapCenter: [this.props.locations[0].lat, this.props.locations[0].long] });
+			const [location] = this.props.locations;
+			this.setState({ mapCenter: [location.lat, location.long] });
 			/**
 			* To avoid infinite loop, prevProps.search must be different to this.props.search 
 			* that's why search state must be set to false after the mapCenter updated with the 
