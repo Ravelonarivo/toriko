@@ -13,7 +13,7 @@ const Search = ({ locations, searchChange, searchField, searchProduct, getProduc
 				list="filteredLocations"
 				onChange={ searchChange }
 				type="text" 
-				placeholder="tapez par ex: caesar/beef burger/hamburger/plateau"
+				placeholder="tapez par ex: beef burger/hamburger/yum-yum/plateau"
 			/>
 			<datalist id="filteredLocations">
 				{   
