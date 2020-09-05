@@ -16,17 +16,10 @@ const Search = ({ locations, searchChange, searchField, searchProduct, getProduc
 				placeholder="tapez par ex: beef burger/hamburger/yum-yum/plateau"
 			/>
 			<datalist id="filteredLocations">
-				{   
-					searchField 
-						?	locations.map((location, index) => (
-								<option value={ location.name } key={ index } />
-							))
-						: ''
-				}
 				{
 					searchField && products
 						?	products.map((product, index) => (
-								<option value={ product.name } key={ index } />
+								<option value={ product.name } key={ index }>{ product.type }</option>
 							))
 						: ''	 
 				}
@@ -37,10 +30,17 @@ const Search = ({ locations, searchChange, searchField, searchProduct, getProduc
 							))
 						: ''
 				}
+				{   
+					searchField 
+						?	locations.map((location, index) => (
+								<option value={ location.name } key={ index }>{ location.type }</option>
+							))
+						: ''
+				}
 				{
 					searchField && districts
 						?	districts.map((district, index) => (
-								<option value={ district.name } key={ index } />
+								<option value={ district.name } key={ index }>{ district.town }</option>
 							))
 						: ''
 				}

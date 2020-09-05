@@ -9,7 +9,7 @@ export default ({ query: { param }}, res) => {
 				.join('town', 'town.id', '=', 'district.town_id')
 				.where('location.type_id', locationTypeId)
 				.andWhere('town.name', townName)
-				.distinct('district.id', 'district.name', 'district.latitude as lat', 'district.longitude as long')
+				.distinct('district.id', 'district.name', 'district.latitude as lat', 'district.longitude as long', 'town.name as town')
 			.then(districts => {
 				if (districts.length > 0) {
 					res.status(200).json(districts);
@@ -26,7 +26,7 @@ export default ({ query: { param }}, res) => {
 				.join('location', 'location.district_id', '=', 'district.id')
 				.join('town', 'town.id', '=', 'district.town_id')
 				.where('town.name', townName)
-				.distinct('district.id', 'district.name', 'district.latitude as lat', 'district.longitude as long')
+				.distinct('district.id', 'district.name', 'district.latitude as lat', 'district.longitude as long', 'town.name as town')
 			.then(districts => {
 				if (districts.length > 0) {
 					res.status(200).json(districts);
