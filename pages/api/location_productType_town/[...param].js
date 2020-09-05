@@ -1,12 +1,16 @@
 import db from '../../../lib/db';
 
-export default ({ query: { productTypeName } }, res) => {
+export default ({ query: { param } }, res) => {
 	return new Promise((resolve, reject) => {
+		const [productTypeName, townName] = param;
 		db('location')
-			.join('location_type', 'location.type_id', '=', 'location_type.id')
-			.join('product', 'location.id', '=', 'product.location_id')
-			.join('product_type', 'product.type_id', '=', 'product_type.id')
+			.join('location_type', 'location_type.id', '=', 'location.type_id')
+			.join('product', 'product.location_id', '=', 'location.id')
+			.join('product_type', 'product_type.id', '=', 'product.type_id')
+			.join('district', 'district.id', '=', 'location.district_id')
+			.join('town', 'town.id', '=', 'district.town_id')
 			.where('product_type.name', productTypeName)
+			.andWhere('town.name', townName)
 			.distinct('location.id', 'location.name', 'location.latitude as lat', 'location.longitude as long', 'location_type.name as type', 'location.speciality_id', 'location.district_id')
 		.then(locations => {
 			if (locations.length > 0) {

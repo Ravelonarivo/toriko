@@ -150,9 +150,9 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	* setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
 	* a different component (`Search`). To locate the bad setState() call inside `Search`
 	*/ 
-	const getLocationsByProductName = () => {
+	const getLocationsByProductNameAndTownName = () => {
 		const [product] = searchedProduct;
-		const { data } = useSWR(`/api/location_product/${ product.name }`, fetcher);
+		const { data } = useSWR(`/api/location_product_town/${ product.name }/${ townName }`, fetcher);
 		if (data) {
 			setTimeout(() => {
 				setSearchedLocations(data);
@@ -161,9 +161,9 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		}
 	};
 
-	const getLocationsByProductTypeName = () => {
+	const getLocationsByProductTypeNameAndTownName = () => {
 		const [productType] = searchedProductType;
-		const { data } = useSWR(`/api/location_productType/${ productType.name }`, fetcher);
+		const { data } = useSWR(`/api/location_productType_town/${ productType.name }/${ townName }`, fetcher);
 		if (data) {
 			setTimeout(() => {
 				setSearchedLocations(data);
@@ -211,11 +211,11 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 				searchProduct={ searchProduct }
 				getProductsByLocationTypeIdAndTownName={ getProductsByLocationTypeIdAndTownName }
-				getLocationsByProductName={ getLocationsByProductName }
+				getLocationsByProductNameAndTownName={ getLocationsByProductNameAndTownName }
 				
 				searchProductType={ searchProductType }
 				getProductTypesByLocationTypeIdAndTownName={ getProductTypesByLocationTypeIdAndTownName }
-				getLocationsByProductTypeName={ getLocationsByProductTypeName }
+				getLocationsByProductTypeNameAndTownName={ getLocationsByProductTypeNameAndTownName }
 				
 				searchDistrict={ searchDistrict }
 				getDistrictsByLocationTypeIdAndTownName={ getDistrictsByLocationTypeIdAndTownName }

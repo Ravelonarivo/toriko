@@ -1,8 +1,8 @@
-const Search = ({ locations, searchChange, searchField, searchProduct, getProductsByLocationTypeIdAndTownName, getLocationsByProductName, searchProductType, getProductTypesByLocationTypeIdAndTownName, getLocationsByProductTypeName, searchDistrict, getDistrictsByLocationTypeIdAndTownName, getLocationsByDistrictIdAndLocationTypeId }) => {
+const Search = ({ locations, searchChange, searchField, searchProduct, getProductsByLocationTypeIdAndTownName, getLocationsByProductNameAndTownName, searchProductType, getProductTypesByLocationTypeIdAndTownName, getLocationsByProductTypeNameAndTownName, searchDistrict, getDistrictsByLocationTypeIdAndTownName, getLocationsByDistrictIdAndLocationTypeId }) => {
 	const products = searchField && searchProduct === false ? getProductsByLocationTypeIdAndTownName() : '';
-	searchProduct ? getLocationsByProductName() : '';
+	searchProduct ? getLocationsByProductNameAndTownName() : '';
 	const productTypes = searchField && searchProductType === false ? getProductTypesByLocationTypeIdAndTownName() : ''; 
-	searchProductType ? getLocationsByProductTypeName() : '';
+	searchProductType ? getLocationsByProductTypeNameAndTownName() : '';
 	const districts = searchField && searchDistrict === false ? getDistrictsByLocationTypeIdAndTownName() : '';
 	searchDistrict ? getLocationsByDistrictIdAndLocationTypeId() : '';
 
