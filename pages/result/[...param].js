@@ -97,7 +97,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	const getSpecialitiesByLocationIds = () => {
 		// stringify the result of getLocationIds because it's an array of ids
 		const locationIds = JSON.stringify(getLocationIds());
-		const { data } = useSWR(`/api/speciality/${ locationIds }`, fetcher); 
+		const { data } = useSWR(`/api/speciality_location/${ locationIds }`, fetcher); 
 		data ? setTimeout(() => setSpecialities(data), 5) : '';
 	};
 	
