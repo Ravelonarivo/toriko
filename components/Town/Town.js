@@ -1,17 +1,10 @@
- import Card from 'react-bootstrap/Card';
-
  const Town = ({ town, selectTownName }) => {
 	return (
-		<div>
-			<Card 
-				style={{ width: '18rem', cursor: 'pointer' }} 
-				className="text-center p-3 m-1"
-				onClick={ selectTownName }
-			>
-				<Card.Body>
-					<Card.Title style={{ textTransform: 'uppercase' }}>{ town.name }</Card.Title>
-				</Card.Body>
-			</Card>
+		<div
+			className="db dib-ns tc br3 pa3 ma2 grow bw2 shadow-5 ttu pointer w5-l w4-m"  
+			onClick={ selectTownName }
+		>
+			<h4>{ town.name }</h4>
 		</div>
 	);
 };

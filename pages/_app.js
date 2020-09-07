@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'tachyons'
 import NextNprogress from 'nextjs-progressbar';
 
 const App = ({ Component, pageProps }) => {

@@ -1,11 +1,10 @@
 import Town from './Town';
-import CardColumns from 'react-bootstrap/CardDeck';
 
 const TownList = ({ towns, selectTownName }) => {
 	return (
 		<div>
 			<h1>Choisissez votre ville</h1>
-			<CardColumns>
+			<div>
 				{
 					towns.map((town, index) => (
 						<Town
@@ -15,7 +14,7 @@ const TownList = ({ towns, selectTownName }) => {
 						/>
 					))
 				}
-			</CardColumns>
+			</div>
 		</div>
 	)
 };
