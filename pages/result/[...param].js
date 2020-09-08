@@ -48,13 +48,13 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 	const getLocationType = () => {
 		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationTypeName);
-	}
+	};
 
 	const getLocationIds = () => {
 		return searchedLocations.length
 			? searchedLocations.map(searchedLocation => searchedLocation.id)
 			: locations.map(location => location.id);
-	}
+	};
 
 	/**
 	* - If locationType = 'afficher tout' locationType = undefined, so get all products
@@ -91,7 +91,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 			: useSWR(`/api/district_locationType_town/${ townName }`, fetcher);
 		data ? setTimeout(() => setDistricts(data), 5) : '';
 		return data;
-	}
+	};
 
 	// Get the list of locations speciality 
 	const getSpecialitiesByLocationIds = () => {
@@ -140,11 +140,11 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 	const setSearchLocationToFalse = () => {
 		setSearchLocation(false);
-	}
+	};
 
 	const setSearchDistrictToFalse = () => {
 		setSearchDistrict(false);
-	}
+	};
 
 	/**
 	* setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
@@ -170,7 +170,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				setSearchProductType(false);
 			}, 5)
 		}
-	}
+	};
 
 	const getLocationsByDistrictIdAndLocationTypeId = () => {
 		const [district] = searchedDistrict;
@@ -183,11 +183,11 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				setSearchedLocations(data);
 			}, 5)
 		}
-	}
+	};
 
 	useEffect(() => {
 		getSearchedItem();
-	}, [searchField])
+	}, [searchField]);
 
 	getSpecialitiesByLocationIds();
 
