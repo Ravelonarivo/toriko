@@ -48,7 +48,22 @@ class Chart extends Component {
 
 	componentDidMount() {
 		const [town] = this.props.town;
-		this.setState({ mapCenter: [town.latitude, town.longitude] })
+
+		// If the saved search is a location test if searchLocation is true 
+		if (this.props.searchLocation) {
+			const [savedLocation] = this.props.locations;
+			this.setState({ mapCenter: [savedLocation.lat, savedLocation.long] });
+			this.props.setSearchLocationToFalse();
+		// If the saved search is a district test if searchDistrict is true 
+		} if (this.props.searchDistrict) {
+			const [savedSearchedDistrict] = this.props.searchedDistrict;
+			this.setState({ mapCenter: [savedSearchedDistrict.lat, savedSearchedDistrict.long] });
+			this.props.setSearchDistrictToFalse();
+		// If there is no saved search or the saved search is not a location or a district 
+		} else {	
+			this.setState({ mapCenter: [town.latitude, town.longitude] })
+		}
+		
 		this.setState({ userLocation: [town.latitude, town.longitude] })
 
 		if (this.props.locationTypeName === 'afficher-tout') {
@@ -85,7 +100,8 @@ class Chart extends Component {
 			* wait 100ms to let getLocationsByDistrictIdAndLocationTypeId get the locations before recenter the map
 			*/
 			setTimeout(() => {
-				this.setState({ mapCenter: [this.props.searchedDistrict[0].lat, this.props.searchedDistrict[0].long] })
+				const [searchedDistrict] = this.props.searchedDistrict;
+				this.setState({ mapCenter: [searchedDistrict.lat, searchedDistrict.long] })
 				this.props.setSearchDistrictToFalse();
 			}, 1000)
 		}

@@ -1,14 +1,17 @@
-const Search = ({ locations, searchChange, searchField, searchProduct, getProductsByLocationTypeIdAndTownName, getLocationsByProductNameAndTownName, searchProductType, getProductTypesByLocationTypeIdAndTownName, getLocationsByProductTypeNameAndTownName, searchDistrict, getDistrictsByLocationTypeIdAndTownName, getLocationsByDistrictIdAndLocationTypeId }) => {
-	const products = searchField && searchProduct === false ? getProductsByLocationTypeIdAndTownName() : '';
+const Search = ({ inputRef, resetSavedSearch, savedSearchedDistrict, locations, searchChange, searchFieldValue, searchProduct, getProductsByLocationTypeIdAndTownName, getLocationsByProductNameAndTownName, searchProductType, getProductTypesByLocationTypeIdAndTownName, getLocationsByProductTypeNameAndTownName, searchDistrict, getDistrictsByLocationTypeIdAndTownName, getLocationsByDistrictIdAndLocationTypeId }) => {
+	const products = searchFieldValue && searchProduct === false ? getProductsByLocationTypeIdAndTownName() : '';
 	searchProduct ? getLocationsByProductNameAndTownName() : '';
-	const productTypes = searchField && searchProductType === false ? getProductTypesByLocationTypeIdAndTownName() : ''; 
+	const productTypes = searchFieldValue && searchProductType === false ? getProductTypesByLocationTypeIdAndTownName() : ''; 
 	searchProductType ? getLocationsByProductTypeNameAndTownName() : '';
-	const districts = searchField && searchDistrict === false ? getDistrictsByLocationTypeIdAndTownName() : '';
-	searchDistrict ? getLocationsByDistrictIdAndLocationTypeId() : '';
+	const districts = searchFieldValue && searchDistrict === false ? getDistrictsByLocationTypeIdAndTownName() : '';
+	// if searchDistrict is true and there is no saved search in the localStorage
+	searchDistrict && savedSearchedDistrict.length === 0 ? getLocationsByDistrictIdAndLocationTypeId() : '';
 
 	return (
 		<div>
-			<input 
+			<input
+				onFocus={ resetSavedSearch }
+				ref={ inputRef }
 				style={{ width:'450px' }}
 				list="filteredLocations"
 				onChange={ searchChange }
@@ -17,28 +20,28 @@ const Search = ({ locations, searchChange, searchField, searchProduct, getProduc
 			/>
 			<datalist id="filteredLocations">
 				{
-					searchField && products
+					searchFieldValue && products
 						?	products.map((product, index) => (
 								<option value={ product.name } key={ index }>{ product.type }</option>
 							))
 						: ''	 
 				}
 				{
-					searchField && productTypes
+					searchFieldValue && productTypes
 						?	productTypes.map((productType, index) => (
 								<option value={ productType.name } key={ index } />
 							))
 						: ''
 				}
 				{   
-					searchField 
+					searchFieldValue 
 						?	locations.map((location, index) => (
 								<option value={ location.name } key={ index }>{ location.type }</option>
 							))
 						: ''
 				}
 				{
-					searchField && districts
+					searchFieldValue && districts
 						?	districts.map((district, index) => (
 								<option value={ district.name } key={ index }>{ district.town }</option>
 							))
