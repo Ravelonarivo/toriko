@@ -43,7 +43,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 	const [savedSearch, setSavedSearch] = useState([]);
 	const [savedSearchedDistrict, setSavedSearchedDistrict] = useState([]);
-
+	
 
 	useEffect(() => {
 		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
@@ -149,6 +149,11 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		localStorage.removeItem('savedSearch');
 		inputRef.current.value = '';
         setSearchFieldValue(null);
+        setSavedSearch([]);
+        if (savedSearchedDistrict.length) {
+        	setSavedSearchedDistrict([]);
+        	setSearchedDistrict([]);
+        }
 	}
 	
 	// Get the item (location, product, productType) searched by the user
