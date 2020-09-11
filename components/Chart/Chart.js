@@ -194,7 +194,7 @@ class Chart extends Component {
 					center={ mapCenter } zoom={ mapZoom } 
 					style={{ height: '83vh', width: '100%' }}
 				> 
-					<LayersControl position="topright" ref={ this.layerControlRef }>
+					<LayersControl position="bottomleft" ref={ this.layerControlRef }>
 					    <TileLayer                 
 					    	url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					      	attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
