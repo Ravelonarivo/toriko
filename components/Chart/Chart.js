@@ -3,7 +3,7 @@ import { Marker, LayersControl, LayerGroup } from 'react-leaflet';
 import Link from 'next/link';
 import { geolocated } from "react-geolocated";
 import { icon } from 'leaflet';
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 import Control from 'react-leaflet-control';
 import { getDistance, convertDistance } from 'geolib';
 
@@ -17,8 +17,9 @@ class Chart extends Component {
 			mapCenter: [],
 			mapZoom: MAP.INIT_ZOOM,
 			geolocIcon: '',
-			markerIcons: { },
+			markerIcons: { }
 		};
+		this.layerControlRef = createRef();
 	}
 
 	getMarkerIcon = type => {
@@ -105,6 +106,11 @@ class Chart extends Component {
 				this.props.setSearchDistrictToFalse();
 			}, 1000)
 		}
+
+		// If there is specialitesFilterState saved in the locolStorage, not collapse the LayersControl 
+		if (this.layerControlRef.current && localStorage.getItem('specialitiesFilterState')) {
+			this.layerControlRef.current.leafletElement.expand();
+		}
 	}
 
 	/**
@@ -141,32 +147,65 @@ class Chart extends Component {
 	getDistanceBetweenLocationAndUserLocation = (location, userLocation) => {
 		const distance = getDistance({latitude: location.lat, longitude: location.long}, {latitude: userLocation[0], longitude: userLocation[1]});
 		return distance >= 1000 
-			? '('+convertDistance(distance, 'km').toFixed(1) + 'km)'
+			? '(' + convertDistance(distance, 'km').toFixed(1) + 'km)'
 			: '(' + distance + 'm)'
+	}
+
+	saveSpecialitiesFilterState = () => { 
+		if (this.layerControlRef.current) {
+			const specialitiesChecking =  this.layerControlRef.current.leafletElement._layerControlInputs.map(layerControlInput => layerControlInput.checked);	
+			const specialitiesName =  this.layerControlRef.current.leafletElement._layers.map(layer => layer.name);
+			const specialities = specialitiesName.map((specialityName, index) => ({ name: specialityName, checked: specialitiesChecking[index] }));	
+			// If there are some unchecked checkbox at the LayersControl save specialitiesFilterState in the localStorage    
+			if (specialities.some(speciality => speciality.checked === false)) {
+				localStorage.setItem('specialitiesFilterState', JSON.stringify(specialities));
+			} else {
+				localStorage.removeItem('specialitiesFilterState');
+			}
+		}   
+	}
+
+	// Check or uncheck the LayersControl.Overlay depending of the informations saved in the specialitiesFilterState
+	checkedLayersControlOverlay = specialityName => {
+		let isChecked = true;
+		const savedSpecialitiesFilterState = JSON.parse(localStorage.getItem('specialitiesFilterState'));
+		if (savedSpecialitiesFilterState) {
+			for (const savedSpecialityFilterState of savedSpecialitiesFilterState) {
+				if (savedSpecialityFilterState.name === specialityName && !savedSpecialityFilterState.checked) {
+					isChecked = false;
+					break;
+				}
+			}
+		}
+
+		return isChecked;
 	}
 
 	render () {
 		const { town, locations, locationTypeName, coords, isGeolocationEnabled, positionError, specialities } = this.props;
 		const { userLocation, mapCenter, mapZoom, markerIcons, geolocIcon } = this.state;
-		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation, getDistanceBetweenLocationAndUserLocation } = this;
-	
+		const { updateCurrentCenter, updateCurrentZoom, getCurrentLocation, getDistanceBetweenLocationAndUserLocation, saveSpecialitiesFilterState, checkedLayersControlOverlay } = this;
+		
 		return ( 
 			<div>
-				<Map  
-					onMoveEnd={ coords ? updateCurrentCenter : null } 
-					onZoomEnd={ coords ? updateCurrentZoom : null } 
+				<Map 
+					onMoveEnd={ updateCurrentCenter } 
+					onZoomEnd={ updateCurrentZoom } 
 					center={ mapCenter } zoom={ mapZoom } 
 					style={{ height: '86vh', width: '100%' }}
-				>
-					<LayersControl position="topright">
-					    <TileLayer                    
+				> 
+					<LayersControl position="topright" ref={ this.layerControlRef }>
+					    <TileLayer                 
 					    	url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					      	attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 					    />
 					    { 
 					    	specialities.map((speciality) => (
-					    		<LayersControl.Overlay name= { speciality.name } key={ speciality.name } checked="true">
-					    			<LayerGroup>
+					    		<LayersControl.Overlay name={ speciality.name } key={ speciality.name } checked={ checkedLayersControlOverlay(speciality.name) }>
+					    			<LayerGroup 
+					    				onRemove={ saveSpecialitiesFilterState }
+					    				onAdd={ saveSpecialitiesFilterState }
+					    			>
 					    				{
 					    					locations.map((location, index) => 
 					    						location.speciality_id === speciality.id
