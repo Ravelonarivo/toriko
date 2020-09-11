@@ -192,7 +192,7 @@ class Chart extends Component {
 					onMoveEnd={ updateCurrentCenter } 
 					onZoomEnd={ updateCurrentZoom } 
 					center={ mapCenter } zoom={ mapZoom } 
-					style={{ height: '86vh', width: '100%' }}
+					style={{ height: '83vh', width: '100%' }}
 				> 
 					<LayersControl position="topright" ref={ this.layerControlRef }>
 					    <TileLayer                 
