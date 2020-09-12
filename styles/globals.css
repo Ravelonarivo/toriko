@@ -16,3 +16,15 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* 
+* Add title "Spécialités" to the LayersControl in the Chart Component
+* This class is from react-leaflet so put it directly in the component or 
+* in a CSS module doesn't work.
+*/
+.leaflet-control-layers.leaflet-control.leaflet-control-layers-expanded::before {
+	content: "Spécialités";
+	font-weight: bold;
+	font-size: 15px;
+	display: block;
+}
