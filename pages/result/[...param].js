@@ -22,13 +22,13 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	const router = useRouter(); 
 	const inputRef = useRef(null);
 	const [townName, locationTypeName] = router.query.param;
+	const [locationType, setLocationType] = useState('');
 
 	const [searchFieldValue, setSearchFieldValue] = useState('');
 
-	const [locations, setLocations] = useState(locationsProp);
+	const [locations] = useState(locationsProp);
 	const [products, setProducts] = useState([]);
 	const [productTypes, setProductTypes] = useState([]);
-	const [specialities, setSpecialities] = useState([]);
 	const [districts, setDistricts] = useState([]);
 
 	const [searchedLocations, setSearchedLocations] = useState([]);
@@ -36,16 +36,18 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	const [searchedProductType, setSearchedProductType] = useState([]);
 	const [searchedDistrict, setSearchedDistrict] = useState([]);
 
-	const [searchLocation, setSearchLocation] = useState(false);
-	const [searchProduct, setSearchProduct] = useState(false);
-	const [searchProductType, setSearchProductType] = useState(false); 
-	const [searchDistrict, setSearchDistrict] = useState(false);
+	const [locationSearch, setLocationSearch] = useState(false);
+	const [productSearch, setProductSearch] = useState(false);
+	const [productTypeSearch, setProductTypeSearch] = useState(false); 
+	const [districtSearch, setDistrictSearch] = useState(false);
 
 	const [savedSearch, setSavedSearch] = useState([]);
 	const [savedSearchedDistrict, setSavedSearchedDistrict] = useState([]);
 	
 
 	useEffect(() => {
+		getLocationType();
+
 		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
 		const parsedSavedSearch = JSON.parse(localStorage.getItem('savedSearch'));
 		if (savedSearchFieldValue && parsedSavedSearch && parsedSavedSearch.townName === townName && parsedSavedSearch.locationTypeName === locationTypeName) {
@@ -53,10 +55,10 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 			inputRef.current.value = savedSearchFieldValue;
 			setSavedSearch(parsedSavedSearch.locations);
 			if (parsedSavedSearch.type === 'location') {
-				setSearchLocation(true);
+				setLocationSearch(true);
 			} else if (parsedSavedSearch.type === 'district') {
 				setSavedSearchedDistrict(parsedSavedSearch.searchedDistrict);
-				setSearchDistrict(true);
+				setDistrictSearch(true);
 			}		
 		} else {
 			resetSavedSearch();
@@ -71,61 +73,27 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	const searchChange = event => {
 		setSearchFieldValue(event.target.value.toLowerCase());
 	};
-
+	
 	const getLocationType = () => {
-		return locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationTypeName);
+		const [locationType] = locationTypesProp.filter(locationTypeProp => locationTypeProp.name === locationTypeName);
+		setLocationType(locationType);
 	};
 
-	const getLocationIds = () => {
-		return searchedLocations.length
-			? searchedLocations.map(searchedLocation => searchedLocation.id)
-			: locations.map(location => location.id);
-	};
-
-	/**
-	* - If locationType = 'afficher tout' locationType = undefined, so get all products
-	* - The first value return by SWR is undefined, so need to check the variable data before use it
-	* - setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
-	*   a different component (`Search`). To locate the bad setState() call inside `Search`
-	*/ 
-
-	//Get the list of products that match to the user search
-	const getProductsByLocationTypeIdAndTownName = () => {
-		const [locationType] = getLocationType();
-		const { data } = locationType
-			? useSWR(`/api/product_locationType_town/${ locationType.id }/${ townName }`, fetcher)
-			: useSWR(`/api/product_locationType_town/${ townName }`, fetcher); 
-		data ? setTimeout(() => setProducts(data), 5) : ''; 
-		return data;
+	const getProducts = products => {
+		setProducts(products);
 	}; 
 
-	// Get the list of productTypes that match to the user search
-	const getProductTypesByLocationTypeIdAndTownName = () => {
-		const [locationType] = getLocationType();
-		const { data } = locationType
-			? useSWR(`/api/productType_locationType_town/${ locationType.id }/${ townName }`, fetcher)
-			: useSWR(`/api/productType_locationType_town/${ townName }`, fetcher);
-		data ? setTimeout(() => setProductTypes(data), 5) : '';
-		return data;
+	const getProductTypes = productTypes => {
+		setProductTypes(productTypes);
 	};
 
-	// Get the list of districts that match to the user search 
-	const getDistrictsByLocationTypeIdAndTownName = () => {
-		const [locationType] = getLocationType();
-		const { data } = locationType
-			? useSWR(`/api/district_locationType_town/${ locationType.id }/${ townName }`, fetcher)
-			: useSWR(`/api/district_locationType_town/${ townName }`, fetcher);
-		data ? setTimeout(() => setDistricts(data), 5) : '';
-		return data;
+	const getDistricts = districts => {
+		setDistricts(districts);
 	};
 
-	// Get the list of locations speciality 
-	const getSpecialitiesByLocationIds = () => {
-		// stringify the result of getLocationIds because it's an array of ids
-		const locationIds = JSON.stringify(getLocationIds());
-		const { data } = useSWR(`/api/speciality_location/${ locationIds }`, fetcher); 
-		data ? setTimeout(() => setSpecialities(data), 5) : '';
-	};
+	const getSearchedLocations = locations => {
+		setSearchedLocations(locations);
+	}
 
 	// Save ssearch field value in the localSorage
 	const saveSearchFieldValue = () => {
@@ -171,84 +139,48 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		*/
 		setSearchedLocations(searchedLocations);
 		if (searchedLocations.length) {
-			setSearchLocation(true);
+			setLocationSearch(true);
 			saveSearchFieldValue();
 			saveSearch(searchedLocations, 'location');
 		} else {
 			const searchedProduct = products.filter(product => product.name === searchFieldValue);
 			if (searchedProduct.length) {
 				setSearchedProduct(searchedProduct);
-				setSearchProduct(true);
+				setProductSearch(true);
 				saveSearchFieldValue();
 			}
 			
 			const searchedProductType = productTypes.filter(productType => productType.name === searchFieldValue);
 			if (searchedProductType.length) {
 				setSearchedProductType(searchedProductType);
-				setSearchProductType(true);
+				setProductTypeSearch(true);
 				saveSearchFieldValue();
 			}
 
 			const searchedDistrict = districts.filter(district => district.name === searchFieldValue);
 			if (searchedDistrict.length) {
 				setSearchedDistrict(searchedDistrict)
-				setSearchDistrict(true);
+				setDistrictSearch(true);
 				saveSearchFieldValue();
 			}
 		}
 	};
 
-	const setSearchLocationToFalse = () => {
-		setSearchLocation(false);
+	const setLocationSearchToFalse = () => {
+		setLocationSearch(false);
 	};
 
-	const setSearchDistrictToFalse = () => {
-		setSearchDistrict(false);
+	const setDistrictSearchToFalse = () => {
+		setDistrictSearch(false);
 	};
 
-	/**
-	* setTimeout is used to avoid the error: Cannot update a component (`Result`) while rendering
-	* a different component (`Search`). To locate the bad setState() call inside `Search`
-	*/ 
-	const getLocationsByProductNameAndTownName = () => {
-		const [product] = searchedProduct;
-		const { data } = useSWR(`/api/location_product_town/${ product.name }/${ townName }`, fetcher);
-		if (data) {
-			setTimeout(() => {
-				setSearchedLocations(data);
-				saveSearch(data, 'product');
-				setSearchProduct(false);
-			}, 5)
-		}
+	const setProductSearchToFalse = () => {
+		setProductSearch(false);
 	};
 
-	const getLocationsByProductTypeNameAndTownName = () => {
-		const [productType] = searchedProductType;
-		const { data } = useSWR(`/api/location_productType_town/${ productType.name }/${ townName }`, fetcher);
-		if (data) {
-			setTimeout(() => {
-				setSearchedLocations(data);
-				saveSearch(data, 'productType');
-				setSearchProductType(false);
-			}, 5)
-		}
+	const setProductTypeSearchToFalse = () => {
+		setProductTypeSearch(false);
 	};
-
-	const getLocationsByDistrictIdAndLocationTypeId = () => {
-		const [district] = searchedDistrict;
-		const [locationType] = getLocationType();
-		const { data } = locationType 
-			? useSWR(`/api/location_district_locationType/${ district.id }/${locationType.id}`, fetcher)
-			: useSWR(`/api/location_district_locationType/${ district.id }`, fetcher);
-		if (data) {
-			setTimeout(() => {
-				setSearchedLocations(data);
-				saveSearch(data, 'district', searchedDistrict);
-			}, 5)
-		}
-	};
-	
-	getSpecialitiesByLocationIds();
 
 	return (
 		<div>
@@ -268,39 +200,46 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				resetSavedSearch={ resetSavedSearch }
 				savedSearchedDistrict={ savedSearchedDistrict } 
 
+				locationType={ locationType }
+				townName={ townName }	
+
 				locations={ locations }
 				searchChange={ searchChange } 
 				searchFieldValue={ searchFieldValue }
 
-				searchProduct={ searchProduct }
-				getProductsByLocationTypeIdAndTownName={ getProductsByLocationTypeIdAndTownName }
-				getLocationsByProductNameAndTownName={ getLocationsByProductNameAndTownName }
 				
-				searchProductType={ searchProductType }
-				getProductTypesByLocationTypeIdAndTownName={ getProductTypesByLocationTypeIdAndTownName }
-				getLocationsByProductTypeNameAndTownName={ getLocationsByProductTypeNameAndTownName }
-				
-				searchDistrict={ searchDistrict }
-				getDistrictsByLocationTypeIdAndTownName={ getDistrictsByLocationTypeIdAndTownName }
-				getLocationsByDistrictIdAndLocationTypeId={ getLocationsByDistrictIdAndLocationTypeId }
+				getProducts={ getProducts }
+				getProductTypes={ getProductTypes }
+				getDistricts={ getDistricts }
 			/>
 			<h1>{ townName }/{ locationTypeName }</h1>
 			<DynamicComponentWithNoSSR 
-				town={ townProp }
+				townProp={ townProp }
+				townName={ townName }
+				searchFieldValue={ searchFieldValue }
 
 				locationTypes={ locationTypesProp }
 				locationTypeName={ locationTypeName }
-				locations={ searchedLocations.length ? searchedLocations : locations }
+				locations={ searchedLocations.length || savedSearch.length ? searchedLocations : locations }
+                locationType={ locationType }
+                getSearchedLocations={ getSearchedLocations }
 
-				searchLocation={ searchLocation }
-				setSearchLocationToFalse={ setSearchLocationToFalse }
+				locationSearch={ locationSearch }
+				setLocationSearchToFalse={ setLocationSearchToFalse }
 				
-				searchDistrict={ searchDistrict }
-				searchedDistrict={ searchedDistrict }
-				//savedSearchedDistrict={ savedSearchedDistrict.length ? savedSearchedDistrict : '' }
-				setSearchDistrictToFalse={ setSearchDistrictToFalse }
-				
-				specialities={ specialities }
+				districtSearch={ districtSearch }
+				searchedDistrictProp={ searchedDistrict }
+				setDistrictSearchToFalse={ setDistrictSearchToFalse }
+
+				productSearch={ productSearch }
+				searchedProduct={ searchedProduct }
+				setProductSearchToFalse={ setProductSearchToFalse }
+
+				productTypeSearch={ productTypeSearch }
+				searchedProductType={ searchedProductType }
+				setProductTypeSearchToFalse={ setProductTypeSearchToFalse }
+			
+				saveSearch={ saveSearch }
 			/>
 		</div>
 	);
