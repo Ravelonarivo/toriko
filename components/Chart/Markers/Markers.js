@@ -3,7 +3,7 @@ import SearchedProductTypeLocationMarkers from './LocationMarkers/SearchedItemMa
 import SearchedDistrictLocationMarker from './LocationMarkers/SearchedItemMarkers/SearchedDistrictLocationMarker';
 import LocationMarkers from './LocationMarkers/LocationMarkers';
 
-const Markers = ({ townName, getSearchedLocations, productSearch, searchedProduct, setProductSearchToFalse, productTypeSearch, searchedProductType, setProductTypeSearchToFalse, districtSearch, searchedDistrict, locations, locationType, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation, saveSearch }) => {		
+const Markers = ({ townName, getSearchedLocations, productSearch, searchedProduct, setProductSearchToFalse, productTypeSearch, searchedProductType, setProductTypeSearchToFalse, districtSearch, searchedDistrict, setDistrictSearchToFalse, getMapCenter, locations, locationType, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation, saveSearch }) => {		
 	return (
 		<div>
 			{
@@ -44,6 +44,8 @@ const Markers = ({ townName, getSearchedLocations, productSearch, searchedProduc
 				districtSearch
 					?	<SearchedDistrictLocationMarker
 							searchedDistrict={ searchedDistrict} 
+							setDistrictSearchToFalse={ setDistrictSearchToFalse } 
+							getMapCenter={ getMapCenter }
 							locationType={ locationType } 
 							getSearchedLocations={ getSearchedLocations }
 							saveSearch={ saveSearch }

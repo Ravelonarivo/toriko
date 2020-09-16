@@ -125,21 +125,6 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 	}, [locationSearch, locations]);
 
 	useEffect(() => {
-		/**
-		* Recenter the map at the searched district
-		* To avoid the bug: unmatched locations still display when the map is recentered on the searched district geolocation	
-		* wait 1000ms to let getLocationsByDistrictIdAndLocationTypeId get the locations before recenter the map
-		*/
-		if (districtSearch && searchedDistrictProp.length) {
-			setTimeout(() => {
-				const [searchedDistrict] = searchedDistrictProp;
-				setMapCenter([searchedDistrict.lat, searchedDistrict.long]);
-				setDistrictSearchToFalse();
-			}, 1000);
-		}
-	}, [districtSearch, searchedDistrictProp]);
-
-	useEffect(() => {
 		// If there is specialitesFilterState saved in the locolStorage, not collapse the LayersControl 
 		if (layerControlRef.current && localStorage.getItem('specialitiesFilterState')) {
 			layerControlRef.current.leafletElement.expand();
@@ -177,6 +162,10 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		setMapCenter(userLocation); 
 		setMapZoom(MAP.INIT_ZOOM);
 	}
+
+	const getMapCenter = (searchedDistrict) => {
+		setMapCenter([searchedDistrict.lat, searchedDistrict.long]);
+	};
 
 	const getDistanceBetweenLocationAndUserLocation = (location, userLocation) => {
 		const [latitude, longitude] = userLocation;
@@ -251,6 +240,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 					    				districtSearch={ districtSearch }
 					    				searchedDistrict={ searchedDistrictProp }
 					    				setDistrictSearchToFalse={ setDistrictSearchToFalse }
+					    				getMapCenter={ getMapCenter }
 					    				
 					    				locations={ locations }
 					    				locationType={ locationType }
