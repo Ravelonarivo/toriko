@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import useSWR from 'swr';
 import fetcher from '../../../../lib/fetcher';
 
-const ProductOptions = ({ locationType, townName, getProducts }) => {
+const ProductOptions = ({ searchFieldValue, locationType, townName, getProducts }) => {
 	useEffect(() => {
 		if (data) getProducts(data);
 	});
@@ -19,7 +19,7 @@ const ProductOptions = ({ locationType, townName, getProducts }) => {
 	return (
 		<div>
 			{
-				data
+				data && searchFieldValue
 					?	data.map((product, index) => (
 							<option value={ product.name } key={ index }>{ product.type }</option>
 						))

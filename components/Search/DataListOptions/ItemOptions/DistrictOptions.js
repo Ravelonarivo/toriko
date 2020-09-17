@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import useSWR from 'swr';
 import fetcher from '../../../../lib/fetcher';
 
-const DistrictOptions = ({ locationType, townName, getDistricts }) => {
+const DistrictOptions = ({ searchFieldValue, locationType, townName, getDistricts }) => {
 	
 	useEffect(() => {
 		if (data) getDistricts(data);
@@ -20,7 +20,7 @@ const DistrictOptions = ({ locationType, townName, getDistricts }) => {
 	return (
 		<div>
 			{
-				data
+				data && searchFieldValue
 					?	data.map((district, index) => (
 							<option value={ district.name } key={ index }>{ district.town }</option>
 						))

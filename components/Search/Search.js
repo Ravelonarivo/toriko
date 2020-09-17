@@ -30,16 +30,15 @@ const Search = ({ inputRef, resetSavedSearch, savedSearchedDistrict, locationTyp
 			/>
 			<datalist id="filteredLocations">
 				{
-					searchFieldValue
-						?	<DataListOptions 
-								locations={ locations }
-								locationType={ locationType }
-								townName={ townName }
-								getProducts={ getProducts }
-								getProductTypes={ getProductTypes }
-								getDistricts={ getDistricts }
-							/>
-						: 	''
+					<DataListOptions
+						searchFieldValue={searchFieldValue}
+						locations={locations}
+						locationType={locationType}
+						townName={townName}
+						getProducts={getProducts}
+						getProductTypes={getProductTypes}
+						getDistricts={getDistricts}
+					/>
 				}
 			</datalist>
 		</div>

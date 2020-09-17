@@ -3,21 +3,27 @@ import ProductTypeOptions from './ItemOptions/ProductTypeOptions';
 import LocationOptions from './ItemOptions/LocationOptions'; 
 import DistrictOptions from './ItemOptions/DistrictOptions';
 
-const DataListOptions = ({ locations, locationType, townName, getProducts, getProductTypes, getDistricts }) => {
+const DataListOptions = ({ searchFieldValue, locations, locationType, townName, getProducts, getProductTypes, getDistricts }) => {
 	return (
 		<div>
 			<ProductOptions	
+				searchFieldValue={ searchFieldValue }
 				locationType={locationType}
 				townName={townName}
 				getProducts={getProducts}
 			/>
-			<ProductTypeOptions	
+			<ProductTypeOptions
+				searchFieldValue={ searchFieldValue }	
 				locationType={locationType}
 				townName={townName}
 				getProductTypes={getProductTypes}
 			/>	
-			<LocationOptions locations={ locations } />
+			<LocationOptions
+				searchFieldValue={ searchFieldValue } 
+				locations={ locations } 
+			/>
 			<DistrictOptions 
+				searchFieldValue={ searchFieldValue }
 				locationType={locationType}
 				townName={townName}
 				getDistricts={getDistricts}

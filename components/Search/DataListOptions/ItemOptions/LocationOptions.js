@@ -1,10 +1,12 @@
-const LocationOptions = ({ locations }) => {
+const LocationOptions = ({ searchFieldValue, locations }) => {
 	return (
 		<div>
 			{
-				locations.map((location, index) => (
-					<option value={ location.name } key={ index }>{ location.type }</option>
-				))
+				searchFieldValue
+					?	locations.map((location, index) => (
+							<option value={ location.name } key={ index }>{ location.type }</option>
+						))
+					:   ''
 			}
 		</div>
 	);
