@@ -1,6 +1,22 @@
 import DataListOptions from './DataListOptions/DataListOptions';
 
 const Search = ({ inputRef, resetSavedSearch, savedSearchedDistrict, locationType, townName, locations, searchChange, searchFieldValue, getProducts, getProductTypes, getDistricts }) => {
+	const customizePlaceHolder = () => {
+		let placeholder = '';
+		if (locationType) {
+			switch(locationType.name) {
+				case 'restaurant': placeholder = 'Entrer plat, type plat, restaurant, zone'; break;
+				case 'fast-food': placeholder = 'Entrer plat, type plat, fast-food, zone'; break;
+				case 'traiteur': placeholder = 'Entrer plat, type plat, traiteur, zone'; break;
+				case 'hotel': placeholder = 'Entrer type chambre, hotel, zone'; break;
+			}
+		} else {
+			placeholder = 'Entrer plat, type plat, zone, restaurant, fast-food, ... ';
+		}
+
+		return placeholder;
+	};
+
 	return (
 		<div>
 			<input
@@ -10,7 +26,7 @@ const Search = ({ inputRef, resetSavedSearch, savedSearchedDistrict, locationTyp
 				list="filteredLocations"
 				onChange={ searchChange }
 				type="text" 
-				placeholder="tapez par ex: beef burger/hamburger/yum-yum/plateau"
+				placeholder={ customizePlaceHolder() }
 			/>
 			<datalist id="filteredLocations">
 				{
