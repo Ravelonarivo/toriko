@@ -20,7 +20,7 @@ const Search = ({ inputRef, resetSavedSearch, savedSearchedDistrict, locationTyp
 	return (
 		<div>
 			<input
-				onFocus={ resetSavedSearch }
+				onFocus={ () => resetSavedSearch('focus') }
 				ref={ inputRef }
 				style={{ width:'450px' }}
 				list="filteredLocations"

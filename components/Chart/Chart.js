@@ -12,7 +12,7 @@ import { MAP } from '../../lib/constants';
 import Markers from './Markers/Markers';
 import UserLocationMarker from './Markers/UserLocationMarker';
 
-const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTypeName, locations, locationType, getSearchedLocations, locationSearch, setLocationSearchToFalse, districtSearch, searchedDistrictProp, setDistrictSearchToFalse, productSearch, searchedProduct, setProductSearchToFalse, productTypeSearch, searchedProductType, setProductTypeSearchToFalse, saveSearch }) => {
+const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTypeName, locations, locationType, locationSearch, districtSearch, searchedDistrictProp, productSearch, searchedProduct, productTypeSearch, searchedProductType, saveSearch }) => {
 	const [userLocation, setUserLocation] = useState([]);
 	const [mapCenter, setMapCenter] = useState([]);
 	const [mapZoom, setMapZoom] = useState(MAP.INIT_ZOOM);
@@ -76,12 +76,10 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		if (locationSearch) {
 			const [savedLocation] = locations;
 			setMapCenter([savedLocation.lat, savedLocation.long]);
-			setLocationSearchToFalse();
 		// Test if there is a saved district search. If there is, districtSearch is true 
 		} else if (districtSearch) {
 			const [savedSearchedDistrict] = searchedDistrictProp;
 			setMapCenter([savedSearchedDistrict.lat, savedSearchedDistrict.long]);
-			setDistrictSearchToFalse();
 		// If there is no saved search or the saved search is not about a location or a district 
 		} else {	
 			setMapCenter([town.latitude, town.longitude]);
@@ -115,14 +113,16 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		if (locationSearch && locations.length) {
 			const [location] = locations;
 			setMapCenter([location.lat, location.long]);
-			/**
-			* To avoid infinite loop, the previous locationSearch value must be different to the current value 
-			* that's why locationSearch must be set to false after the mapCenter updated with the 
-			* lat and long of the searched location 
-			*/
-			setLocationSearchToFalse();
 		}
 	}, [locationSearch, locations]);
+
+	useEffect(() => {
+		// Recenter the map at the searched district
+		if (districtSearch && searchedDistrictProp.length) {
+			const [searchedDistrict] = searchedDistrictProp;
+			setMapCenter([searchedDistrict.lat, searchedDistrict.long]);
+		}
+	}, [districtSearch, searchedDistrictProp]);
 
 	useEffect(() => {
 		// If there is specialitesFilterState saved in the locolStorage, not collapse the LayersControl 
@@ -226,22 +226,19 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 					    			onAdd={ saveSpecialitiesFilterState }
 					    		>
 					    			<Markers
+					    				searchFieldValue={ searchFieldValue }
 					    				townName={ townName }
-					    				getSearchedLocations={ getSearchedLocations }
 
 					    				productSearch={ productSearch}
 					    				searchedProduct={ searchedProduct }
-					    				setProductSearchToFalse={ setProductSearchToFalse }
 					    				
 					    				productTypeSearch={ productTypeSearch }
-					    				searchedProductType={ searchedProductType }
-					    				setProductTypeSearchToFalse={ setProductTypeSearchToFalse }		
+					    				searchedProductType={ searchedProductType }		
 					    				
 					    				districtSearch={ districtSearch }
 					    				searchedDistrict={ searchedDistrictProp }
-					    				setDistrictSearchToFalse={ setDistrictSearchToFalse }
-					    				getMapCenter={ getMapCenter }
 					    				
+					    				locationSearch={ locationSearch }
 					    				locations={ locations }
 					    				locationType={ locationType }
 					    				speciality={ speciality }

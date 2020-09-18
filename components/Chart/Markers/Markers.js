@@ -3,71 +3,73 @@ import SearchedProductTypeLocationMarkers from './LocationMarkers/SearchedItemMa
 import SearchedDistrictLocationMarker from './LocationMarkers/SearchedItemMarkers/SearchedDistrictLocationMarker';
 import LocationMarkers from './LocationMarkers/LocationMarkers';
 
-const Markers = ({ townName, getSearchedLocations, productSearch, searchedProduct, setProductSearchToFalse, productTypeSearch, searchedProductType, setProductTypeSearchToFalse, districtSearch, searchedDistrict, setDistrictSearchToFalse, getMapCenter, locations, locationType, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation, saveSearch }) => {		
+const Markers = ({ searchFieldValue, townName, productSearch, searchedProduct, productTypeSearch, searchedProductType, districtSearch, searchedDistrict, locationSearch, locations, locationType, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation, saveSearch }) => {		
 	return (
 		<div>
 			{
 				productSearch 
-					? 	<SearchedProductLocationMarkers
+					? 	<div>{ console.log('SearchedProductLocationMarkers') }<SearchedProductLocationMarkers
 							searchedProduct={ searchedProduct }
 							townName={ townName }
-							getSearchedLocations={ getSearchedLocations }
 							saveSearch={ saveSearch }
-							setProductSearchToFalse={ setProductSearchToFalse }
-							locations={ locations }
 							speciality={ speciality }
 							markerIcons={ markerIcons }
 							isGeolocationEnable={ isGeolocationEnable }
 							getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }
 							userLocation={ userLocation }
-						/>
+						/></div>
 					:   ''
 			}
 			{
 				productTypeSearch
-					?   <SearchedProductTypeLocationMarkers	
+					?   <div>{ console.log('SearchedProductTypeLocationMarkers') }<SearchedProductTypeLocationMarkers	
 							searchedProductType={ searchedProductType }
 							townName={ townName }
-							getSearchedLocations={ getSearchedLocations }
 							saveSearch={ saveSearch }
-							setProductTypeSearchToFalse={ setProductTypeSearchToFalse }
-							locations={ locations }
 							speciality={ speciality }
 							markerIcons={ markerIcons }
 							isGeolocationEnable={ isGeolocationEnable }
 							getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }
 							userLocation={ userLocation }
-						/>	
+						/></div>	
 					: 	''
 			}
 			{
 				districtSearch
-					?	<SearchedDistrictLocationMarker
+					?	<div>{ console.log('SearchedDistrictLocationMarkers') }<SearchedDistrictLocationMarker
 							searchedDistrict={ searchedDistrict} 
-							setDistrictSearchToFalse={ setDistrictSearchToFalse } 
-							getMapCenter={ getMapCenter }
 							locationType={ locationType } 
-							getSearchedLocations={ getSearchedLocations }
 							saveSearch={ saveSearch }
-							locations={ locations }
 							speciality={ speciality }
 						    markerIcons={ markerIcons }
 						    isGeolocationEnable={ isGeolocationEnable } 
 						    getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }
 						    userLocation={ userLocation }	
-						/>
+						/></div>
 					: 	''
 			}
 			{
-				!productSearch && !productTypeSearch && !districtSearch
-					? 	<LocationMarkers
+				locationSearch
+					? 	<div>{ console.log('SearchedLocationMarkers') }<LocationMarkers
 							locations={ locations }
 							speciality={speciality}
 							markerIcons={markerIcons}
 							isGeolocationEnable={isGeolocationEnable}
 							getDistanceBetweenLocationAndUserLocation={getDistanceBetweenLocationAndUserLocation}
 							userLocation={userLocation}
-						/>
+						/></div>
+					: 	''
+			}
+			{
+				!searchFieldValue && !productSearch && !productTypeSearch && !locationSearch && !districtSearch
+					? 	<div>{ console.log('LocationMarkers') }<LocationMarkers
+							locations={ locations }
+							speciality={speciality}
+							markerIcons={markerIcons}
+							isGeolocationEnable={isGeolocationEnable}
+							getDistanceBetweenLocationAndUserLocation={getDistanceBetweenLocationAndUserLocation}
+							userLocation={userLocation}
+						/></div>
 					: 	''		
 			}
 		</div>

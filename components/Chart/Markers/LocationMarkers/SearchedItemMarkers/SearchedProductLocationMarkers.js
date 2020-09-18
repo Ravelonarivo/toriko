@@ -3,13 +3,9 @@ import useSWR from 'swr';
 import fetcher from '../../../../../lib/fetcher';
 import LocationMarkers from '../LocationMarkers';
 
-const SearchedProductLocationMarkers = ({ searchedProduct, townName, getSearchedLocations, saveSearch, setProductSearchToFalse, locations, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
+const SearchedProductLocationMarkers = ({ searchedProduct, townName, saveSearch, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
 	useEffect(() => {
-		if (data) {
-			getSearchedLocations(data);
-			saveSearch(data, 'product');
-			setProductSearchToFalse(false);
-		}
+		if (data) saveSearch(data, 'product', [product]);
 	});	
 
 	const [product] = searchedProduct;
@@ -19,7 +15,7 @@ const SearchedProductLocationMarkers = ({ searchedProduct, townName, getSearched
 	return (
 		<div>
 			<LocationMarkers
-				locations={ locations }
+				locations={ data ? data : '' }
 				speciality={ speciality }
 				markerIcons={ markerIcons }
 				isGeolocationEnable={ isGeolocationEnable }

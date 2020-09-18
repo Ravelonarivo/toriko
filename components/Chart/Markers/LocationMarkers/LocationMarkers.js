@@ -4,18 +4,21 @@ const LocationMarkers = ({ locations, speciality, markerIcons, isGeolocationEnab
 	return (
 		<div>
 			{
-				locations.map((location, index) => 
-					location.speciality_id === speciality.id
-						? 	<LocationMarker
-								key={ index }
-								markerIcons={ markerIcons } 
-								location={ location }
-								isGeolocationEnable={ isGeolocationEnable }
-								getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }
-								userLocation={ userLocation }
-							/> 	
-						: 	''
-				)	
+				locations.length 
+					?
+						locations.map((location, index) => 
+							location.speciality_id === speciality.id
+								? 	<LocationMarker
+										key={ index }
+										markerIcons={ markerIcons } 
+										location={ location }
+										isGeolocationEnable={ isGeolocationEnable }
+										getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }
+										userLocation={ userLocation }
+									/> 	
+								: 	''
+						)
+					: ''	
 			}
 		</div>	
 	);

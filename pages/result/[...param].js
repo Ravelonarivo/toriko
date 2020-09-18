@@ -43,6 +43,8 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 	const [savedSearch, setSavedSearch] = useState([]);
 	const [savedSearchedDistrict, setSavedSearchedDistrict] = useState([]);
+	const [savedSearchedProduct, setSavedSearchedProduct] = useState([]);
+	const [savedSearchedProductType, setSavedSearchedProductType] = useState([]);
 	
 
 	useEffect(() => {
@@ -53,11 +55,17 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		if (savedSearchFieldValue && parsedSavedSearch && parsedSavedSearch.townName === townName && parsedSavedSearch.locationTypeName === locationTypeName) {
 			// Search Component input ref 
 			inputRef.current.value = savedSearchFieldValue;
-			setSavedSearch(parsedSavedSearch.locations);
-			if (parsedSavedSearch.type === 'location') {
+			if (parsedSavedSearch.type === 'product') {
+				setSavedSearchedProduct(parsedSavedSearch.searchedItem);
+				setProductSearch(true);
+			} else if (parsedSavedSearch.type === 'productType') {
+				setSavedSearchedProductType(parsedSavedSearch.searchedItem);
+				setProductTypeSearch(true);
+			} else if (parsedSavedSearch.type === 'location') {
+				setSavedSearch(parsedSavedSearch.locations);
 				setLocationSearch(true);
 			} else if (parsedSavedSearch.type === 'district') {
-				setSavedSearchedDistrict(parsedSavedSearch.searchedDistrict);
+				setSavedSearchedDistrict(parsedSavedSearch.searchedItem);
 				setDistrictSearch(true);
 			}		
 		} else {
@@ -67,11 +75,20 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 	useEffect(() => getSearchedItem(), [searchFieldValue]);
 	useEffect(() => setSearchedLocations(savedSearch), [savedSearch]);
-	useEffect(() => setSearchedDistrict(savedSearchedDistrict), [savedSearchedDistrict])
+	useEffect(() => setSearchedDistrict(savedSearchedDistrict), [savedSearchedDistrict]);
+	useEffect(() => setSearchedProduct(savedSearchedProduct), [savedSearchedProduct]);
+	useEffect(() => setSearchedProductType(savedSearchedProductType), [savedSearchedProductType]);
 
 	// Change the value of searchFieldValue state when the user tapes words on the Search component
 	const searchChange = event => {
 		setSearchFieldValue(event.target.value.toLowerCase());
+
+		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
+		const savedSearch = localStorage.getItem('savedSearch');
+
+		if (savedSearchFieldValue && savedSearch) {
+			resetSavedSearch();
+		}
 	};
 	
 	const getLocationType = () => {
@@ -91,36 +108,56 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		setDistricts(districts);
 	};
 
-	const getSearchedLocations = locations => {
-		setSearchedLocations(locations);
-	}
-
 	// Save ssearch field value in the localSorage
 	const saveSearchFieldValue = () => {
 		localStorage.setItem('savedSearchFieldValue', searchFieldValue);
 	};
 
 	// Save all data about search in the localStorage
-	const saveSearch = (searchedLocations, type, searchedDistrict = []) => {
+	const saveSearch = (searchedLocations, type, searchedItem) => {
 		localStorage.setItem('savedSearch', JSON.stringify({ 
 			locations: searchedLocations,
 			type, 
-			searchedDistrict,
+			searchedItem,
 			townName,
 			locationTypeName
 		}));
 	}
 
 	// Reset all data about search from the localStorage
-	const resetSavedSearch = () => {
+	const resetSavedSearch = (action=null) => {
+		
+		if (action === 'focus') {
+			inputRef.current.value = '';
+        	setSearchFieldValue(null);
+		}
+
 		localStorage.removeItem('savedSearchFieldValue');
 		localStorage.removeItem('savedSearch');
-		inputRef.current.value = '';
-        setSearchFieldValue(null);
         setSavedSearch([]);
         if (savedSearchedDistrict.length) {
         	setSavedSearchedDistrict([]);
         	setSearchedDistrict([]);
+        }
+
+        if (productSearch) {
+        	setProductSearch(false);
+        }
+
+        if (productTypeSearch) {
+        	setProductTypeSearch(false);
+        }
+
+        if (locationSearch) {
+        	setLocationSearch(false);
+        }
+
+        if (districtSearch) {
+        	setDistrictSearch(false);
+        }
+
+         if (locationSearch) {
+        	setLocationSearch(false);
         }
 	}
 	
@@ -137,49 +174,34 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		* For the backoffice remember to add an uniq name per location    
 		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
 		*/
-		setSearchedLocations(searchedLocations);
 		if (searchedLocations.length) {
+			setSearchedLocations(searchedLocations);
 			setLocationSearch(true);
 			saveSearchFieldValue();
 			saveSearch(searchedLocations, 'location');
-		} else {
-			const searchedProduct = products.filter(product => product.name === searchFieldValue);
-			if (searchedProduct.length) {
-				setSearchedProduct(searchedProduct);
-				setProductSearch(true);
-				saveSearchFieldValue();
-			}
-			
-			const searchedProductType = productTypes.filter(productType => productType.name === searchFieldValue);
-			if (searchedProductType.length) {
-				setSearchedProductType(searchedProductType);
-				setProductTypeSearch(true);
-				saveSearchFieldValue();
-			}
+		} 
 
-			const searchedDistrict = districts.filter(district => district.name === searchFieldValue);
-			if (searchedDistrict.length) {
-				setSearchedDistrict(searchedDistrict)
-				setDistrictSearch(true);
-				saveSearchFieldValue();
-			}
+		const searchedProduct = products.filter(product => product.name === searchFieldValue);
+		if (searchedProduct.length) {
+			setSearchedProduct(searchedProduct);
+			setProductSearch(true);
+			saveSearchFieldValue();
 		}
-	};
 
-	const setLocationSearchToFalse = () => {
-		setLocationSearch(false);
-	};
+		const searchedProductType = productTypes.filter(productType => productType.name === searchFieldValue);
+		if (searchedProductType.length) {
+			setSearchedProductType(searchedProductType);
+			setProductTypeSearch(true);
+			saveSearchFieldValue();
+		}
 
-	const setDistrictSearchToFalse = () => {
-		setDistrictSearch(false);
-	};
-
-	const setProductSearchToFalse = () => {
-		setProductSearch(false);
-	};
-
-	const setProductTypeSearchToFalse = () => {
-		setProductTypeSearch(false);
+		const searchedDistrict = districts.filter(district => district.name === searchFieldValue);
+		if (searchedDistrict.length) {
+			setSearchedDistrict(searchedDistrict)
+			setDistrictSearch(true);
+			saveSearchFieldValue();
+		}
+		
 	};
 
 	return (
@@ -222,22 +244,17 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				locationTypeName={ locationTypeName }
 				locations={ searchedLocations.length || savedSearch.length ? searchedLocations : locations }
                 locationType={ locationType }
-                getSearchedLocations={ getSearchedLocations }
 
 				locationSearch={ locationSearch }
-				setLocationSearchToFalse={ setLocationSearchToFalse }
 				
 				districtSearch={ districtSearch }
 				searchedDistrictProp={ searchedDistrict }
-				setDistrictSearchToFalse={ setDistrictSearchToFalse }
 
 				productSearch={ productSearch }
 				searchedProduct={ searchedProduct }
-				setProductSearchToFalse={ setProductSearchToFalse }
 
 				productTypeSearch={ productTypeSearch }
 				searchedProductType={ searchedProductType }
-				setProductTypeSearchToFalse={ setProductTypeSearchToFalse }
 			
 				saveSearch={ saveSearch }
 			/>

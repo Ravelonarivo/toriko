@@ -3,15 +3,9 @@ import useSWR from 'swr';
 import fetcher from '../../../../../lib/fetcher';
 import LocationMarkers from '../LocationMarkers';
 
-const SearchedDistrictLocationMarker = ({ searchedDistrict, setDistrictSearchToFalse, getMapCenter, locationType, getSearchedLocations, saveSearch, locations, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
+const SearchedDistrictLocationMarker = ({ searchedDistrict, locationType, saveSearch, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
 	useEffect(() => {
-		if (data && district) {
-			getSearchedLocations(data);
-			saveSearch(data, 'district', [district]);
-			// Recenter the map at the searched district
-			getMapCenter(district);
-			setDistrictSearchToFalse(false);
-		}
+		if (data && district) saveSearch(data, 'district', [district]);
 	});
 		
 	const [district] = searchedDistrict;
@@ -23,7 +17,7 @@ const SearchedDistrictLocationMarker = ({ searchedDistrict, setDistrictSearchToF
 	return (
 		<div>
 			<LocationMarkers
-				locations={ locations }
+				locations={ data ? data : '' }
 				speciality={ speciality }
 				markerIcons={ markerIcons }
 				isGeolocationEnable={ isGeolocationEnable }
