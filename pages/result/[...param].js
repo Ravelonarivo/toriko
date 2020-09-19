@@ -142,8 +142,8 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 		localStorage.removeItem('savedSearchFieldValue');
 		localStorage.removeItem('savedSearch');
-		setSavedSearchedLocations([]);
 		setSearchedLocations([]);  
+		if (savedSearchedLocations.length) setSavedSearchedLocations([]);
         if (productSearch) {
         	setSearchedProduct([]);
         	setProductSearch(false);
