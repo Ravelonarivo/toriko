@@ -10,6 +10,7 @@ import { MAP } from '../../lib/constants';
 
 import ChartLayersControl from './ChartLayersControl/ChartLayersControl';
 import UserLocationMarker from './Markers/UserLocationMarker';
+import Legend from './Legend/Legend';
 
 const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTypeName, locations, locationType, getSearchedLocations, locationSearch, searchedLocationProp, districtSearch, searchedDistrictProp, productSearch, searchedProduct, productTypeSearch, searchedProductType, saveSearch }) => {
 	const [userLocation, setUserLocation] = useState([]);
@@ -219,6 +220,16 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 
 		return isChecked;
 	}
+
+	const getLegendItemColor = locationTypeName => {
+		return locationTypeName === 'restaurant'
+			? MAP.LEGEND_ICON_COLOR[locationTypeName]
+			: locationTypeName === 'fast-food'
+			? MAP.LEGEND_ICON_COLOR[locationTypeName]
+			: locationTypeName === 'traiteur'
+			? MAP.LEGEND_ICON_COLOR[locationTypeName]
+			: MAP.LEGEND_ICON_COLOR[locationTypeName];
+	}
 	
 	return ( 
 		<div>
@@ -267,6 +278,11 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 					geolocIcon={ geolocIcon }
 					userLocation={ userLocation }
 					getCurrentLocation={ getCurrentLocation }
+				/>
+
+				<Legend 
+					locationTypes={ locationTypes }
+					getLegendItemColor={ getLegendItemColor }
 				/>
 	  		</Map>
 		</div>	
