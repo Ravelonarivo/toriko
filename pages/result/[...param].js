@@ -27,11 +27,13 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	const [searchFieldValue, setSearchFieldValue] = useState('');
 
 	const [locations] = useState(locationsProp);
+	const [searchedLocations, setSearchedLocations] = useState([]);
+
 	const [products, setProducts] = useState([]);
 	const [productTypes, setProductTypes] = useState([]);
 	const [districts, setDistricts] = useState([]);
 
-	const [searchedLocations, setSearchedLocations] = useState([]);
+	const [searchedLocation, setSearchedLocation] = useState([]);
 	const [searchedProduct, setSearchedProduct] = useState([]);
 	const [searchedProductType, setSearchedProductType] = useState([]);
 	const [searchedDistrict, setSearchedDistrict] = useState([]);
@@ -41,7 +43,8 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	const [productTypeSearch, setProductTypeSearch] = useState(false); 
 	const [districtSearch, setDistrictSearch] = useState(false);
 
-	const [savedSearch, setSavedSearch] = useState([]);
+	const [savedSearchedLocations, setSavedSearchedLocations] = useState([]);
+	const [savedSearchedLocation, setSavedSearchedLocation] = useState([]);
 	const [savedSearchedDistrict, setSavedSearchedDistrict] = useState([]);
 	const [savedSearchedProduct, setSavedSearchedProduct] = useState([]);
 	const [savedSearchedProductType, setSavedSearchedProductType] = useState([]);
@@ -49,12 +52,12 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 	useEffect(() => {
 		getLocationType();
-
 		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
 		const parsedSavedSearch = JSON.parse(localStorage.getItem('savedSearch'));
 		if (savedSearchFieldValue && parsedSavedSearch && parsedSavedSearch.townName === townName && parsedSavedSearch.locationTypeName === locationTypeName) {
 			// Search Component input ref 
 			inputRef.current.value = savedSearchFieldValue;
+			setSavedSearchedLocations(parsedSavedSearch.searchedLocations);
 			if (parsedSavedSearch.type === 'product') {
 				setSavedSearchedProduct(parsedSavedSearch.searchedItem);
 				setProductSearch(true);
@@ -62,7 +65,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				setSavedSearchedProductType(parsedSavedSearch.searchedItem);
 				setProductTypeSearch(true);
 			} else if (parsedSavedSearch.type === 'location') {
-				setSavedSearch(parsedSavedSearch.locations);
+				setSavedSearchedLocation(parsedSavedSearch.searchedItem);
 				setLocationSearch(true);
 			} else if (parsedSavedSearch.type === 'district') {
 				setSavedSearchedDistrict(parsedSavedSearch.searchedItem);
@@ -74,7 +77,8 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	}, []);
 
 	useEffect(() => getSearchedItem(), [searchFieldValue]);
-	useEffect(() => setSearchedLocations(savedSearch), [savedSearch]);
+	useEffect(() => setSearchedLocations(savedSearchedLocations), [savedSearchedLocations]);
+	useEffect(() => setSearchedLocation(savedSearchedLocation), [savedSearchedLocation]);
 	useEffect(() => setSearchedDistrict(savedSearchedDistrict), [savedSearchedDistrict]);
 	useEffect(() => setSearchedProduct(savedSearchedProduct), [savedSearchedProduct]);
 	useEffect(() => setSearchedProductType(savedSearchedProductType), [savedSearchedProductType]);
@@ -108,17 +112,21 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		setDistricts(districts);
 	};
 
+	const getSearchedLocations = locations => {
+		setSearchedLocations(locations)
+	};
+
 	// Save ssearch field value in the localSorage
 	const saveSearchFieldValue = () => {
 		localStorage.setItem('savedSearchFieldValue', searchFieldValue);
 	};
 
 	// Save all data about search in the localStorage
-	const saveSearch = (searchedLocations, type, searchedItem) => {
+	const saveSearch = (searchedLocations, type, searchedItem=[]) => {
 		localStorage.setItem('savedSearch', JSON.stringify({ 
-			locations: searchedLocations,
+			searchedLocations,
+			searchedItem: searchedItem.length ? searchedItem : searchedLocations,
 			type, 
-			searchedItem,
 			townName,
 			locationTypeName
 		}));
@@ -134,74 +142,68 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 		localStorage.removeItem('savedSearchFieldValue');
 		localStorage.removeItem('savedSearch');
-        setSavedSearch([]);
-        if (savedSearchedDistrict.length) {
-        	setSavedSearchedDistrict([]);
-        	setSearchedDistrict([]);
-        }
-
+		setSavedSearchedLocations([]);
+		setSearchedLocations([]);  
         if (productSearch) {
+        	setSearchedProduct([]);
         	setProductSearch(false);
-        }
-
-        if (productTypeSearch) {
+        	if (savedSearchedProduct.length) setSavedSearchedProduct([]);
+        } else if (productTypeSearch) {
+        	setSearchedProductType([]);
         	setProductTypeSearch(false);
-        }
-
-        if (locationSearch) {
+        	if (savedSearchedProductType.length) setSavedSearchedProductType([]); 
+        } else if (locationSearch) {
+        	setSearchedLocation([]);
         	setLocationSearch(false);
-        }
-
-        if (districtSearch) {
+        	if (savedSearchedLocation.length) setSavedSearchedLocation([]);
+        } else if (districtSearch) {
+        	setSearchedDistrict([]);
         	setDistrictSearch(false);
-        }
-
-         if (locationSearch) {
-        	setLocationSearch(false);
-        }
+        	if (savedSearchedDistrict.length) setSavedSearchedDistrict([]); 
+        } 
 	}
 	
 	// Get the item (location, product, productType) searched by the user
 	const getSearchedItem = () => {
-		/**
-		* If searchedLocations = [] all locations are displayed 
-		* locations={ searchedLocations.length ? searchedLocations : locations } inside the
-		* DynamicComponentWithNoSSR component below 
-		*/
-		const searchedLocations = locations.filter(location =>  location.name === searchFieldValue);
-		/**                                                                   
-		* searchedLocations should be an array with only one location.         
-		* For the backoffice remember to add an uniq name per location    
-		* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
-		*/
-		if (searchedLocations.length) {
-			setSearchedLocations(searchedLocations);
-			setLocationSearch(true);
-			saveSearchFieldValue();
-			saveSearch(searchedLocations, 'location');
-		} 
+		if (searchFieldValue) {
+			/**
+			* If searchedLocations = [] all locations are displayed 
+			* locations={ searchedLocations.length ? searchedLocations : locations } inside the
+			* DynamicComponentWithNoSSR component below 
+			*/
+			const searchedLocation = locations.filter(location =>  location.name === searchFieldValue);
+			/**                                                                   
+			* searchedLocations should be an array with only one location.         
+			* For the backoffice remember to add an uniq name per location    
+			* e.g Yum-Yum - Mariste, Yum-Yum - Plateau instead of Yum-Yum, Yum-Yum  
+			*/
+			if (searchedLocation.length) {
+				setSearchedLocation(searchedLocation);
+				setLocationSearch(true);
+				saveSearchFieldValue();
+			} 
 
-		const searchedProduct = products.filter(product => product.name === searchFieldValue);
-		if (searchedProduct.length) {
-			setSearchedProduct(searchedProduct);
-			setProductSearch(true);
-			saveSearchFieldValue();
-		}
+			const searchedProduct = products.filter(product => product.name === searchFieldValue);
+			if (searchedProduct.length) {
+				setSearchedProduct(searchedProduct);
+				setProductSearch(true);
+				saveSearchFieldValue();
+			}
 
-		const searchedProductType = productTypes.filter(productType => productType.name === searchFieldValue);
-		if (searchedProductType.length) {
-			setSearchedProductType(searchedProductType);
-			setProductTypeSearch(true);
-			saveSearchFieldValue();
-		}
+			const searchedProductType = productTypes.filter(productType => productType.name === searchFieldValue);
+			if (searchedProductType.length) {
+				setSearchedProductType(searchedProductType);
+				setProductTypeSearch(true);
+				saveSearchFieldValue();
+			}
 
-		const searchedDistrict = districts.filter(district => district.name === searchFieldValue);
-		if (searchedDistrict.length) {
-			setSearchedDistrict(searchedDistrict)
-			setDistrictSearch(true);
-			saveSearchFieldValue();
-		}
-		
+			const searchedDistrict = districts.filter(district => district.name === searchFieldValue);
+			if (searchedDistrict.length) {
+				setSearchedDistrict(searchedDistrict)
+				setDistrictSearch(true);
+				saveSearchFieldValue();
+			}
+		}	
 	};
 
 	return (
@@ -229,7 +231,6 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				searchChange={ searchChange } 
 				searchFieldValue={ searchFieldValue }
 
-				
 				getProducts={ getProducts }
 				getProductTypes={ getProductTypes }
 				getDistricts={ getDistricts }
@@ -242,10 +243,12 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 
 				locationTypes={ locationTypesProp }
 				locationTypeName={ locationTypeName }
-				locations={ searchedLocations.length || savedSearch.length ? searchedLocations : locations }
+				locations={ searchedLocations.length ? searchedLocations : locations }
                 locationType={ locationType }
+                getSearchedLocations={ getSearchedLocations }
 
 				locationSearch={ locationSearch }
+				searchedLocationProp={ searchedLocation }
 				
 				districtSearch={ districtSearch }
 				searchedDistrictProp={ searchedDistrict }

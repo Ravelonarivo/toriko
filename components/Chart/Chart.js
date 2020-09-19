@@ -12,7 +12,7 @@ import { MAP } from '../../lib/constants';
 import Markers from './Markers/Markers';
 import UserLocationMarker from './Markers/UserLocationMarker';
 
-const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTypeName, locations, locationType, locationSearch, districtSearch, searchedDistrictProp, productSearch, searchedProduct, productTypeSearch, searchedProductType, saveSearch }) => {
+const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTypeName, locations, locationType, getSearchedLocations, locationSearch, searchedLocationProp, districtSearch, searchedDistrictProp, productSearch, searchedProduct, productTypeSearch, searchedProductType, saveSearch }) => {
 	const [userLocation, setUserLocation] = useState([]);
 	const [mapCenter, setMapCenter] = useState([]);
 	const [mapZoom, setMapZoom] = useState(MAP.INIT_ZOOM);
@@ -74,7 +74,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		
 		// Test if there is a saved location search. If there is, locationSearch is true 
 		if (locationSearch) {
-			const [savedLocation] = locations;
+			const [savedLocation] = searchedLocationProp;
 			setMapCenter([savedLocation.lat, savedLocation.long]);
 		// Test if there is a saved district search. If there is, districtSearch is true 
 		} else if (districtSearch) {
@@ -110,19 +110,37 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 
 	useEffect(() => {
 		// If there is a location search, recenter the map at the searched location
-		if (locationSearch && locations.length) {
-			const [location] = locations;
-			setMapCenter([location.lat, location.long]);
+		if (locationSearch && searchedLocationProp.length) {
+			const [searchedLocation] = searchedLocationProp;
+			setMapCenter([searchedLocation.lat, searchedLocation.long]);
+			setMapZoom(MAP.INIT_ZOOM);
 		}
-	}, [locationSearch, locations]);
+	}, [locationSearch, searchedLocationProp]);
 
 	useEffect(() => {
 		// Recenter the map at the searched district
 		if (districtSearch && searchedDistrictProp.length) {
 			const [searchedDistrict] = searchedDistrictProp;
 			setMapCenter([searchedDistrict.lat, searchedDistrict.long]);
+			setMapZoom(MAP.INIT_ZOOM);
 		}
 	}, [districtSearch, searchedDistrictProp]);
+
+	useEffect(() => {
+		const [town] = townProp;
+		if (productSearch && searchedProduct) {
+			setMapCenter([town.latitude, town.longitude]);
+			setMapZoom(MAP.INIT_ZOOM);
+		}
+	}, [productSearch, searchedProduct]);
+
+	useEffect(() => {
+		const [town] = townProp;
+		if (productTypeSearch && searchedProductType) {
+			setMapCenter([town.latitude, town.longitude]);
+			setMapZoom(MAP.INIT_ZOOM);
+		}
+	}, [productTypeSearch, searchedProductType]);
 
 	useEffect(() => {
 		// If there is specialitesFilterState saved in the locolStorage, not collapse the LayersControl 
@@ -162,10 +180,6 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		setMapCenter(userLocation); 
 		setMapZoom(MAP.INIT_ZOOM);
 	}
-
-	const getMapCenter = (searchedDistrict) => {
-		setMapCenter([searchedDistrict.lat, searchedDistrict.long]);
-	};
 
 	const getDistanceBetweenLocationAndUserLocation = (location, userLocation) => {
 		const [latitude, longitude] = userLocation;
@@ -239,8 +253,11 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 					    				searchedDistrict={ searchedDistrictProp }
 					    				
 					    				locationSearch={ locationSearch }
+					    				searchedLocation={ searchedLocationProp }
 					    				locations={ locations }
 					    				locationType={ locationType }
+					    				getSearchedLocations={ getSearchedLocations }
+
 					    				speciality={ speciality }
 					    				markerIcons={ markerIcons }
 					    				isGeolocationEnable={ isGeolocationEnable }

@@ -3,9 +3,12 @@ import useSWR from 'swr';
 import fetcher from '../../../../../lib/fetcher';
 import LocationMarkers from '../LocationMarkers';
 
-const SearchedProductLocationMarkers = ({ searchedProduct, townName, saveSearch, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
+const SearchedProductLocationMarkers = ({ searchedProduct, townName, saveSearch, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, getSearchedLocations, userLocation }) => {
 	useEffect(() => {
-		if (data) saveSearch(data, 'product', [product]);
+		if (data && product) {
+			getSearchedLocations(data);
+			saveSearch(data, 'product', searchedProduct);
+		}
 	});	
 
 	const [product] = searchedProduct;
