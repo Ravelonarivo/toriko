@@ -75,6 +75,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	}, []);
 
 	useEffect(() => getSearchedItem(), [searchFieldValue]);
+
 	useEffect(() => setSearchedLocations(savedSearchedLocations), [savedSearchedLocations]);
 	useEffect(() => setSearchedLocation(savedSearchedLocation), [savedSearchedLocation]);
 	useEffect(() => setSearchedDistrict(savedSearchedDistrict), [savedSearchedDistrict]);
@@ -85,9 +86,9 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	const searchChange = event => {
 		setSearchFieldValue(event.target.value.toLowerCase());
 
+		// Reset saved search when the user does a new search
 		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
 		const savedSearch = localStorage.getItem('savedSearch');
-
 		if (savedSearchFieldValue && savedSearch) {
 			resetSavedSearch();
 		}
@@ -114,7 +115,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		setSearchedLocations(locations)
 	};
 
-	// Save ssearch field value in the localSorage
+	// Save search field value in the localSorage
 	const saveSearchFieldValue = () => {
 		localStorage.setItem('savedSearchFieldValue', searchFieldValue);
 	};
@@ -122,7 +123,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	// Save all data about search in the localStorage
 	const saveSearch = (searchedLocations, type, searchedItem=[]) => {
 		localStorage.setItem('savedSearch', JSON.stringify({ 
-			searchedLocations,
+			searchedLocations, //The locations that contain the searched item
 			searchedItem: searchedItem.length ? searchedItem : searchedLocations,
 			type, 
 			townName,
@@ -161,7 +162,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
         } 
 	}
 	
-	// Get the item (location, product, productType) searched by the user
+	// Get the item (location, product, productType, district) searched by the user
 	const getSearchedItem = () => {
 		if (searchFieldValue) {
 			/**

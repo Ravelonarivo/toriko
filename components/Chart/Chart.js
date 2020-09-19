@@ -66,7 +66,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		timestamp,
 		accuracy,
 		error,
-	} = usePosition(watch, {enableHighAccuracy: true}); 
+	} = usePosition(watch, { enableHighAccuracy: true }); 
 
 	useEffect(() => {
 		const [town] = townProp;
@@ -117,7 +117,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 	}, [locationSearch, searchedLocationProp]);
 
 	useEffect(() => {
-		// Recenter the map at the searched district
+		// If there is a district search, recenter the map at the searched district
 		if (districtSearch && searchedDistrictProp.length) {
 			const [searchedDistrict] = searchedDistrictProp;
 			setMapCenter([searchedDistrict.lat, searchedDistrict.long]);
@@ -126,6 +126,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 	}, [districtSearch, searchedDistrictProp]);
 
 	useEffect(() => {
+		// If there is a product search, recenter the map at the town 
 		const [town] = townProp;
 		if (productSearch && searchedProduct) {
 			setMapCenter([town.latitude, town.longitude]);
@@ -134,6 +135,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 	}, [productSearch, searchedProduct]);
 
 	useEffect(() => {
+		// If there is a productType search, recenter the map at the town 
 		const [town] = townProp;
 		if (productTypeSearch && searchedProductType) {
 			setMapCenter([town.latitude, town.longitude]);
