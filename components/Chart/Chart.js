@@ -1,5 +1,4 @@
 import { Map } from 'react-leaflet-universal';
-import { TileLayer, Marker, LayersControl, LayerGroup } from 'react-leaflet';
 import { usePosition } from 'use-position';
 import { icon } from 'leaflet';
 import { useState, useEffect, useRef } from 'react';
@@ -9,7 +8,7 @@ import fetcher from '../../lib/fetcher';
 
 import { MAP } from '../../lib/constants';
 
-import Markers from './Markers/Markers';
+import ChartLayersControl from './ChartLayersControl/ChartLayersControl';
 import UserLocationMarker from './Markers/UserLocationMarker';
 
 const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTypeName, locations, locationType, getSearchedLocations, locationSearch, searchedLocationProp, districtSearch, searchedDistrictProp, productSearch, searchedProduct, productTypeSearch, searchedProductType, saveSearch }) => {
@@ -227,50 +226,39 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 				center={ mapCenter } zoom={ mapZoom } 
 				style={{ height: '83vh', width: '100%' }}
 			> 
-				<LayersControl position="bottomleft" ref={ layerControlRef }>
-					<TileLayer                 
-					    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-					    attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-					/>
-					{ 
-					    specialities.map((speciality) => (
-					    	<LayersControl.Overlay name={ speciality.name } key={ speciality.name } checked={ checkedLayersControlOverlay(speciality.name) }>
-					    		<LayerGroup 
-					    			onRemove={ saveSpecialitiesFilterState }
-					    			onAdd={ saveSpecialitiesFilterState }
-					    		>
-					    			<Markers
-					    				searchFieldValue={ searchFieldValue }
-					    				townName={ townName }
+				<ChartLayersControl
+					layerControlRef={ layerControlRef } 
+					specialities={ specialities } 
 
-					    				productSearch={ productSearch}
-					    				searchedProduct={ searchedProduct }
-					    				
-					    				productTypeSearch={ productTypeSearch }
-					    				searchedProductType={ searchedProductType }		
-					    				
-					    				districtSearch={ districtSearch }
-					    				searchedDistrict={ searchedDistrictProp }
-					    				
-					    				locationSearch={ locationSearch }
-					    				searchedLocation={ searchedLocationProp }
-					    				locations={ locations }
-					    				locationType={ locationType }
-					    				getSearchedLocations={ getSearchedLocations }
-
-					    				speciality={ speciality }
-					    				markerIcons={ markerIcons }
-					    				isGeolocationEnable={ isGeolocationEnable }
-					    				getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }
-					    				userLocation={ userLocation }
-					    			
-					    				saveSearch={ saveSearch }
-					    			/>  
-					    		</LayerGroup>
-					    	</LayersControl.Overlay>
-					    ))
-					}
-				</LayersControl>
+					checkedLayersControlOverlay={ checkedLayersControlOverlay }
+					saveSpecialitiesFilterState={ saveSpecialitiesFilterState } 
+					
+					searchFieldValue={ searchFieldValue }
+					townName={ townName } 
+					
+					productSearch={ productSearch } 
+					searchedProduct={ searchedProduct }
+					
+					productTypeSearch={ productTypeSearch} 
+					searchedProductType={ searchedProductType }
+					
+					districtSearch={ districtSearch }
+					searchedDistrict={ searchedDistrictProp }
+					
+					locationSearch={ locationSearch }
+					searchedLocation={ searchedLocationProp }
+					
+					locations={ locations }
+					locationType={ locationType }
+					getSearchedLocations={ getSearchedLocations }
+					markerIcons={ markerIcons }
+					
+					isGeolocationEnable={ isGeolocationEnable }
+					getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }
+					
+					userLocation={ userLocation }
+					saveSearch={ saveSearch }
+				/>
 
 				<UserLocationMarker
 					isGeolocationEnable={ isGeolocationEnable }
