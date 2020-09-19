@@ -18,17 +18,24 @@ a {
 }
 
 /* 
-* Add title "Spécialités" to the LayersControl in the Chart Component
-* This class is from react-leaflet so put it directly in the component or 
+* Classes below are from react-leaflet so put them directly in the component or 
 * in a CSS module doesn't work.
 */
+
+/* Add title "Spécialités" to the LayersControl in the Chart Component */
 .leaflet-control-layers.leaflet-control.leaflet-control-layers-expanded::before {
 	content: "Spécialités";
 	font-weight: bold;
 	font-size: 15px;
 	display: block;
+  width: 94px;
 }
 
 .leaflet-control-layers.leaflet-control.leaflet-control-layers-expanded {
   opacity: 0.8;
+}
+
+.leaflet-control-layers-overlays label:hover {
+    cursor: pointer;
+    font-weight: bold;
 }
