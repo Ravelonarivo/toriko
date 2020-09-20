@@ -282,7 +282,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 
 				<Legend
 					locationTypeName={ locationTypeName } 
-					locationTypes={ locationTypes }
+					townName={ townName }
 					getLegendItemColor={ getLegendItemColor }
 				/>
 	  		</Map>

@@ -1,16 +1,24 @@
+import useSWR from 'swr';
+import fetcher from '../../../../lib/fetcher';
 import LocationType from './LocationType';
 
-const LocationTypeList = ({ locationTypes, getLegendItemColor } ) => {
+const LocationTypeList = ({ townName, getLegendItemColor } ) => {
+	
+	// Get locationTypes by townName
+	const { data } = useSWR(`/api/locationType_town/${ townName }`, fetcher);
+
 	return (
 		<div className="legend">
 			{
-				locationTypes.map((locationType, index) => (
-					<LocationType 
-						key={ index } 
-						locationType={ locationType }  
-						getLegendItemColor={ getLegendItemColor }
-					/>
-				))
+				data 
+					?	data.map((locationType, index) => (
+							<LocationType 
+								key={ index } 
+								locationType={ locationType }  
+								getLegendItemColor={ getLegendItemColor }
+							/>
+						))
+					: ''
 			}
 
 			<style jsx>
