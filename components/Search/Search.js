@@ -5,13 +5,13 @@ const Search = ({ inputRef, resetSavedSearch, savedSearchedDistrict, locationTyp
 		let placeholder = '';
 		if (locationType) {
 			switch(locationType.name) {
-				case 'restaurant': placeholder = 'Entrer plat, type plat, restaurant, zone'; break;
-				case 'fast-food': placeholder = 'Entrer plat, type plat, fast-food, zone'; break;
-				case 'traiteur': placeholder = 'Entrer plat, type plat, traiteur, zone'; break;
-				case 'hotel': placeholder = 'Entrer type chambre, hotel, zone'; break;
+				case 'restaurant': placeholder = 'Chercher plat, type plat, restaurant, zone'; break;
+				case 'fast-food': placeholder = 'Chercher plat, type plat, fast-food, zone'; break;
+				case 'traiteur': placeholder = 'Chercher plat, type plat, traiteur, zone'; break;
+				case 'hotel': placeholder = 'Chercher chambre, type chambre, hotel, zone'; break;
 			}
 		} else {
-			placeholder = 'Entrer plat, type plat, zone, restaurant, fast-food, ... ';
+			placeholder = 'Chercher plat, type plat, zone, restaurant, fast-food, ... ';
 		}
 
 		return placeholder;
