@@ -6,7 +6,7 @@ const LocationType = ({ locationType, getLegendItemColor }) => {
 			<style jsx>
 				{`
 					.legend-icon {
-					    border-radius: 50%;
+					    border-radius: 5px;
 					    width: 18px;
 					    height: 18px;
 					    float: left;

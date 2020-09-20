@@ -280,7 +280,8 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 					getCurrentLocation={ getCurrentLocation }
 				/>
 
-				<Legend 
+				<Legend
+					locationTypeName={ locationTypeName } 
 					locationTypes={ locationTypes }
 					getLegendItemColor={ getLegendItemColor }
 				/>
