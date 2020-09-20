@@ -8,7 +8,7 @@ const LocationTypeList = ({ townName, getLegendItemColor } ) => {
 	const { data } = useSWR(`/api/locationType_town/${ townName }`, fetcher);
 
 	return (
-		<div className="legend">
+		<div className="legend" title="Légende">
 			{
 				data 
 					?	data.map((locationType, index) => (
