@@ -44,12 +44,12 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		}
 
 		return icon(MAP.ICON_PROPERTIES);
-	} 
+	}; 
 
 	const getGeolocIcon = () => {
 		MAP.ICON_PROPERTIES.iconUrl = MAP.LOCATIONS_ICON.geolocIcon;
 		return icon(MAP.ICON_PROPERTIES);
-	}
+	};
 
 	const getMarkerIcons = () => {
 		let markerIcons = {}
@@ -58,7 +58,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		});
 
 		return markerIcons;
-	}
+	};
 
 	const watch = true;
 	const {
@@ -106,7 +106,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 			setIsGeolocationEnable(true);
 			setUserLocation([latitude, longitude]);
 		}
-	}, [latitude, longitude]),
+	}, [latitude, longitude]);
 
 	useEffect(() => {
 		// If there is a location search, recenter the map at the searched location
@@ -173,7 +173,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 	const updateCurrentZoom = event => {
 		const mapZoom = event.target.getZoom();
 		setMapZoom(mapZoom);
-	}
+	};
 
 	/**
 	* Run when the user clicks on "afficher votre localisation"
@@ -181,7 +181,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 	const getCurrentLocation = () => {
 		setMapCenter(userLocation); 
 		setMapZoom(MAP.INIT_ZOOM);
-	}
+	};
 
 	const getDistanceBetweenLocationAndUserLocation = (location, userLocation) => {
 		const [latitude, longitude] = userLocation;
@@ -189,7 +189,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		return distance >= 1000 
 			? '(' + convertDistance(distance, 'km').toFixed(1) + 'km)'
 			: '(' + distance + 'm)'
-	}
+	};
 
 	const saveSpecialitiesFilterState = () => { 
 		if (layerControlRef.current) {
@@ -203,7 +203,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 				localStorage.removeItem('specialitiesFilterState');
 			}
 		}   
-	}
+	};
 
 	// Check or uncheck the LayersControl.Overlay depending of the informations saved in the specialitiesFilterState
 	const checkedLayersControlOverlay = specialityName => {
@@ -219,7 +219,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		}
 
 		return isChecked;
-	}
+	};
 
 	const getLegendItemColor = locationTypeName => {
 		return locationTypeName === 'restaurant'
@@ -229,7 +229,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 			: locationTypeName === 'traiteur'
 			? MAP.LEGEND_ICON_COLOR[locationTypeName]
 			: MAP.LEGEND_ICON_COLOR[locationTypeName];
-	}
+	};
 	
 	return ( 
 		<div>

@@ -129,7 +129,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 			townName,
 			locationTypeName
 		}));
-	}
+	};
 
 	// Reset all data about search from the localStorage
 	const resetSavedSearch = (action=null) => {
@@ -160,7 +160,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
         	setDistrictSearch(false);
         	if (savedSearchedDistrict.length) setSavedSearchedDistrict([]); 
         } 
-	}
+	};
 	
 	// Get the item (location, product, productType, district) searched by the user
 	const getSearchedItem = () => {

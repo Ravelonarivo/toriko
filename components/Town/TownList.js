@@ -16,7 +16,7 @@ const TownList = ({ towns, selectTownName }) => {
 				}
 			</div>
 		</div>
-	)
+	);
 };
 
 export default TownList;
