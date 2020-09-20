@@ -17,7 +17,7 @@ export default ({ query: { param }}, res) => {
 				}
 			})
 			.catch(error => {
-				res.status(400).json('error getting district.name');
+				res.status(400).json('error getting districts');
 				resolve();
 			})	
 		} else {
@@ -34,7 +34,7 @@ export default ({ query: { param }}, res) => {
 				}
 			})
 			.catch(error => {
-				res.status(400).json('error getting district.name');
+				res.status(400).json('error getting districts');
 				resolve();
 			})
 		}

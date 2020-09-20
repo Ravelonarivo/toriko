@@ -19,7 +19,7 @@ export default ({ query: { param }}, res) => {
 				}
 			})
 			.catch(error => {
-				res.status(400).json('error getting product_type.name');
+				res.status(400).json('error getting productTypes');
 				resolve();
 			})	
 		} else {
@@ -38,7 +38,7 @@ export default ({ query: { param }}, res) => {
 				}
 			})
 			.catch(error => {
-				res.status(400).json('error getting product_type.name');
+				res.status(400).json('error getting productTypes');
 				resolve();
 			})
 		}
