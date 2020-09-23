@@ -88,11 +88,11 @@ const Result = ({ locationsProp, locationTypesProp, townProp, townsProp }) => {
 	useEffect(() => setSearchedDistrict(savedSearchedDistrict), [savedSearchedDistrict]);
 	useEffect(() => setSearchedProduct(savedSearchedProduct), [savedSearchedProduct]);
 	useEffect(() => setSearchedProductType(savedSearchedProductType), [savedSearchedProductType]);
-
+	
 	useEffect(() => {
 		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
-		const savedSearch = localStorage.getItem('savedSearch');
-		if (savedSearchFieldValue && savedSearch) {
+		const parsedSavedSearch = JSON.parse(localStorage.getItem('savedSearch'));
+		if (savedSearchFieldValue && parsedSavedSearch && (parsedSavedSearch.townName !== paramTownName || parsedSavedSearch.locationTypeName !== paramLocationTypeName)) {
 			resetSavedSearch('cleanSearchField');
 		}
 
