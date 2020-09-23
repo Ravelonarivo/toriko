@@ -73,11 +73,11 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 		const [town] = townProp;
 		
 		// Test if there is a saved location search. If there is, locationSearch is true 
-		if (locationSearch) {
-			const [savedLocation] = searchedLocationProp;
-			setMapCenter([savedLocation.lat, savedLocation.long]);
+		if (locationSearch && searchedLocationProp.length) {
+			const [savedSearchedLocation] = searchedLocationProp;
+			setMapCenter([savedSearchedLocation.lat, savedSearchedLocation.long]);
 		// Test if there is a saved district search. If there is, districtSearch is true 
-		} else if (districtSearch) {
+		} else if (districtSearch && searchedDistrictProp.length) {
 			const [savedSearchedDistrict] = searchedDistrictProp;
 			setMapCenter([savedSearchedDistrict.lat, savedSearchedDistrict.long]);
 		// If there is no saved search or the saved search is not about a location or a district 
