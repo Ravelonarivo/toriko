@@ -237,7 +237,7 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 				onMoveEnd={ updateCurrentCenter } 
 				onZoomEnd={ updateCurrentZoom } 
 				center={ mapCenter } zoom={ mapZoom } 
-				style={{ height: '83vh', width: '100%' }}
+				style={{ height: '88vh', width: '100%' }}
 			> 
 				<ChartLayersControl
 					layerControlRef={ layerControlRef } 

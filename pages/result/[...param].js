@@ -13,18 +13,26 @@ const DynamicComponentWithNoSSR = dynamic(
 	{ ssr: false }
 );
 
+import LocationTypeList from '../../components/LocationType/LocationTypeList';
+import TownList from '../../components/Town/TownList';
+
 import { useState, useEffect, useRef } from 'react';
 
 
-const Result = ({ locationsProp, locationTypesProp, townProp }) => {
+const Result = ({ locationsProp, locationTypesProp, townProp, townsProp }) => {
 	const router = useRouter(); 
 	const inputRef = useRef(null);
-	const [townName, locationTypeName] = router.query.param;
-	const [locationType, setLocationType] = useState('');
+	
+	const [paramTownName, paramLocationTypeName] = router.query.param;
+	const [townName, setTownName] = useState(paramTownName);
+	const [locationTypeName, setLocationTypeName] = useState(paramLocationTypeName);
+	const [remountChartComponent, setRemountChartComponent] = useState(false);
 
+	const [locationType, setLocationType] = useState('');
+	
 	const [searchFieldValue, setSearchFieldValue] = useState('');
 
-	const [locations] = useState(locationsProp);
+	const [locations, setLocations] = useState(locationsProp);
 	const [searchedLocations, setSearchedLocations] = useState([]);
 
 	const [products, setProducts] = useState([]);
@@ -49,7 +57,6 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	
 
 	useEffect(() => {
-		getLocationType();
 		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
 		const parsedSavedSearch = JSON.parse(localStorage.getItem('savedSearch'));
 		if (savedSearchFieldValue && parsedSavedSearch && parsedSavedSearch.townName === townName && parsedSavedSearch.locationTypeName === locationTypeName) {
@@ -81,6 +88,23 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	useEffect(() => setSearchedDistrict(savedSearchedDistrict), [savedSearchedDistrict]);
 	useEffect(() => setSearchedProduct(savedSearchedProduct), [savedSearchedProduct]);
 	useEffect(() => setSearchedProductType(savedSearchedProductType), [savedSearchedProductType]);
+
+	useEffect(() => {
+		const savedSearchFieldValue = localStorage.getItem('savedSearchFieldValue');
+		const savedSearch = localStorage.getItem('savedSearch');
+		if (savedSearchFieldValue && savedSearch) {
+			resetSavedSearch('cleanSearchField');
+		}
+
+		setTownName(paramTownName);
+		setLocationTypeName(paramLocationTypeName);
+		setLocations(locationsProp);
+		setRemountChartComponent(!remountChartComponent);
+	}, [paramTownName, paramLocationTypeName, locationsProp]);
+
+	useEffect(() => {
+		getLocationType();
+	}, [locationTypeName]);
 
 	// Change the value of searchFieldValue state when the user tapes words on the Search component
 	const searchChange = event => {
@@ -134,7 +158,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 	// Reset all data about search from the localStorage
 	const resetSavedSearch = (action=null) => {
 		
-		if (action === 'focus') {
+		if (action === 'cleanSearchField') {
 			inputRef.current.value = '';
         	setSearchFieldValue(null);
 		}
@@ -205,6 +229,15 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 		}	
 	};
 
+	const selectTownName = event => {
+		localStorage.setItem('townName', event.target.value);
+    	router.push('/result/[...param]', `/result/${ event.target.value }/${ locationTypeName }`);
+  	}
+
+  	const selectLocationType = event => {
+    	router.push('/result/[...param]', `/result/${ townName }/${ event.target.value }`);
+  	}
+
 	return (
 		<div>
 			<Head>
@@ -224,6 +257,7 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				savedSearchedDistrict={ savedSearchedDistrict } 
 
 				locationType={ locationType }
+				locationTypeName={ locationTypeName }
 				townName={ townName }	
 
 				locations={ locations }
@@ -234,8 +268,21 @@ const Result = ({ locationsProp, locationTypesProp, townProp }) => {
 				getProductTypes={ getProductTypes }
 				getDistricts={ getDistricts }
 			/>
-			<h1>{ townName }/{ locationTypeName }</h1>
+			<div className="flex mt4 mb1">
+				<TownList
+			    	towns={ townsProp }
+			        selectTownName={ selectTownName }
+			        townName={ townName }
+			    />
+			    <LocationTypeList
+	              	locationTypes={ locationTypesProp }
+	              	townName={ townName }
+	              	locationTypeName={ locationTypeName }
+	              	selectLocationType={ selectLocationType }
+	            />
+            </div>
 			<DynamicComponentWithNoSSR 
+				key={ remountChartComponent }
 				townProp={ townProp }
 				townName={ townName }
 				searchFieldValue={ searchFieldValue }
@@ -296,12 +343,14 @@ export const getStaticProps = async ({ params }) => {
 		const locations = await getLocationsByTownNameAndTypeName(townName, locationTypeName);
 		const locationTypes = await getLocationTypes();
 		const town = await getTownByName(townName);
+		const towns = await getTowns();
 
 		return {
 			props: {
 				locationsProp: locations,
 				locationTypesProp: locationTypes, 
-				townProp: town
+				townProp: town,
+				townsProp: towns
 			},
 			revalidate: 1
 		}
