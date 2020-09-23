@@ -1,20 +1,19 @@
 import Town from './Town';
 
-const TownList = ({ towns, selectTownName }) => {
+const TownList = ({ towns, selectTownName, townName }) => {
 	return (
 		<div>
-			<h1>Choisissez votre ville</h1>
-			<div>
+			<select className="w5 mr2" value={ townName } onChange={ selectTownName }>
+				<option value="Quelle est votre ville ?" disabled hidden>Quelle est votre ville ?</option>
 				{
 					towns.map((town, index) => (
 						<Town
 							town={ town }
-							selectTownName={ selectTownName }
 							key={ index }
 						/>
 					))
 				}
-			</div>
+			</select>
 		</div>
 	);
 };

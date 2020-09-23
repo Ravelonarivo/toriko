@@ -1,39 +1,24 @@
 import LocationType from './locationType';
-import Link from 'next/link';
-import utilStyles from '../../styles/utils.module.css';
-
-
-const LocationTypes = ({ locationTypes, townName, resetTownName }) => {
+const LocationTypes = ({ locationTypes, townName, locationTypeName, selectLocationType }) => {
 	return (
 		<div>
-			<h1>Que cherchez-vous à { townName }?</h1>
-			<ul className={ utilStyles.list }>
+			<select className="w5 mr2" value={ locationTypeName } onChange={ selectLocationType }>
+				<option value={ `Que cherchez vous à ${ townName } ?`} disabled hidden>Que cherchez vous à { townName } ? </option>
 				{
 					locationTypes.map((locationType, index) => (
 						<LocationType 
 							locationType={ locationType }
-							townName={ townName }
 							key={ index }
 						/>
 					))
 				}
 				
-				<li className={ utilStyles.listItem }>
-					<Link href="/result/[...param]" as={`/result/${ townName }/afficher-tout`}>
-						<a>
-							Afficher tout
-						</a>
-					</Link>
-				</li>
-			</ul>
-
-			<button onClick={ resetTownName } >Changer de ville</button>
-
-			<style jsx>{`
-				a {
-					text-transform: uppercase;
-				}
-			`}</style>
+				<option 
+					value="afficher-tout" 
+				>
+					afficher tout
+				</option>
+			</select>
 		</div>
 	);
 };

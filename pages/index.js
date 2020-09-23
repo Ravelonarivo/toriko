@@ -3,70 +3,66 @@ import TownList from '../components/Town/TownList';
 import { getLocationTypes } from '../lib/location';
 import { getTowns } from '../lib/town';
 import Head from 'next/head';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router'
 
-class Home extends Component {
-  constructor() {
-    super();
-    this.state = {
-      townName: ''
-    }
-  }
+const Home = ({ locationTypesProp, townsProp }) => {
+  const router = useRouter();
+  const [townName, setTownName] = useState('Quelle est votre ville ?'); 
 
-  componentDidMount() {
+  useEffect(() => {
     const townName = localStorage.getItem('townName');
-    if (townName) this.setState({ townName })
-  }
+    if (townName) setTownName(townName);
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.townName !== this.state.townName) {
-      localStorage.setItem('townName', this.state.townName);
+  useEffect(() => {
+    if (townName) {
+      localStorage.setItem('townName', townName);
     }
-  }
+  }, [townName]);
   
-  selectTownName = event => {
-    this.setState({ townName: event.target.innerText });
+  const selectTownName = event => {
+    setTownName(event.target.value);
   }
 
-  resetTownName = () => {
-    this.setState({ townName: '' });
-    localStorage.removeItem('townName');
+  const selectLocationType = event => {
+    router.push('/result/[...param]', `/result/${ townName }/${ event.target.value }`);
   }
 
-  render() {
-    const { locationTypesProp, townsProp } = this.props;
-    const { townName, townSelected } = this.state;
-    const { selectTownName, resetTownName } = this;
+  /*const t = [
+    { name: 'dakar' },
+    { name: 'thies' },
+    { name: 'saly' },
+    { name: 'goré' },
+    { name: 'pikine' },
+    { name: 'mbaou' }
+  ];*/
 
-    /*const t = [
-      { name: 'dakar' },
-      { name: 'thies' },
-      { name: 'saly' },
-      { name: 'goré' },
-      { name: 'pikine' },
-      { name: 'mbaou' }
-    ];*/
+  return (
+    <div>
+      <Head>
+        <title>Home</title>
+      </Head>
 
-    return (
-      <div>
-        <Head>
-          <title>Home</title>
-        </Head>
-        { 
-          townName
-            ? <LocationTypeList 
-                locationTypes={ locationTypesProp } 
-                townName={ townName.toLowerCase() } 
-                resetTownName={ resetTownName }
-              /> 
-            : <TownList 
-                towns={ townsProp } 
-                selectTownName={ selectTownName } 
-              />
-        }    
-      </div>
-    );
-  }
+      <TownList
+        towns={ townsProp }
+        selectTownName={ selectTownName }
+        townName={ townName }
+      />
+    
+      {
+        townName != 'Quelle est votre ville ?'
+          ? <LocationTypeList
+              locationTypes={ locationTypesProp }
+              townName={ townName }
+              locationTypeName={ `Que cherchez vous à ${ townName } ?` }
+              selectLocationType={ selectLocationType }
+            />
+          : ''     
+      }    
+    </div>
+  );
+  
 };
 
 export const getStaticProps = async () => {
