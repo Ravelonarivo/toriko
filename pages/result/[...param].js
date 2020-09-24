@@ -319,8 +319,8 @@ export const getStaticPaths = async () => {
 	    let paths = [];
 	    towns.forEach(town => {
 	    	locationTypes.forEach(locationType => {
-	    		paths.push({ params: { param: [town.name, locationType.name] }})
-	    	})
+	    		paths.push({ params: { param: [town.name, locationType.name] }});
+	    	});
 	    });
 
 		towns.forEach(town => {
@@ -337,7 +337,6 @@ export const getStaticPaths = async () => {
 }; 
 
 export const getStaticProps = async ({ params }) => {
-
 	const [townName, locationTypeName] = params.param;
 	try {
 		const locations = await getLocationsByTownNameAndTypeName(townName, locationTypeName);
