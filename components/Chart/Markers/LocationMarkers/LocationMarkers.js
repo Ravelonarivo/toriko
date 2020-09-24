@@ -1,6 +1,6 @@
 import LocationMarker from './LocationMarker';
 
-const LocationMarkers = ({ locations, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
+const LocationMarkers = ({ townName, locations, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
 	return (
 		<div>
 			{
@@ -10,7 +10,8 @@ const LocationMarkers = ({ locations, speciality, markerIcons, isGeolocationEnab
 							location.speciality_id === speciality.id
 								? 	<LocationMarker
 										key={ index }
-										markerIcons={ markerIcons } 
+										markerIcons={ markerIcons }
+										townName={ townName }  
 										location={ location }
 										isGeolocationEnable={ isGeolocationEnable }
 										getDistanceBetweenLocationAndUserLocation={ getDistanceBetweenLocationAndUserLocation }

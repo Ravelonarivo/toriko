@@ -1,7 +1,7 @@
 import { Marker, Popup } from 'react-leaflet';
 import Link from 'next/link';
 
-const LocationMarker = ({ markerIcons, location, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
+const LocationMarker = ({ markerIcons, townName, location, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, userLocation }) => {
 	return (
 		<div>
 			<Marker 
@@ -9,7 +9,7 @@ const LocationMarker = ({ markerIcons, location, isGeolocationEnable, getDistanc
 				position={[location.lat, location.long]}
 			>
 				<Popup autoPan={false}>
-					<Link href="/location/[locationId]" as={`/location/${location.id}`}>
+					<Link href="/location/[...param]" as={`/location/${location.name}/${townName}`}>
 						<a>
 							{
 								location.name}&nbsp;																			      									{

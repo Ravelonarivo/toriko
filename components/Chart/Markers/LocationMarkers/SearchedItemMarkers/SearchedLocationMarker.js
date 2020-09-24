@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import LocationMarkers from '../LocationMarkers';
 
-const SearchedLocationMarker = ({ searchedLocation, saveSearch, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, getSearchedLocations, userLocation }) => {
+const SearchedLocationMarker = ({ searchedLocation, townName, saveSearch, speciality, markerIcons, isGeolocationEnable, getDistanceBetweenLocationAndUserLocation, getSearchedLocations, userLocation }) => {
 	useEffect(() => {
 		getSearchedLocations(searchedLocation);
 		saveSearch(searchedLocation, 'location');
@@ -10,6 +10,7 @@ const SearchedLocationMarker = ({ searchedLocation, saveSearch, speciality, mark
 	return (
 		<div>
 			<LocationMarkers
+				townName={ townName }
 				locations={ searchedLocation }
 				speciality={ speciality }
 				markerIcons={ markerIcons }

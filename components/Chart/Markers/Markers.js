@@ -41,6 +41,7 @@ const Markers = ({ searchFieldValue, townName, productSearch, searchedProduct, p
 				districtSearch
 					?	<SearchedDistrictLocationMarkers
 							searchedDistrict={ searchedDistrict} 
+							townName={ townName }
 							locationType={ locationType } 
 							saveSearch={ saveSearch }
 							speciality={ speciality }
@@ -56,6 +57,7 @@ const Markers = ({ searchFieldValue, townName, productSearch, searchedProduct, p
 				locationSearch
 					? 	<SearchedLocationMarker
 							searchedLocation={ searchedLocation }
+							townName={ townName }
 							saveSearch={ saveSearch }
 							speciality={speciality}
 							markerIcons={markerIcons}
@@ -69,6 +71,7 @@ const Markers = ({ searchFieldValue, townName, productSearch, searchedProduct, p
 			{
 				!searchFieldValue && !productSearch && !productTypeSearch && !locationSearch && !districtSearch
 					? 	<LocationMarkers
+							townName={ townName }
 							locations={ locations }
 							speciality={speciality}
 							markerIcons={markerIcons}

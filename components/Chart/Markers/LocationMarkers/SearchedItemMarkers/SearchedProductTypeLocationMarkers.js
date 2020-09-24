@@ -18,6 +18,7 @@ const SearchedProductTyLocationMarkers = ({ searchedProductType, townName, saveS
 	return (
 		<div>
 			<LocationMarkers
+				townName={ townName }
 				locations={ data ? data : '' }
 				speciality={ speciality }
 				markerIcons={ markerIcons }
