@@ -1,7 +1,8 @@
 import Head from 'next/head';
 
-import Slideshow from '../../components/Slideshow/Slideshow';
+import Slideshow from '../../components/LocationSlideshow/LocationSlideshow';
 import Logo from '../../components/Logo/Logo';
+import LocationInformation from '../../components/LocationInformation/LocationInformation';
 
 import { getLocations, getLocationByNameAndTownName } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
@@ -19,7 +20,11 @@ const Presentation = ({ locationProp }) => {
 			
 			<Slideshow/>
 			<Logo/>
-			<h1>{ locationProp.name }</h1>
+			
+			<div className="mh6">
+				<h1>{ locationProp.name }</h1>
+				<LocationInformation/>
+			</div>
 		</div>
 	);
 };
