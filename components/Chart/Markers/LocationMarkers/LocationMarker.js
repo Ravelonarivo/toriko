@@ -9,7 +9,7 @@ const LocationMarker = ({ markerIcons, townName, location, isGeolocationEnable, 
 				position={[location.lat, location.long]}
 			>
 				<Popup autoPan={false}>
-					<Link href="/location/[...param]" as={`/location/${location.name}/${townName}`}>
+					<Link href="/presentation/[...param]" as={`/presentation/${location.name}/${townName}`}>
 						<a>
 							{
 								location.name}&nbsp;																			      									{
