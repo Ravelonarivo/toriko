@@ -6,7 +6,7 @@ const Logo = () => {
 			<div className="pa1 absolute bg-white w4 h4 ba b--light-silver br3" style={{ zIndex: '1', marginTop: '-74px' }}>
 			  	<img
 				    src={ path }
-				    class="br3 h-100 w-100" alt="logo"
+				    className="br3 h-100 w-100" alt="logo"
 				/>
 			</div>
 		</div>	

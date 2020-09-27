@@ -1,8 +1,6 @@
 import Head from 'next/head';
 
-import Slideshow from '../../components/LocationSlideshow/LocationSlideshow';
-import Logo from '../../components/Logo/Logo';
-import LocationInformation from '../../components/LocationInformation/LocationInformation';
+import LocationPresentation from '../../components/LocationPresentation/LocationPresentation';
 
 import { getLocations, getLocationByNameAndTownName } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
@@ -18,13 +16,7 @@ const Presentation = ({ locationProp }) => {
 				<title>{ locationProp.name }</title>
 			</Head>
 			
-			<Slideshow/>
-			<Logo/>
-			
-			<div className="mh6">
-				<h1>{ locationProp.name }</h1>
-				<LocationInformation/>
-			</div>
+			<LocationPresentation location={ locationProp } />
 		</div>
 	);
 };
