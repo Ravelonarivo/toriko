@@ -6,6 +6,10 @@ const Information = ({ location }) => {
 			</div>
 			<div className="bt b--light-silver mr3 pv4 ph4">
 				<dl className="f6 lh-title mv2">
+					<dt className="dib">Type : </dt>
+					<dd className="dib ml3">{location.type}</dd>
+				</dl>
+				<dl className="f6 lh-title mv2">
 					<dt className="dib">Spécialité : </dt>
 					<dd className="dib ml3">{location.speciality}</dd>
 				</dl>

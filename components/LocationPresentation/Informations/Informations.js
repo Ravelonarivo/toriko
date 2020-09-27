@@ -3,6 +3,7 @@ import Opening from './Opening/Opening';
 
 const Informations = () => {
 	const location = {
+		type: 'Restaurant',
 		speciality: 'Chinoise',
 		address: 'Lorem ipsum dolor sit amet, consectetur adipiscing',
 		phone: '77 650 44 10',
