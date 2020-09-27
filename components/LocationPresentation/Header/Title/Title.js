@@ -1,6 +1,6 @@
 const Title = ({ location }) => {
 	return (
-		<div className="db dib-ns w-50-l w-100-m">
+		<div>
 			<h2>{ location.name }: ouvert (8.0km)</h2>
 		</div>
 	);
