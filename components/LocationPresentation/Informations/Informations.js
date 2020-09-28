@@ -1,7 +1,9 @@
 import Information from './Information/Information';
 import Opening from './Opening/Opening';
 
-const Informations = () => {
+import { Collapse } from 'react-collapse';
+
+const Informations = ({ isInformationsOpened }) => {
 	const location = {
 		type: 'Restaurant',
 		speciality: 'Chinoise',
@@ -47,10 +49,15 @@ const Informations = () => {
 
 		]
 	};
-	return (
-		<div className="w-100 mt5">
-		  	<Information location={ location } />
-		  	<Opening location={ location } />
+
+	return (	
+		<div>
+			<Collapse isOpened={ isInformationsOpened } initialStyle={{ height: 'auto', overflow: 'initial', transition: 'height 500ms' }}>
+				<div className="dib w-100">
+					<Information location={location} />
+					<Opening location={location} />
+				</div>
+			</Collapse>
 		</div>
 	);
 };

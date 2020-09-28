@@ -2,7 +2,7 @@ const Opening = ({ location }) => {
 	return (
 		<div className="db dib-ns w-50-l w-100-m fr">
 			<div className="flex justify-center">
-				<h4 className="f6 fw6 tc ba b--light-silver w-20 br4  absolute bg-white pv1" style={{ zIndex: '1', marginTop: '-19px' }}>Horaires d'ouverture</h4>
+				<h4 className="f6 fw6 tc ba b--light-silver w-50 br4 bg-white pv1" style={{ transform: 'translateY(37px)' }}>Horaires d'ouverture</h4>
 			</div>
 			<div className="bt b--light-silver ml3 pv4 ph4">
 				{

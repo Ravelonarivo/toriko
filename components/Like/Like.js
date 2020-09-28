@@ -18,7 +18,7 @@ const Like = () => {
 	};
 
 	return (
-		<div className="db dib-ns w-50-l w-100-m fr tr mv3" title="liker">
+		<div className="db dib-ns w-50-l w-100-m fr tr mt3" title="liker">
       		<label 
       			className="dib mr2 red" 
       			style={{ transform: 'translateY(-2px)', fontSize: '2rem' }}
