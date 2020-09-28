@@ -19,7 +19,7 @@ const Information = ({ location }) => {
 				</dl>
 				<dl className="f6 lh-title mv2">
 					<dt className="dib">Phone : </dt>
-					<dd className="dib ml3">{location.phone}</dd>
+					<dd className="dib ml3">{location.phone} <span className="silver">(réserver place, commander, ... )</span></dd>
 				</dl>
 				<dl className="f6 lh-title mv2">
 					<dt className="dib">Livraison : </dt>
