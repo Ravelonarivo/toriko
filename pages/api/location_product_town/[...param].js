@@ -10,7 +10,7 @@ export default ({ query: { param } }, res) => {
 			.join('town', 'town.id', '=', 'district.town_id')
 			.where('product.name', productName)
 			.andWhere('town.name', townName)
-			.select('location.id', 'location.name', 'location.latitude as lat', 'location.longitude as long', 'location_type.name as type', 'location.speciality_id', 'location.district_id')
+			.select('location.id', 'location.name', 'location.slug', 'location.latitude as lat', 'location.longitude as long', 'location_type.name as type', 'location.speciality_id', 'location.district_id')
 		.then(locations => {
 			if (locations.length > 0) {
 				res.status(200).json(locations);

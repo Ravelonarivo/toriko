@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import LocationPresentation from '../../components/LocationPresentation/LocationPresentation';
 
-import { getLocations, getLocationByNameAndTownName } from '../../lib/location';
+import { getLocations, getLocationBySlugAndTownName } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
 
 
@@ -28,8 +28,8 @@ export const getStaticPaths = async () => {
 
 		let paths = [];
 		towns.forEach(town => {
-			locations.forEach(location => {
-				paths.push({ params: { param: [location.name, town.name] }});
+			locations.forEach(location => { 
+				paths.push({ params: { param: [location.slug, town.name] }});
 			});
 		});
 
@@ -43,9 +43,9 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params }) => {
-	const [locationName, townName] = params.param;
+	const [locationSlug, townName] = params.param;
 	try {
-		const [location] = await getLocationByNameAndTownName(locationName, townName);
+		const [location] = await getLocationBySlugAndTownName(locationSlug, townName);
 		
 		return {
 			props: {
