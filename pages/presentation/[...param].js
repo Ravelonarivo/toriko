@@ -2,21 +2,21 @@ import Head from 'next/head';
 
 import LocationPresentation from '../../components/LocationPresentation/LocationPresentation';
 
-import { getLocations, getLocationBySlugAndTownName } from '../../lib/location';
+import { getLocations, getLocationBySlugAndTownName, getOpeningsByLocationSlugAndTownName, getPicturesByLocationSlugAndTownName  } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
 
-
-
-const Presentation = ({ locationProp }) => {
-	console.log(locationProp);
-
+const Presentation = ({ locationProp, openingsProp, picturesProp }) => {
 	return (
 		<div>
 			<Head>
 				<title>{ locationProp.name }</title>
 			</Head>
 			
-			<LocationPresentation location={ locationProp } />
+			<LocationPresentation 
+				location={ locationProp  } 
+				openings={ openingsProp }
+				pictures={ picturesProp }
+			/>
 		</div>
 	);
 };
@@ -46,10 +46,14 @@ export const getStaticProps = async ({ params }) => {
 	const [locationSlug, townName] = params.param;
 	try {
 		const [location] = await getLocationBySlugAndTownName(locationSlug, townName);
-		
+		const openings = await getOpeningsByLocationSlugAndTownName(locationSlug, townName);
+		const pictures = await getPicturesByLocationSlugAndTownName(locationSlug, townName);
+
 		return {
 			props: {
-				locationProp: location
+				locationProp: location,
+				openingsProp: openings,
+				picturesProp: pictures
 			}, 
 			revalidate: 1
 		};

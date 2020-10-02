@@ -1,7 +1,15 @@
-const Title = ({ location }) => {
+const Title = ({ location, distance, openings, isOpen }) => {
 	return (
 		<div>
-			<h2>{ location.name }: ouvert (8.0km)</h2>
+			<h2>
+				{ location.name }:&nbsp;
+				{
+					isOpen(openings) 
+						? 	'ouvert'
+						: 	'fermé'
+				}&nbsp;
+				{ distance.length ? distance : '' }
+			</h2>
 		</div>
 	);
 };

@@ -1,4 +1,8 @@
-const Opening = ({ location }) => {
+const Opening = ({ openings }) => {
+	const formatTime = time => {
+		return time.slice(0, 5).replace(':','h');
+	}
+
 	return (
 		<div className="db dib-ns w-50-l w-100-m fr">
 			<div className="flex justify-center">
@@ -6,13 +10,13 @@ const Opening = ({ location }) => {
 			</div>
 			<div className="bt b--light-silver ml3 pv4 ph4">
 				{
-					location.opening.map((opening, index) => (
+					openings.map((opening, index) => (
 						<dl className="f6 lh-title mv2 w-100" key={index}>
 							<dt className="dib w-20">{opening.day}</dt>
 							<dd className="dib w-70 tr">
 								{
-									opening.from.length
-										? opening.from + 'h-' + opening.to + 'h'
+									opening.open && opening.close
+										? formatTime(opening.open) + '-' + formatTime(opening.close)
 										: ' fermé'
 								}
 							</dd>
