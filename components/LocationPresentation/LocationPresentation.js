@@ -30,7 +30,7 @@ const LocationPresentation = ({ location, openings, pictures }) => {
 	const isOpen = openings => {
 		let open = false;
 		const today = new Date();
-		const days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+		const days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
 		const currentDay = days[today.getDay()];
 		const currentTime = `${ addZero(today.getHours()) }:${ addZero(today.getMinutes()) }:${ addZero(today.getSeconds()) }`;
 		const [opening] = openings.filter(opening => opening.day === currentDay);
