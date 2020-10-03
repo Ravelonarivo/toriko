@@ -17,7 +17,7 @@ const LocationPresentation = ({ location, openings, pictures }) => {
 	};
 
 	return (
-		<div>
+		<div className="bb b--light-silver pv1 shadow-2">
 			<Slideshow pictures={ pictures }/>
 			<Logo logo={ location.logo }/>
 			
