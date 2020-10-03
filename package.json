@@ -9,6 +9,7 @@
     "mock-server": "json-server --watch db.json --port 3004"
   },
   "dependencies": {
+    "date-fns": "^2.16.1",
     "geolib": "^3.3.1",
     "knex": "^0.21.5",
     "leaflet": "^1.6.0",

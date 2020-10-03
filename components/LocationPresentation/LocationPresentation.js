@@ -22,27 +22,6 @@ const LocationPresentation = ({ location, openings, pictures }) => {
 			: setIsInformationsOpened(true);
 	};
 
-	const addZero = time => {
-		if (time < 10) time = '0' + time;
-		return time;
-	}; 
-
-	const isOpen = openings => {
-		let open = false;
-		const today = new Date();
-		const days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-		const currentDay = days[today.getDay()];
-		const currentTime = `${ addZero(today.getHours()) }:${ addZero(today.getMinutes()) }:${ addZero(today.getSeconds()) }`;
-		const [opening] = openings.filter(opening => opening.day === currentDay);
-		if ((currentTime >= opening.open) && (currentTime < opening.close)) {
-			open = true;
-		}
-		
-		return open;
-	};
-
-	console.log('ok');
-
 	return (
 		<div>
 			<Slideshow pictures={ pictures }/>
@@ -53,7 +32,6 @@ const LocationPresentation = ({ location, openings, pictures }) => {
 					location={ location }
 					distance={ distance }
 					openings={ openings }
-					isOpen={ isOpen }
 					collapseInformations={ collapseInformations }  
 				/>
 				<Informations 

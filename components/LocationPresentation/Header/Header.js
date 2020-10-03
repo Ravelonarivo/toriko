@@ -3,7 +3,7 @@ import InformationButton from './InformationButton/InformationButton';
 
 import Like from '../../Like/Like';
 
-const Header = ({ location, distance, openings, isOpen, collapseInformations }) => {
+const Header = ({ location, distance, openings, collapseInformations }) => {
 	return (
 		<div className="w-100">
 			<div className="db dib-ns w-50-l w-100-m">
@@ -12,7 +12,6 @@ const Header = ({ location, distance, openings, isOpen, collapseInformations }) 
 						location={ location } 
 						distance={ distance }
 						openings={ openings }
-						isOpen={ isOpen }
 					/>
 					<InformationButton collapseInformations={ collapseInformations } />
 				</div>
