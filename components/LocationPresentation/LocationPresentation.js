@@ -9,12 +9,6 @@ import { useState, useEffect } from 'react';
 
 const LocationPresentation = ({ location, openings, pictures }) => {
 	const [isInformationsOpened, setIsInformationsOpened] = useState(true);
-	const [distance, setDistance] = useState('');
-
-	useEffect(() => {
-		const savedDistance = localStorage.getItem('distance');
-		if (savedDistance) setDistance(savedDistance);
-	}, []);
 
 	const collapseInformations = () => {
 		isInformationsOpened 
@@ -30,7 +24,6 @@ const LocationPresentation = ({ location, openings, pictures }) => {
 			<div className="mh6">
 				<Header 
 					location={ location }
-					distance={ distance }
 					openings={ openings }
 					collapseInformations={ collapseInformations }  
 				/>

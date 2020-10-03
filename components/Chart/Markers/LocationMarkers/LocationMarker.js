@@ -13,10 +13,6 @@ const LocationMarker = ({ markerIcons, townName, location, isGeolocationEnable, 
 		if (distance.length) setDistance(distance);
 	}, [isGeolocationEnable]);
 
-	const saveDistance = () => {
-		if (distance.length) localStorage.setItem('distance', distance);
-	};
-
 	return (
 		<div>
 			<Marker 
@@ -25,7 +21,7 @@ const LocationMarker = ({ markerIcons, townName, location, isGeolocationEnable, 
 			>
 				<Popup autoPan={false}>
 					<Link href="/presentation/[...param]" as={`/presentation/${ location.slug }/${townName}`}>
-						<a onClick={ saveDistance }>
+						<a>
 							{ location.name}&nbsp;{ distance }
 						</a>
 					</Link>

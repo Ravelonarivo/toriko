@@ -1,11 +1,42 @@
 import { useState, useEffect } from 'react';
-import differenceInMinutes from 'date-fns/differenceInMinutes';
 
-const Title = ({ location, distance, openings }) => {
+import differenceInMinutes from 'date-fns/differenceInMinutes';
+import { usePosition } from 'use-position';
+
+import { getDistanceBetweenLocationAndUserLocation } from '../../../../lib/functions';
+
+const Title = ({ location, openings }) => {
+	const [isGeolocationEnable, setIsGeolocationEnable] = useState(false);
+	const [userLocation, setUserLocation] = useState([]);
+	const [distance, setDistance] = useState('');
 	// Location status
 	const [status, setStatus] = useState('fermé');
 	// Status color
 	const [color, setColor] = useState('#dc3545');
+
+	const watch = true;
+	const {
+		latitude,
+		longitude,
+		timestamp,
+		accuracy,
+		error,
+	} = usePosition(watch, { enableHighAccuracy: true }); 
+
+	useEffect(() => {
+		// Get the user location if geolocation is enable
+		if (error === null && latitude	&& longitude) {
+			setIsGeolocationEnable(true);
+			setUserLocation([latitude, longitude]);
+		}
+	}, [latitude, longitude]);
+	
+	useEffect(() => {
+		const distance = isGeolocationEnable
+			? getDistanceBetweenLocationAndUserLocation(location, userLocation)
+			: '';
+		if (distance.length) setDistance(distance);
+	}, [isGeolocationEnable]);
 
 	// Check status every second and update it if necessary
 	useEffect(() => {
@@ -64,7 +95,7 @@ const Title = ({ location, distance, openings }) => {
 		<div>
 			<h2>
 				{ location.name }&nbsp;
-				{ distance.length ? distance : '' }
+				{ distance }
 			</h2>
 			<span className="ba br4 db tc f7 b white" style={{ width: '6rem', border: `1px solid ${ color }`, background: `${ color }` }}>{ status }</span>
 		</div>

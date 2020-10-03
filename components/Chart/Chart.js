@@ -2,7 +2,6 @@ import { Map } from 'react-leaflet-universal';
 import { usePosition } from 'use-position';
 import { icon } from 'leaflet';
 import { useState, useEffect, useRef } from 'react';
-import { getDistance, convertDistance } from 'geolib';
 import useSWR from 'swr';
 import fetcher from '../../lib/fetcher';
 
@@ -11,6 +10,8 @@ import { MAP } from '../../lib/constants';
 import ChartLayersControl from './ChartLayersControl/ChartLayersControl';
 import UserLocationMarker from './Markers/UserLocationMarker';
 import Legend from './Legend/Legend';
+
+import { getDistanceBetweenLocationAndUserLocation } from '../../lib/functions';
 
 const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTypeName, locations, locationType, getSearchedLocations, locationSearch, searchedLocationProp, districtSearch, searchedDistrictProp, productSearch, searchedProduct, productTypeSearch, searchedProductType, saveSearch }) => {
 	const [userLocation, setUserLocation] = useState([]);
@@ -181,14 +182,6 @@ const Chart = ({ townProp, townName, searchFieldValue, locationTypes, locationTy
 	const getCurrentLocation = () => {
 		setMapCenter(userLocation); 
 		setMapZoom(MAP.INIT_ZOOM);
-	};
-
-	const getDistanceBetweenLocationAndUserLocation = (location, userLocation) => {
-		const [latitude, longitude] = userLocation;
-		const distance = getDistance({latitude: location.lat, longitude: location.long}, { latitude, longitude });
-		return distance >= 1000 
-			? '(' + convertDistance(distance, 'km').toFixed(1) + 'km)'
-			: '(' + distance + 'm)'
 	};
 
 	const saveSpecialitiesFilterState = () => { 
