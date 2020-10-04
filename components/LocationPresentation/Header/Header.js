@@ -1,7 +1,6 @@
 import Title from './Title/Title';
 import InformationButton from './InformationButton/InformationButton';
-
-import Like from '../../Like/Like';
+import Like from './Like/Like';
 
 const Header = ({ location, openings, collapseInformations }) => {
 	return (
