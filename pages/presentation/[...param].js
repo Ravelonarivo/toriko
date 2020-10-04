@@ -1,11 +1,13 @@
 import Head from 'next/head';
 
 import LocationPresentation from '../../components/LocationPresentation/LocationPresentation';
+import Menu from '../../components/Menu/Menu';
 
 import { getLocations, getLocationBySlugAndTownName, getOpeningsByLocationSlugAndTownName, getPicturesByLocationSlugAndTownName  } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
+import { getProductByLocationId } from '../../lib/product';
 
-const Presentation = ({ locationProp, openingsProp, picturesProp }) => {
+const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp }) => {
 	return (
 		<div>
 			<Head>
@@ -16,6 +18,11 @@ const Presentation = ({ locationProp, openingsProp, picturesProp }) => {
 				location={ locationProp  } 
 				openings={ openingsProp }
 				pictures={ picturesProp }
+			/>
+
+			<Menu
+				products={ productsProp }
+				location={ locationProp }
 			/>
 		</div>
 	);
@@ -48,12 +55,14 @@ export const getStaticProps = async ({ params }) => {
 		const [location] = await getLocationBySlugAndTownName(locationSlug, townName);
 		const openings = await getOpeningsByLocationSlugAndTownName(locationSlug, townName);
 		const pictures = await getPicturesByLocationSlugAndTownName(locationSlug, townName);
+		const products = await getProductByLocationId(location.id);
 
 		return {
 			props: {
 				locationProp: location,
 				openingsProp: openings,
-				picturesProp: pictures
+				picturesProp: pictures,
+				productsProp: products
 			}, 
 			revalidate: 1
 		};

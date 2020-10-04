@@ -35,3 +35,5 @@ yarn-error.log*
 
 # locations logo and pictures
 /public/location/
+# products image
+/public/product/
