@@ -1,4 +1,4 @@
-import ProductList from '../Product/ProductList';
+import ProductList from './Product/ProductList';
 import Favorite from './Favorite/Favorite';
 
 const Menu = ({ products, location }) => {
