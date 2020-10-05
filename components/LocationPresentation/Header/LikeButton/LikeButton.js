@@ -3,7 +3,7 @@ import MdHeart from 'react-ionicons/lib/MdHeart';
 
 import { useState } from 'react';
 
-const Like = () => {
+const LikeButton = () => {
 	const [liked, setLiked] = useState(false);
 	const [numberOfLikes, setNumberOfLikes] = useState(0);
 
@@ -44,4 +44,4 @@ const Like = () => {
 	);
 };
 
-export default Like;
+export default LikeButton;
