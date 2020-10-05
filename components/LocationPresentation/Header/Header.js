@@ -1,10 +1,12 @@
 import Title from './Title/Title';
 import InformationButton from './InformationButton/InformationButton';
-import Like from './LikeButton/LikeButton';
+import LikeButton from './LikeButton/LikeButton';
+
+import BookMarkButton from '../../BookMarkButton/BookMarkButton';
 
 const Header = ({ location, openings, collapseInformations }) => {
 	return (
-		<div className="w-100">
+		<div className="w-100 flex justify-between">
 			<div className="db dib-ns w-50-l w-100-m">
 				<div className="flex">
 					<Title 
@@ -14,7 +16,10 @@ const Header = ({ location, openings, collapseInformations }) => {
 					<InformationButton collapseInformations={ collapseInformations } />
 				</div>
 			</div>
-			<Like />
+			<div className="flex mt3">
+				<LikeButton />
+				<BookMarkButton	/>
+			</div>
 		</div>
 	);
 };
