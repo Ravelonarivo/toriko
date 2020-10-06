@@ -6,8 +6,9 @@ import Menu from '../../components/Menu/Menu';
 import { getLocations, getLocationBySlugAndTownName, getOpeningsByLocationSlugAndTownName, getPicturesByLocationSlugAndTownName  } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
 import { getProductsByLocationId, getProductTypesByLocationId } from '../../lib/product';
+import { getAnnouncementsByLocationId } from '../../lib/announcement';
 
-const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, productTypesProp }) => {
+const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, productTypesProp, announcementsProp }) => {
 	return (
 		<div>
 			<Head>
@@ -24,6 +25,7 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 				products={ productsProp }
 				productTypes={ productTypesProp }
 				location={ locationProp }
+				announcements={ announcementsProp }
 			/>
 		</div>
 	);
@@ -58,6 +60,7 @@ export const getStaticProps = async ({ params }) => {
 		const pictures = await getPicturesByLocationSlugAndTownName(locationSlug, townName);
 		const products = await getProductsByLocationId(location.id);
 		const productTypes = await getProductTypesByLocationId(location.id);
+		const announcements = await getAnnouncementsByLocationId(location.id);
 
 		return {
 			props: {
@@ -65,7 +68,8 @@ export const getStaticProps = async ({ params }) => {
 				openingsProp: openings,
 				picturesProp: pictures,
 				productsProp: products,
-				productTypesProp: productTypes
+				productTypesProp: productTypes,
+				announcementsProp: announcements
 			}, 
 			revalidate: 1
 		};

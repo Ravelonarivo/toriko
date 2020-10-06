@@ -1,7 +1,7 @@
 import ProductList from './Product/ProductList';
-import Favorite from './Favorite/Favorite';
+import AnnouncementList from './Announcement/AnnouncementList';
 
-const Menu = ({ products, productTypes, location }) => {
+const Menu = ({ products, productTypes, location, announcements }) => {
 	return (
 		<div className="bg-black-05">
 			<div className="pv5 mh6 flex">
@@ -9,8 +9,9 @@ const Menu = ({ products, productTypes, location }) => {
 					products={ products }
 					productTypes={ productTypes }
 				/>
-				<Favorite
+				<AnnouncementList
 					location={ location }
+					announcements={ announcements }
 				/>
 			</div>
 		</div>
