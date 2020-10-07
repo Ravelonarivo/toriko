@@ -8,7 +8,7 @@ import Informations from './Informations/Informations';
 import { useState, useEffect } from 'react';
 
 const LocationPresentation = ({ location, openings, pictures }) => {
-	const [isInformationsOpened, setIsInformationsOpened] = useState(true);
+	const [isInformationsOpened, setIsInformationsOpened] = useState(false);
 
 	const collapseInformations = () => {
 		isInformationsOpened 
