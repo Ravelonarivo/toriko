@@ -2,7 +2,7 @@ import { formatText } from '../../../lib/functions';
 
 const Announcement = ({ announcement }) => {
 	return (
-		<div className="w-100 flex mb3 bb b--light-gray h3 pa1 shadow-4 pointer">
+		<div className="w-100 flex mb3 br1 h3 pa1 shadow-4 pointer grow">
 			{
 				announcement.image 
 					? 	<div className="w3 mr1">
