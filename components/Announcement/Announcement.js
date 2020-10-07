@@ -1,4 +1,4 @@
-import { formatText } from '../../../lib/functions';
+import { formatText } from '../../lib/functions';
 
 const Announcement = ({ announcement }) => {
 	return (

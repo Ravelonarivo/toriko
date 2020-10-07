@@ -2,6 +2,7 @@ import Head from 'next/head';
 
 import LocationPresentation from '../../components/LocationPresentation/LocationPresentation';
 import Menu from '../../components/Menu/Menu';
+import AnnouncementList from '../../components/Announcement/AnnouncementList';
 
 import { getLocations, getLocationBySlugAndTownName, getOpeningsByLocationSlugAndTownName, getPicturesByLocationSlugAndTownName  } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
@@ -21,12 +22,18 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 				pictures={ picturesProp }
 			/>
 
-			<Menu
-				products={ productsProp }
-				productTypes={ productTypesProp }
-				location={ locationProp }
-				announcements={ announcementsProp }
-			/>
+			<div className="bg-black-05 w-100">
+				<div className="mh6 flex">
+					<Menu
+						products={ productsProp }
+						productTypes={ productTypesProp }
+					/>
+					<AnnouncementList
+						location={ locationProp }
+						announcements={ announcementsProp }
+					/>
+				</div>
+			</div>
 		</div>
 	);
 };

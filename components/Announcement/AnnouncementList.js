@@ -28,7 +28,7 @@ const AnnouncementList = ({ location, announcements }) => {
 	};
 
 	return (
-		<div className="sticky db-ns dn-m dn bg-white w-30-l vh-75 br3 shadow-5">
+		<div className="sticky db-ns dn-m dn bg-white w-30-l vh-75 br--bottom br3 shadow-5">
 			<h3 className="tc">Annonces</h3>
 			<div className="bt bb b--light-silver pa2" style={{ overflowY: 'auto', height: '27rem' }}>
 				{

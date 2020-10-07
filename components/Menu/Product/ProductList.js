@@ -2,7 +2,7 @@ import Product from './Product';
 
 const ProductList = ({ products, productTypes }) => {
 	return (
-		<div className="w-70-l mr5-ns">
+		<div>
 			{
 				productTypes.map((productType, index) =>  (
 					<div key={ index }>
