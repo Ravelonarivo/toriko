@@ -1,3 +1,5 @@
+import { formatText } from '../../../../lib/functions';
+
 const Information = ({ product }) => {
 	return (
 		<div className="w-70 mh3">
@@ -5,7 +7,7 @@ const Information = ({ product }) => {
 				<h4 className="mv0">{ product.name }</h4>
 				
 				<div className="mv1 h-50">
-					<p className="f6 mv0 lh-title">{ product.description }</p>
+					<p className="f6 mv0 lh-title">{ formatText(product.description, 125) }</p>
 				</div>
 				<span>
 					{
