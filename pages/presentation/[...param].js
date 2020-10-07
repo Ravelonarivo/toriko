@@ -3,6 +3,7 @@ import Head from 'next/head';
 import LocationPresentation from '../../components/LocationPresentation/LocationPresentation';
 import Menu from '../../components/Menu/Menu';
 import AnnouncementList from '../../components/Announcement/AnnouncementList';
+import ProductTypesNav from '../../components/ProductTypesNav/ProductTypesNav';
 
 import { getLocations, getLocationBySlugAndTownName, getOpeningsByLocationSlugAndTownName, getPicturesByLocationSlugAndTownName  } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
@@ -23,6 +24,10 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 			/>
 
 			<div className="bg-black-05 w-100">
+				<ProductTypesNav
+					productTypes={productTypesProp}
+				/>
+				
 				<div className="mh6 flex">
 					<Menu
 						products={ productsProp }

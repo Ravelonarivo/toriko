@@ -2,6 +2,8 @@ import Announcement from './Announcement';
 
 import differenceInDays from 'date-fns/differenceInDays';
 
+import utilStyles from '../../styles/utils.module.css';
+
 const AnnouncementList = ({ location, announcements }) => {
 	const getAnnouncemenDate = announcement => {
 		// Date in millisecond
@@ -28,9 +30,9 @@ const AnnouncementList = ({ location, announcements }) => {
 	};
 
 	return (
-		<div className="sticky db-ns dn-m dn bg-white w-30-l vh-75 br--bottom br3 shadow-5">
+		<div className={ utilStyles.sticky + ' db-ns dn-m dn bg-white w-30-l vh-75 br--bottom br3 shadow-5' } style={{ marginTop: '-72px', zIndex: '2' }}>
 			<h3 className="tc">Annonces</h3>
-			<div className="bt bb b--light-silver pa2" style={{ overflowY: 'auto', height: '27rem' }}>
+			<div className="bt bb b--moon-gray pa2" style={{ overflowY: 'auto', height: '27rem' }}>
 				{
 					announcements.length
 						? 	announcements.map((announcement, index) => (
@@ -48,13 +50,6 @@ const AnnouncementList = ({ location, announcements }) => {
 						: 	<p>{ location.name } n'a publié aucune annonce</p>
 				}
 			</div>
-			<style jsx>{`
-  				.sticky {
-  					position: -webkit-sticky;
-					position: sticky;
-					top: 0;
-  				}
-			`}</style>
 		</div>
 	);
 };
