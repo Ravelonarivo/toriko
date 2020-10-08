@@ -1,34 +1,32 @@
 const Information = ({ location }) => {
 	return (
 		<div className="db dib-ns w-50-l w-100-m fl">
-			<div className="flex justify-center">
-				<h4 className="f6 fw6 tc ba b--moon-gray w-50 br4 bg-white pv1" style={{ transform: 'translateY(37px)' }}>Informations</h4>
-			</div>
-			<div className="bt b--moon-gray mr3 pv4 ph4">
-				<dl className="f6 lh-title mv2">
-					<dt className="dib">Quartier : </dt>
-					<dd className="dib ml3">{location.district}</dd>
-				</dl>
-				<dl className="f6 lh-title mv2">
-					<dt className="dib">Type : </dt>
-					<dd className="dib ml3">{location.type}</dd>
-				</dl>
-				<dl className="f6 lh-title mv2">
-					<dt className="dib">Spécialité : </dt>
-					<dd className="dib ml3">{location.speciality}</dd>
-				</dl>
-				<dl className="f6 lh-title mv2">
-					<dt className="dib">Adresse : </dt>
-					<dd className="dib ml3">{location.address}</dd>
-				</dl>
-				<dl className="f6 lh-title mv2">
-					<dt className="dib">Phone : </dt>
-					<dd className="dib ml3">{location.phone} <span className="silver">(réserver place, commander, ... )</span></dd>
-				</dl>
-				<dl className="f6 lh-title mv2">
-					<dt className="dib">Livraison : </dt>
-					<dd className="dib ml3">{location.delivery ? 'oui' : 'non'}</dd>
-				</dl>
+			<h4 className="f6 fw6 bg-white mt4 bb b--moon-gray">Informations</h4>
+			<div>
+				<p className="f6 lh-title mv2">
+					<span className="dib">Quartier : </span>
+					<span className="dib ml3">{location.district}</span>
+				</p>
+				<p className="f6 lh-title mv2">
+					<span className="dib">Type : </span>
+					<span className="dib ml3">{location.type}</span>
+				</p>
+				<p className="f6 lh-title mv2">
+					<span className="dib">Spécialité : </span>
+					<span className="dib ml3">{location.speciality}</span>
+				</p>
+				<p className="f6 lh-title mv2">
+					<span className="dib">Adresse : </span>
+					<span className="dib ml3">{location.address}</span>
+				</p>
+				<p className="f6 lh-title mv2">
+					<span className="dib">Phone : </span>
+					<span className="dib ml3">{location.phone} <span className="silver">(réserver place, commander, ... )</span></span>
+				</p>
+				<p className="f6 lh-title mv2">
+					<span className="dib">Livraison : </span>
+					<span className="dib ml3">{location.delivery ? 'oui' : 'non'}</span>
+				</p>
 			</div>
 		</div>
 	);
