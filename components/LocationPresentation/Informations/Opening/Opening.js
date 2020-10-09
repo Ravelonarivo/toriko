@@ -7,7 +7,7 @@ const Opening = ({ openings }) => {
 	
 	return (
 		<div className="db dib-ns w-50-l w-100-m fr">
-			<h4 className="f6 fw6 bg-white mt4 bb b--moon-gray">Horaires d'ouverture</h4>
+			<h4 className="f6 fw6 bg-white mv0 pt4 bb b--moon-gray">Horaires d'ouverture</h4>
 			<div>
 				{
 					days.map(day => {

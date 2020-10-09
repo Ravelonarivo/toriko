@@ -3,8 +3,6 @@ import Logo from './Logo/Logo';
 import Header from './Header/Header';
 import Informations from './Informations/Informations';
 
-
-
 import { useState, useEffect } from 'react';
 
 const LocationPresentation = ({ location, openings, pictures }) => {
@@ -14,6 +12,13 @@ const LocationPresentation = ({ location, openings, pictures }) => {
 		isInformationsOpened 
 			? setIsInformationsOpened(false) 
 			: setIsInformationsOpened(true);
+	};
+
+	// Close location information when it is opened and out of the window viewport
+	const collapseInformationsByVisibility = isVisible => {
+		if (!isVisible) {
+			isInformationsOpened ? setIsInformationsOpened(false) : '';
+		}
 	};
 
 	return (
@@ -31,6 +36,7 @@ const LocationPresentation = ({ location, openings, pictures }) => {
 					location={ location }
 					openings={ openings }
 					isInformationsOpened={ isInformationsOpened }
+					collapseInformationsByVisibility={ collapseInformationsByVisibility }
 				/>
 			</div>
 		</div>

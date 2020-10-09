@@ -1,7 +1,7 @@
 const Information = ({ location }) => {
 	return (
 		<div className="db dib-ns w-50-l w-100-m fl">
-			<h4 className="f6 fw6 bg-white mt4 bb b--moon-gray">Informations</h4>
+			<h4 className="f6 fw6 bg-white mv0 pt4 bb b--moon-gray">Informations</h4>
 			<div>
 				<p className="f6 lh-title mv2">
 					<span className="dib mr3">Quartier : </span>

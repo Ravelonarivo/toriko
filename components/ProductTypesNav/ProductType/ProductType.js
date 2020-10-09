@@ -2,7 +2,7 @@ import { putInPlural } from '../../../lib/functions';
 
 const ProductType = ({ productType }) => {
 	return (
-		<li className="dib fn pa3 b--moon-gray pointer h3 light-silver hover-black">{ putInPlural(productType.name) }</li>
+		<li className="dib fn pa3 pointer h3 light-silver hover-black"><a href={ '#' + productType.name }>{ putInPlural(productType.name) }</a></li>
 	);
 };
 
