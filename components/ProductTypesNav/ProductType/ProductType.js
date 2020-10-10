@@ -43,7 +43,7 @@ const ProductType = ({ productType }) => {
 	};
 	
 	return (
-		<li className="dib fn pa3 pointer h3 light-silver hover-black"><a ref={ productTypeRef } href={ '#' + productType.name }>{ putInPlural(productType.name) }</a></li>
+		<li className="dib fn pv3 pr4 pointer h3 light-silver hover-black"><a ref={ productTypeRef } href={ '#' + productType.name }>{ putInPlural(productType.name) }</a></li>
 	);
 };
 

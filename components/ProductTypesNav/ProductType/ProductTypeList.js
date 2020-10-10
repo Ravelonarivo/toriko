@@ -9,11 +9,11 @@ const ScrollspyNav = dynamic(
   { ssr: false }
 );
 
-const ProductTypeList = ({ productTypes }) => {
+const ProductTypeList = ({ productTypes, display }) => {
 	const productTypesArray = productTypes.map(productType => productType.name);
 
 	return (
-		<div className="w-50-l w-50-m mh6">
+		<div className={ display +' w-50-l w-50-m mr6' }>
 			<ScrollspyNav
                 scrollTargetIds={ productTypesArray }
                 offset={ 10 }
