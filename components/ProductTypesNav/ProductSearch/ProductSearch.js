@@ -26,7 +26,7 @@ const ProductSearch = ({ toggleProductTypeList }) => {
 	};
 
 	return (
-		<div className={ widthAndBorder + ' ml6 h-50 br2 ph1 b--moon-gray flex items-center' }>
+		<div className={ widthAndBorder + ' ml6 h-50 br2 ph1 b--moon-gray flex items-center' } style={{ transition: 'width 0.5s ease-out' }}>
 			<div className="flex items-center" title="chercher un plat">
 				<MdSearch onClick={ open } fontSize="25px" className="pointer" color="silver"/>
 			</div>
