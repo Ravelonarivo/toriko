@@ -21,7 +21,7 @@ const ProductTypeList = ({ productTypes }) => {
                 scrollDuration="500"
                 headerBackground="true"
             >
-				<ul className="scrollable pa0 ma0" style={{ whiteSpace: 'nowrap', overflowX: 'auto' }}>
+				<ul className="scrollable pa0 ma0" style={{ whiteSpace: 'nowrap', overflowX: 'auto', scrollBehavior: 'smooth' }}>
 					{
 						productTypes.map((productType, index) => (
 							<ProductType 
