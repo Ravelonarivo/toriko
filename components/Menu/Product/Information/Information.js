@@ -7,7 +7,7 @@ const Information = ({ product }) => {
 				<h4 className="mv0">{ product.name }</h4>
 				
 				<div className="mv1 h-50">
-					<p className="f6 mv0 lh-title">{ formatText(product.description, 125) }</p>
+					<p className="f6 mv0 lh-title">{ formatText(product.ingredient, 125) }</p>
 				</div>
 				<span>
 					{
