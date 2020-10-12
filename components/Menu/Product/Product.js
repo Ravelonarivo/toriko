@@ -1,15 +1,26 @@
 import Image from '../../Image/Image';
 import Information from './Information/Information';
 
-const Product = ({ product }) => {
+import { slugify } from '../../../lib/functions';
+
+const Product = ({ index, product, productRefs }) => {
 	return (
-		<div className="db bg-white pointer br3 pa2 mb3 grow shadow-4 w-100 h4 flex">
+		<div 
+			ref={ element => productRefs.current[index] = element } 
+			id={ slugify(product.name) } 
+			className="db bg-white pointer br3 pa2 mb3 grow shadow-4 w-100 h4 flex"
+		>
 			<Image 
 				image={ product.image }
 			/>
 			<Information 
 				product={ product } 
-			/>			
+			/>	
+			<style jsx>{`
+				.decrease-opacity {
+					opacity: 0.3;
+				}
+			`}</style>		
 		</div>
 	);
 };

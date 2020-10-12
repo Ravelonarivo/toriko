@@ -2,7 +2,7 @@ import Product from './Product';
 
 import { putInPlural } from '../../../lib/functions';
 
-const ProductList = ({ products, productTypes }) => {
+const ProductList = ({ products, productRefs, productTypes }) => {
 	return (
 		<div>
 			{
@@ -14,7 +14,9 @@ const ProductList = ({ products, productTypes }) => {
 								product.type === productType.name
 									?	<Product
 											key={ index }
+											index={ index }
 											product={ product }
+											productRefs={ productRefs }
 										/>
 									:  	''	
 							)

@@ -10,7 +10,11 @@ import { getTowns } from '../../lib/town';
 import { getProductsByLocationId, getProductTypesByLocationId } from '../../lib/product';
 import { getAnnouncementsByLocationId } from '../../lib/announcement';
 
+import { useRef } from 'react';
+
 const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, productTypesProp, announcementsProp }) => {
+	const productRefs = useRef([]);
+
 	return (
 		<div>
 			<Head>
@@ -25,12 +29,15 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 
 			<div className="bg-black-05 w-100">
 				<ProductTypesNav
-					productTypes={productTypesProp}
+					productTypes={ productTypesProp }
+					productRefs={ productRefs }
+					products={ productsProp	}	
 				/>
 				
 				<div className="mh6 flex">
 					<Menu
 						products={ productsProp }
+						productRefs={ productRefs }
 						productTypes={ productTypesProp }
 					/>
 					<AnnouncementList

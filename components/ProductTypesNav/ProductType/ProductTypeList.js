@@ -13,7 +13,7 @@ const ProductTypeList = ({ productTypes, display }) => {
 	const productTypesArray = productTypes.map(productType => productType.name);
 
 	return (
-		<div className={ display +' w-50-l w-50-m mr6' }>
+		<div className={ display +' w-50-l w-50-m' }>
 			<ScrollspyNav
                 scrollTargetIds={ productTypesArray }
                 offset={ 10 }
