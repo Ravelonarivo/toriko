@@ -2,13 +2,17 @@ import Product from './Product';
 
 import { putInPlural } from '../../../lib/functions';
 
-const ProductList = ({ products, productRefs, productTypes }) => {
+const ProductList = ({ products, productRefs, productTypes, menuProductTypeRefs }) => {
 	return (
 		<div>
 			{
 				productTypes.map((productType, index) =>  (
-					<div key={ index } id={ productType.name }>
-						<h2 className='tc pt2'>{ putInPlural(productType.name) }</h2>
+					<div 
+						ref={ element => menuProductTypeRefs.current[index] = element }  
+						key={ index } 
+						id={ productType.name }
+					>
+						<h2 className='tc mt5'>{ putInPlural(productType.name) }</h2>
 						{
 							products.map((product, index) =>
 								product.type === productType.name

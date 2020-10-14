@@ -25,7 +25,6 @@
     "react-leaflet": "^2.7.0",
     "react-leaflet-control": "^2.1.2",
     "react-leaflet-universal": "^2.2.1",
-    "react-scrollspy-nav": "^1.2.4",
     "react-slideshow-image": "^3.3.0",
     "react-visibility-sensor": "^5.1.1",
     "swr": "^0.3.0",

@@ -14,6 +14,7 @@ import { useRef } from 'react';
 
 const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, productTypesProp, announcementsProp }) => {
 	const productRefs = useRef([]);
+	const menuProductTypeRefs = useRef([]);
 
 	return (
 		<div>
@@ -32,6 +33,7 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 					productTypes={ productTypesProp }
 					productRefs={ productRefs }
 					products={ productsProp	}	
+					menuProductTypeRefs={ menuProductTypeRefs }
 				/>
 				
 				<div className="mh6 flex">
@@ -39,6 +41,7 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 						products={ productsProp }
 						productRefs={ productRefs }
 						productTypes={ productTypesProp }
+						menuProductTypeRefs={ menuProductTypeRefs }
 					/>
 					<AnnouncementList
 						location={ locationProp }

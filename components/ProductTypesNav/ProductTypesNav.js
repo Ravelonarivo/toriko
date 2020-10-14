@@ -5,7 +5,7 @@ import utilStyles from '../../styles/utils.module.css';
 
 import { useState } from 'react';
 
-const ProductTypesNav = ({ productTypes, productRefs, products }) => {
+const ProductTypesNav = ({ productTypes, productRefs, products, menuProductTypeRefs }) => {
 	const [productTypeListDisplay, setProductTypeListDisplay] = useState('db');
 
 	const toggleProductTypeList = isProductSearchOpen => {
@@ -24,6 +24,7 @@ const ProductTypesNav = ({ productTypes, productRefs, products }) => {
 			<ProductTypeList 
 				productTypes={ productTypes } 
 				display={ productTypeListDisplay } 
+				menuProductTypeRefs={ menuProductTypeRefs }
 			/>
 		</div>
 	);
