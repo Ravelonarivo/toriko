@@ -1,6 +1,10 @@
 import ProductType from './ProductType';
 
+import { useRef } from 'react';
+
 const ProductTypeList = ({ productTypes, display, menuProductTypeRefs }) => {
+	const productTypeRefs = useRef([]);
+
 	const productTypesArray = productTypes.map(productType => productType.name);
 
 	return (
@@ -12,6 +16,8 @@ const ProductTypeList = ({ productTypes, display, menuProductTypeRefs }) => {
 							key={index}
 							productType={productType}
 							menuProductTypeRefs={ menuProductTypeRefs } 
+							index={ index }
+							productTypeRefs={ productTypeRefs }
 						/>
 					))
 				}
