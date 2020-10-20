@@ -73,7 +73,7 @@ const ProductType = ({ productType, menuProductTypeRefs, index, productTypeRefs 
 	        container.scrollLeft -= (containerData.left - elementData.left);
 	    } else if (elementData.right > containerData.right) {
 	        // Scroll to the rigth of container
-	        container.scrollLeft += (elementData.right - containerData.right);
+	        container.scrollLeft += (elementData.right - containerData.right) + 1;
 	    }
 	};
 	

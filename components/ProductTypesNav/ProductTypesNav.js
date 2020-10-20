@@ -6,12 +6,12 @@ import utilStyles from '../../styles/utils.module.css';
 import { useState } from 'react';
 
 const ProductTypesNav = ({ productTypes, productRefs, products, menuProductTypeRefs }) => {
-	const [productTypeListDisplay, setProductTypeListDisplay] = useState('db');
+	const [productTypeListDisplay, setProductTypeListDisplay] = useState('flex');
 
 	const toggleProductTypeList = isProductSearchOpen => {
 		isProductSearchOpen 
 			? setProductTypeListDisplay('dn')
-			: setProductTypeListDisplay('db');
+			: setProductTypeListDisplay('flex');
 	};	
 
 	return (

@@ -70,8 +70,8 @@ const ProductSearch = ({ toggleProductTypeList, productRefs, products }) => {
 	};
 
 	return (
-		<div className={ widthAndBorder + ' ml6 h-50 br2 ph1 b--moon-gray flex items-center' } style={{ transition: 'width 0.5s ease-out' }}>
-			<div className="flex items-center" title="chercher un plat">
+		<div className={ widthAndBorder + ' ml6 mr2 h-50 br2 ph1 b--moon-gray flex items-center' } style={{ transition: 'width 0.5s ease-out' }}>
+			<div className="flex items-center dim" title="chercher un plat">
 				<MdSearch 
 					onClick={ open } 
 					fontSize="25px" 
