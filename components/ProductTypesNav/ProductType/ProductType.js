@@ -16,27 +16,30 @@ const ProductType = ({ productType, menuProductTypeRefs, index, productTypeRefs 
 			}
 		};
 	};
-
-	// Listen windows scroll event and highlight the nav productType that match to the menu producType  
+	
 	useEffect(() => {
-		window.addEventListener('scroll', event => {	
-			menuProductTypeRefs.current.forEach(menuProductTypeRef => {
-				// values are in pixel
-				const menuProductTypeRefTop = Math.round(menuProductTypeRef.getBoundingClientRect().top);
-				const menuProductTypeRefBottom = Math.round(menuProductTypeRef.getBoundingClientRect().bottom);
-				if ((menuProductTypeRefTop > 0 && menuProductTypeRefTop <= 100) || (menuProductTypeRefBottom >= 100 && menuProductTypeRefBottom <= (window.innerHeight || document.documentElement.clientHeight))) {
-					productTypeRefs.current.forEach(productTypeRef => {
-						if (productTypeRef.dataset.name === menuProductTypeRef.id) {
-							productTypeRef.classList.add('is-active');
-						} else {
-							productTypeRef.classList.remove('is-active');
-						}
-					});
-				}
-			});  				          	
-		});
+		window.addEventListener('scroll', higlightProductType);	
+		return () => window.removeEventListener('scroll', higlightProductType);
 	});
 
+	// Listen windows scroll event and highlight the nav productType that match to the menu producType  
+	const higlightProductType = () => {	
+		menuProductTypeRefs.current.forEach(menuProductTypeRef => {
+			// values are in pixel
+			const menuProductTypeRefTop = Math.round(menuProductTypeRef.getBoundingClientRect().top);
+			const menuProductTypeRefBottom = Math.round(menuProductTypeRef.getBoundingClientRect().bottom);
+			if ((menuProductTypeRefTop > 0 && menuProductTypeRefTop <= 100) || (menuProductTypeRefBottom >= 100 && menuProductTypeRefBottom <= (window.innerHeight || document.documentElement.clientHeight))) {
+				productTypeRefs.current.forEach(productTypeRef => {
+					if (productTypeRef.dataset.name === menuProductTypeRef.id) {
+						productTypeRef.classList.add('is-active');
+					} else {
+						productTypeRef.classList.remove('is-active');
+					}
+				});
+			}
+		});
+	}
+ 
 	useEffect(() => {
 		productTypeRefs.current.forEach(productTypeRef => {
 			const observer = new MutationObserver(event => {
