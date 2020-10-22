@@ -39,3 +39,5 @@ yarn-error.log*
 /public/product/
 #announcement image 
 /public/announcement/
+#advertisement image
+/public/advertisement/

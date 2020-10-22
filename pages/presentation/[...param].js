@@ -2,17 +2,18 @@ import Head from 'next/head';
 
 import LocationPresentation from '../../components/LocationPresentation/LocationPresentation';
 import Menu from '../../components/Menu/Menu';
-import AnnouncementList from '../../components/Announcement/AnnouncementList';
+import Posts from '../../components/Posts/Posts';
 import ProductTypesNav from '../../components/ProductTypesNav/ProductTypesNav';
 
 import { getLocations, getLocationBySlugAndTownName, getOpeningsByLocationSlugAndTownName, getPicturesByLocationSlugAndTownName  } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
 import { getProductsByLocationId, getProductTypesByLocationId } from '../../lib/product';
 import { getAnnouncementsByLocationId } from '../../lib/announcement';
+import { getAdvertisementsByLocationId } from '../../lib/advertisement';
 
 import { useRef } from 'react';
 
-const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, productTypesProp, announcementsProp }) => {
+const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, productTypesProp, announcementsProp, advertisementsProp }) => {
 	const productRefs = useRef([]);
 	const menuProductTypeRefs = useRef([]);
 
@@ -43,8 +44,9 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 						productTypes={ productTypesProp }
 						menuProductTypeRefs={ menuProductTypeRefs }
 					/>
-					<AnnouncementList
+					<Posts
 						location={ locationProp }
+						advertisements={ advertisementsProp }
 						announcements={ announcementsProp }
 					/>
 				</div>
@@ -83,6 +85,7 @@ export const getStaticProps = async ({ params }) => {
 		const products = await getProductsByLocationId(location.id);
 		const productTypes = await getProductTypesByLocationId(location.id);
 		const announcements = await getAnnouncementsByLocationId(location.id);
+		const advertisements = await getAdvertisementsByLocationId(location.id);
 
 		return {
 			props: {
@@ -91,7 +94,8 @@ export const getStaticProps = async ({ params }) => {
 				picturesProp: pictures,
 				productsProp: products,
 				productTypesProp: productTypes,
-				announcementsProp: announcements
+				announcementsProp: announcements,
+				advertisementsProp: advertisements
 			}, 
 			revalidate: 1
 		};
