@@ -40,7 +40,8 @@ const Title = ({ location, openings }) => {
 
 	// Check status every second and update it if necessary
 	useEffect(() => {
-		setInterval(() => getStatus(openings), 1000);
+		const timerId =  setInterval(() => getStatus(openings), 1000);
+		return () => clearInterval(timerId);
 	});
 
 	/**
