@@ -2,6 +2,7 @@ import Title from './Title/Title';
 import InformationButton from './InformationButton/InformationButton';
 import LikeButton from './LikeButton/LikeButton';
 import FavoriteButton from './FavoriteButton/FavoriteButton';
+import BookmarkedProductsButton from './BookmarkedProductsButton/BookmarkedProductsButton';
 
 const Header = ({ location, openings, collapseInformations }) => {
 	return (
@@ -18,6 +19,7 @@ const Header = ({ location, openings, collapseInformations }) => {
 			<div className="flex items-center">
 				<LikeButton />
 				<FavoriteButton	/>
+				<BookmarkedProductsButton />
 			</div>
 		</div>
 	);

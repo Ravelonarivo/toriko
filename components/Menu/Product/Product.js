@@ -8,7 +8,7 @@ const Product = ({ index, product, productRefs }) => {
 		<div 
 			ref={ element => productRefs.current[index] = element } 
 			id={ slugify(product.name) } 
-			className="db bg-white pointer br3 pa2 mb3 grow shadow-4 w-100 h4 flex"
+			className="db bg-white pointer br3 pa2 mb3 shadow-4 w-100 h4 flex"
 		>
 			<Image 
 				image={ product.image }
