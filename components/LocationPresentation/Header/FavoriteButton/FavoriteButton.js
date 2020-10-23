@@ -6,7 +6,7 @@ import { useState } from 'react';
 const FavoriteButton = () => {
 	const [isFavorite, setIsFavorite] = useState(false);
 
-	const bookMark = () => {
+	const addToFavorite = () => {
 		isFavorite
 			? setIsFavorite(false)
 			: setIsFavorite(true);
@@ -20,13 +20,13 @@ const FavoriteButton = () => {
 							fontSize="36px"
 							color="#ffc107"
 							style={{ cursor: 'pointer' }}
-							onClick={ bookMark }
+							onClick={ addToFavorite }
 						/>
 					: 	<MdStarOutline 
 							fontSize="36px"
 							color="#ffc107"
 							style={{ cursor: 'pointer' }}
-							onClick={ bookMark }
+							onClick={ addToFavorite }
 						/>
 			}
 		</div>
