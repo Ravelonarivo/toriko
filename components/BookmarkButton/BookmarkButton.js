@@ -13,7 +13,7 @@ const BookmarkButton = () => {
 	};
 
 	return (
-		<div className="flex items-center" title="sauvegarder">
+		<div className="flex items-center" title="marquer">
 			{
 				isBookmarked
 					?	<IosBookmark
