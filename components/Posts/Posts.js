@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const Posts = ({ location, advertisements, announcements }) => {
 	return (
-		<div className={ utilStyles.sticky + ' db-ns dn-m dn bg-white w-30-l br--bottom br3 shadow-5' } style={{ marginTop: '-72px', zIndex: '2', height: '90vh' }}>
+		<div className={ utilStyles.sticky + ' db-ns dn-m dn bg-white w-30-l br--bottom br3 shadow-5' } style={{ marginTop: '-72px', zIndex: '2', height: '40rem' }}>
 			<h3 className="tc">Publicités/Annonces</h3>	
 			<Advertisements
 				advertisements={ advertisements }
