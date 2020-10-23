@@ -13,7 +13,7 @@ const FavoriteButton = () => {
 	};
 
 	return (
-		<div className="ml2" style={{ transform: 'translateY(10px)' }} title="ajouter aux favoris">
+		<div className="ml2 flex items-center" title="ajouter aux favoris">
 			{
 				bookMarked
 					?	<MdStar 

@@ -16,7 +16,7 @@ const Header = ({ location, openings, collapseInformations }) => {
 					<InformationButton collapseInformations={ collapseInformations } />
 				</div>
 			</div>
-			<div className="flex mt3">
+			<div className="flex items-center">
 				<LikeButton />
 				<BookMarkButton	/>
 			</div>

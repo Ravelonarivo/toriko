@@ -18,10 +18,10 @@ const LikeButton = () => {
 	};
 
 	return (
-		<div  title="liker">
+		<div  className="flex items-center" title="liker">
       		<label 
-      			className="dib mr2 red" 
-      			style={{ transform: 'translateY(-2px)', fontSize: '2rem' }}
+      			className="mr2 red"
+      			style={{ transform: 'translateY(-2px)', fontSize: '2rem' }} 
       		>
       			{ numberOfLikes }
       		</label>
