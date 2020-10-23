@@ -1,8 +1,7 @@
 import Title from './Title/Title';
 import InformationButton from './InformationButton/InformationButton';
 import LikeButton from './LikeButton/LikeButton';
-
-import BookMarkButton from '../../BookMarkButton/BookMarkButton';
+import FavoriteButton from './FavoriteButton/FavoriteButton';
 
 const Header = ({ location, openings, collapseInformations }) => {
 	return (
@@ -18,7 +17,7 @@ const Header = ({ location, openings, collapseInformations }) => {
 			</div>
 			<div className="flex items-center">
 				<LikeButton />
-				<BookMarkButton	/>
+				<FavoriteButton	/>
 			</div>
 		</div>
 	);
