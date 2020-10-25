@@ -10,7 +10,7 @@ const GetCurrentLocationButton = ({ getCurrentLocation }) => {
 			<style jsx>
 	  			{`
 	  				.showlocation {
-	  					width: 26px;
+	  					width: 32px;
 	  					background: #fff;
 	  					border: solid 1px #999;
     					border-radius: 5px;
