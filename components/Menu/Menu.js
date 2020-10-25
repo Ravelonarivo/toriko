@@ -1,6 +1,6 @@
 import ProductList from './Product/ProductList';
 
-const Menu = ({ products, productRefs, productTypes, menuProductTypeRefs }) => {
+const Menu = ({ products, productRefs, productTypes, menuProductTypeRefs, openPopup }) => {
 	return (
 		<div className="w-70-l mr5-ns">
 			<ProductList
@@ -8,6 +8,7 @@ const Menu = ({ products, productRefs, productTypes, menuProductTypeRefs }) => {
 				productRefs={ productRefs }
 				productTypes={productTypes}
 				menuProductTypeRefs={ menuProductTypeRefs }
+				openPopup={ openPopup }
 			/>
 		</div>
 	);

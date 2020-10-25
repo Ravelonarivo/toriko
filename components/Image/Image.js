@@ -1,6 +1,6 @@
-const Image = ({ image }) => { 
+const Image = ({ image, imageStyle }) => { 
 	return (
-		<div className="w4 grow">
+		<div className={ imageStyle }>
 			<img className="w-100 h-100 br1" src={ image } />
 		</div>
 	);          

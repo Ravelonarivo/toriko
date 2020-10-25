@@ -13,7 +13,7 @@ const BookmarkButton = () => {
 	};
 
 	return (
-		<div className="flex items-center" title="marquer">
+		<div title="marquer" style={{ height: '28px' }}>
 			{
 				isBookmarked
 					?	<IosBookmark

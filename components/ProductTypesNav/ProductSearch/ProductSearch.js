@@ -1,5 +1,6 @@
 import MdSearch from 'react-ionicons/lib/MdSearch';
-import MdClose from 'react-ionicons/lib/MdClose';
+
+import CloseButton from '../../CloseButton/CloseButton';
 
 import { slugify } from '../../../lib/functions';
 
@@ -9,7 +10,7 @@ const ProductSearch = ({ toggleProductTypeList, productRefs, products }) => {
 	const [widthAndBorder, setWidthAndBorder] = useState('w2-l w2-m bn');
 	const [inputDisplayAndWidth, setInputDisplayAndWidth] = useState('dn w-10');
 	const [isOpen, setIsOpen] = useState(false);
-	const [buttonCloseDisplay, setButtonCloseDisplay] = useState('dn');
+	const [closeButtonDisplay, setCloseButtonDisplay] = useState('dn');
 
 	const [searchFieldValue, setSearchFieldValue] = useState('');
 
@@ -42,7 +43,7 @@ const ProductSearch = ({ toggleProductTypeList, productRefs, products }) => {
 		toggleProductTypeList(true);
 		setWidthAndBorder('w-50-l w-50-m ba');
 		setInputDisplayAndWidth('db w-100');
-		setButtonCloseDisplay('db');
+		setCloseButtonDisplay('db');
 	};
 
 	const close = () => {
@@ -50,7 +51,7 @@ const ProductSearch = ({ toggleProductTypeList, productRefs, products }) => {
 		toggleProductTypeList(false);
 		setWidthAndBorder('w2-l w2-m bn');
 		setInputDisplayAndWidth('dn w-10');
-		setButtonCloseDisplay('dn');
+		setCloseButtonDisplay('dn');
 		clearSearchField();
 	};
 
@@ -102,14 +103,10 @@ const ProductSearch = ({ toggleProductTypeList, productRefs, products }) => {
 						:   ''
 				}
 			</datalist>
-			<div className="flex items-center ml1 dim" title="fermer">
-				<MdClose 
-					onClick={ close } 
-					fontSize="25px" 
-					className={ buttonCloseDisplay + ' pointer' } 
-					color="silver"
-				/>
-			</div>
+			<CloseButton 
+				close={ close }
+				closeButtonDisplay={ closeButtonDisplay } 
+			/>
 			<style jsx>{`
 				input:focus {
 					outline: none;

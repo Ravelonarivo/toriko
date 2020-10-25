@@ -4,6 +4,7 @@ import LocationPresentation from '../../components/LocationPresentation/Location
 import Menu from '../../components/Menu/Menu';
 import Posts from '../../components/Posts/Posts';
 import ProductTypesNav from '../../components/ProductTypesNav/ProductTypesNav';
+import Popup from '../../components/Popup/Popup';
 
 import { getLocations, getLocationBySlugAndTownName, getOpeningsByLocationSlugAndTownName, getPicturesByLocationSlugAndTownName  } from '../../lib/location';
 import { getTowns } from '../../lib/town'; 
@@ -11,11 +12,33 @@ import { getProductsByLocationId, getProductTypesByLocationId } from '../../lib/
 import { getAnnouncementsByLocationId } from '../../lib/announcement';
 import { getAdvertisementsByLocationId } from '../../lib/advertisement';
 
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 
 const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, productTypesProp, announcementsProp, advertisementsProp }) => {
 	const productRefs = useRef([]);
 	const menuProductTypeRefs = useRef([]);
+
+	const popupRef = useRef(null);
+	const popupCloseButtonRef = useRef(null);
+
+	const [popupDisplay, setPopupDisplay] = useState('dn');
+	const [popupContent, setPopupContent] = useState({});
+	const [popupContentType, setPopupContentType] = useState('');
+
+	const closePopup = event => {
+		if (event.target === popupRef.current || event.target === popupCloseButtonRef.current || event.target === popupCloseButtonRef.current.firstElementChild || event.target === popupCloseButtonRef.current.firstElementChild.firstElementChild) {
+			setPopupDisplay('dn');
+			setPopupContent({});
+		}
+	};
+
+	const openPopup = (content, type) => {
+		setPopupDisplay('flex');
+		setPopupContent(content);
+		type === 'product'
+			? setPopupContentType('product')
+			: setPopupContentType('announcement');
+	};
 
 	return (
 		<div>
@@ -43,14 +66,24 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 						productRefs={ productRefs }
 						productTypes={ productTypesProp }
 						menuProductTypeRefs={ menuProductTypeRefs }
+						openPopup={ openPopup }
 					/>
 					<Posts
 						location={ locationProp }
 						advertisements={ advertisementsProp }
 						announcements={ announcementsProp }
+						openPopup={ openPopup }
 					/>
 				</div>
-			</div>
+			</div>		
+			<Popup 
+				popupRef={ popupRef }
+				closeButtonRef={ popupCloseButtonRef }
+				display={ popupDisplay }
+				close={ closePopup }
+				content={ popupContent }
+				contentType={ popupContentType }
+			/>
 		</div>
 	);
 };

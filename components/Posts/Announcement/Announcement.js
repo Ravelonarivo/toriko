@@ -1,13 +1,19 @@
 import { formatText } from '../../../lib/functions';
 
-const Announcement = ({ announcement }) => {
+import Image from '../../Image/Image'; 
+
+const Announcement = ({ announcement, openPopup }) => {
 	return (
-		<div className="w-100 flex mb2 br1 h3 pa1 shadow-4 pointer shadow-hover">
+		<div 
+			className="w-100 flex mb2 br1 h3 pa1 shadow-4 pointer shadow-hover"
+			onClick={ () => openPopup(announcement, 'announcement') }
+		>
 			{
 				announcement.image 
-					? 	<div className="w3 mr1 grow">
-							<img className="w-100 h-100 br1" src={ announcement.image} />
-						</div>
+					? 	<Image 
+							image={ announcement.image }
+							imageStyle="w3 mr1 grow"
+						/>
 					: 	''
 			}
 			<div className={ announcement.image ? 'w-70' : 'w-100' }>

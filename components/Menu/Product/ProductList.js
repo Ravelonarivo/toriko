@@ -2,7 +2,7 @@ import Product from './Product';
 
 import { putInPlural } from '../../../lib/functions';
 
-const ProductList = ({ products, productRefs, productTypes, menuProductTypeRefs }) => {
+const ProductList = ({ products, productRefs, productTypes, menuProductTypeRefs, openPopup }) => {
 	return (
 		<div>
 			{
@@ -21,6 +21,7 @@ const ProductList = ({ products, productRefs, productTypes, menuProductTypeRefs 
 											index={ index }
 											product={ product }
 											productRefs={ productRefs }
+											openPopup={ openPopup }
 										/>
 									:  	''	
 							)
