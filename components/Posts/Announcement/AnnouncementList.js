@@ -4,7 +4,7 @@ import { getAnnouncemenDate } from '../../../lib/functions';
 
 const AnnouncementList = ({ announcements, advertisementsLength, openPopup }) => {
 	return (
-		<div className={ announcements.length ? 'bt bb b--moon-gray pa2' : 'dn'  } style={{ overflowY: 'auto', height: advertisementsLength ? '16rem' : '34rem' }}>
+		<div className={ announcements.length ? 'bt bb b--moon-gray pa2' : 'dn'  } style={{ overflowY: 'auto', height: advertisementsLength ? '13rem' : '34rem' }}>
 			{
 				announcements.map((announcement, index) => (
 					<div key={index}>
