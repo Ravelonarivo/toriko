@@ -21,19 +21,19 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 	const popupRef = useRef(null);
 	const popupCloseButtonRef = useRef(null);
 
-	const [popupDisplay, setPopupDisplay] = useState('dn');
+	const [popupVisibilityAndOpacity, setPopupVisibilityAndOpacity] = useState({ visibiliy: 'hidden', opacity: '0' });
 	const [popupContent, setPopupContent] = useState({});
 	const [popupContentType, setPopupContentType] = useState('');
 
 	const closePopup = event => {
 		if (event.target === popupRef.current || event.target === popupCloseButtonRef.current || event.target === popupCloseButtonRef.current.firstElementChild || event.target === popupCloseButtonRef.current.firstElementChild.firstElementChild) {
-			setPopupDisplay('dn');
+			setPopupVisibilityAndOpacity({ visibility: 'hidden', opacity: '0' });
 			setPopupContent({});
 		}
 	};
 
 	const openPopup = (content, type) => {
-		setPopupDisplay('flex');
+		setPopupVisibilityAndOpacity({ visibility: 'visible', opacity: '1' })
 		setPopupContent(content);
 		type === 'product'
 			? setPopupContentType('product')
@@ -79,7 +79,7 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 			<Popup 
 				popupRef={ popupRef }
 				closeButtonRef={ popupCloseButtonRef }
-				display={ popupDisplay }
+				visibilityAndOpacity={ popupVisibilityAndOpacity }
 				close={ closePopup }
 				content={ popupContent }
 				contentType={ popupContentType }

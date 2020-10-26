@@ -5,9 +5,9 @@ import MdMegaphone  from 'react-ionicons/lib/MdMegaphone';
 
 import { getAnnouncemenDate } from '../../../lib/functions';
 
-const Announcement = ({ announcement, closeButtonRef, close }) =>  {
+const Announcement = ({ announcement, closeButtonRef, close, visibilityAndOpacity }) =>  {
 	return (
-		<div className="w-100 h-100">
+		<div className="w-100 h-100" style={{ ...visibilityAndOpacity }}>
 			<div className="flex items-center pa1 bb b--moon-gray">
 				<h3 className="mv0 tc w-100">{ announcement.title }</h3>
 				<CloseButton

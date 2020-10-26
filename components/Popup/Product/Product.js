@@ -2,9 +2,9 @@ import BookmarkButton from '../../BookmarkButton/BookmarkButton';
 import CloseButton from '../../CloseButton/CloseButton';
 import Image from '../../Image/Image';
 
-const Product = ({ product, closeButtonRef, close }) => {
+const Product = ({ product, closeButtonRef, close, visibilityAndOpacity }) => {
 	return (
-		<div className="w-100 h-100">
+		<div className="w-100 h-100" style={{ ...visibilityAndOpacity }}>
 			<div className="flex items-center justify-between pa1 bb b--moon-gray">
 				<BookmarkButton />
 				<h3 className="mv0">{ product.name }</h3>
