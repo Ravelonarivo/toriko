@@ -12,6 +12,7 @@ const Posts = ({ location, advertisements, announcements, openPopup }) => {
 			<Advertisements
 				advertisements={ advertisements }
 				announcementsLength={ announcements.length }
+				openPopup={ openPopup }
 			/>
 			<AnnouncementList
 				announcements={ announcements }

@@ -12,7 +12,7 @@ const Product = ({ index, product, productRefs, openPopup }) => {
 			className="db bg-white br3 pa2 mb3 shadow-4 w-100 h4 flex justify-between shadow-hover"
 		>
 			<div 
-				className="flex pointer"
+				className="flex pointer w-100"
 				onClick={ () => openPopup(product, 'product') }
 			>
 				<Image 

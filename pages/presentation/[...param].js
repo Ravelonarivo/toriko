@@ -21,7 +21,7 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 	const popupRef = useRef(null);
 	const popupCloseButtonRef = useRef(null);
 
-	const [popupVisibilityAndOpacity, setPopupVisibilityAndOpacity] = useState({ visibiliy: 'hidden', opacity: '0' });
+	const [popupVisibilityAndOpacity, setPopupVisibilityAndOpacity] = useState({ visibility: 'hidden', opacity: '0' });
 	const [popupContent, setPopupContent] = useState({});
 	const [popupContentType, setPopupContentType] = useState('');
 
@@ -29,15 +29,20 @@ const Presentation = ({ locationProp, openingsProp, picturesProp, productsProp, 
 		if (event.target === popupRef.current || event.target === popupCloseButtonRef.current || event.target === popupCloseButtonRef.current.firstElementChild || event.target === popupCloseButtonRef.current.firstElementChild.firstElementChild) {
 			setPopupVisibilityAndOpacity({ visibility: 'hidden', opacity: '0' });
 			setPopupContent({});
+			setPopupContentType('');
 		}
 	};
 
 	const openPopup = (content, type) => {
 		setPopupVisibilityAndOpacity({ visibility: 'visible', opacity: '1' })
 		setPopupContent(content);
-		type === 'product'
-			? setPopupContentType('product')
-			: setPopupContentType('announcement');
+		if (type === 'product') {
+			setPopupContentType('product');
+		} else if (type === 'announcement') {
+			setPopupContentType('announcement');
+		} else if (type === 'advertisement') {
+			setPopupContentType('advertisement');
+		}
 	};
 
 	return (

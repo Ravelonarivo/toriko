@@ -1,5 +1,6 @@
 import Product from './Product/Product';
 import Announcement from './Announcement/Announcement';
+import Advertisement from './Advertisement/Advertisement';
 
 const Popup = ({ popupRef, closeButtonRef, visibilityAndOpacity, close, content, contentType }) => {
 	return (
@@ -18,12 +19,19 @@ const Popup = ({ popupRef, closeButtonRef, visibilityAndOpacity, close, content,
 								close={ close }
 								visibilityAndOpacity={ visibilityAndOpacity }
 							/>	
-						: 	<Announcement
-								announcement={ content }
-								closeButtonRef={ closeButtonRef }
-								close={ close }
-								visibilityAndOpacity={ visibilityAndOpacity }
-							/>
+						: 	contentType === 'announcement' 
+								?	<Announcement
+										announcement={ content }
+										closeButtonRef={ closeButtonRef }
+										close={ close }
+										visibilityAndOpacity={ visibilityAndOpacity }
+									/>
+								: 	<Advertisement
+										advertisement={ content }
+										closeButtonRef={ closeButtonRef }
+										close={ close }
+										visibilityAndOpacity={ visibilityAndOpacity }
+									/>	
 				}
 			</div>
 		</div>
